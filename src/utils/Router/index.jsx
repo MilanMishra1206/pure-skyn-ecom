@@ -5,6 +5,10 @@ import HomePage from "../../pages/HomePage";
 import LoginPage from "../../pages/LoginPage";
 import ScrollToTopButton from "../../shared/CustomBackToTopButton";
 import CustomFooter from "../../shared/CustomFooter";
+import FAQPage from "../../components/FAQPage";
+import ProductsPage from "../../pages/ProductsPage";
+import ArthwaProducts from "../../pages/ArthwaProducts";
+import PureSkynProductDetails from "../../pages/ProductDetails";
 
 const CustomNavbar = lazy(() => import("../../shared/CustomNavbar"));
 const PageNotFound = lazy(() => import("../../shared/PageNotFound"));
@@ -18,6 +22,36 @@ const routesConfig = [
   {
     path: "/login",
     Component: LoginPage,
+    accessRule: "public",
+  },
+  {
+    path: "/new-products/:category/:productName",
+    Component: ProductsPage,
+    accessRule: "public",
+  },
+  {
+    path: "/new-products/:category",
+    Component: ProductsPage,
+    accessRule: "public",
+  },
+  {
+    path: "/products",
+    Component: ArthwaProducts,
+    accessRule: "public",
+  },
+  {
+    path: "/products/:category",
+    Component: ArthwaProducts,
+    accessRule: "public",
+  },
+  {
+    path: "/products/:category/:productName",
+    Component: PureSkynProductDetails,
+    accessRule: "public",
+  },
+  {
+    path: "/faq",
+    Component: FAQPage,
     accessRule: "public",
   },
 ];
@@ -57,8 +91,7 @@ function Router() {
       </Suspense>
 
       {/* Main Content */}
-      <main className={`flex-1 ${isLoginPage ? "" : "pt-[100px]"}`}>
-        {/* Adjust pt-[100px] to match navbar height */}
+      <main className={`flex-1 ${isLoginPage ? "pt-[70px]" : "pt-[155px]"}`}>
         <Routes>
           {routesConfig.map(({ path, Component, accessRule }, index) => (
             <Route

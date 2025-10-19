@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Provider } from "react-redux";
+import App from "./App";
+import { store } from "./redux/store";
 import "./index.css";
 
 const queryClient = new QueryClient();
@@ -14,7 +16,9 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter basename="/">
+      <Provider store={store}>
         <App />
+        </Provider>
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>

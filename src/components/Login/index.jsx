@@ -42,7 +42,7 @@ const Login = () => {
             type="checkbox"
             checked={offers}
             onChange={() => setOffers(!offers)}
-            className="w-4 h-4 mr-2 text-[#8D261F] border-gray-300 rounded focus:ring-[#B8554E]"
+            className="w-4 h-4 mr-2 text-[#0f4a51] border-gray-300 rounded focus:ring-[#15676e]"
           />
           Send me order updates and offers
         </label>
@@ -50,7 +50,7 @@ const Login = () => {
         {/* Send OTP Button */}
         <button
           onClick={handleSendOtp}
-          className="w-full py-3 bg-[#8D261F] text-white font-semibold rounded-md hover:bg-[#B8554E] transition-colors cursor-pointer"
+          className="w-full py-3 bg-[#0f4a51] text-white font-semibold rounded-md hover:bg-[#15676e] transition-colors cursor-pointer"
         >
           Send OTP →
         </button>
@@ -62,7 +62,7 @@ const Login = () => {
             className="text-blue-600 hover:underline !text-sm cursor-pointer"
             onClick={handleLoginWithType}
           >
-            Login with {loginWithEmail ? "Email" : "Mobile"}
+            Login with {!loginWithEmail ? "Email" : "Mobile"}
           </button>
         </div>
       </div>

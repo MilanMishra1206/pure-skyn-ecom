@@ -41,7 +41,7 @@ const CustomMegaDropdown = ({
       {/* Trigger (Title + Arrow) */}
       <button
         onClick={() => setActiveDropdown(isOpen ? null : id)}
-        className="flex items-center gap-1 text-[#8D261F] hover:!text-[#B8554E] px-2 focus:outline-none cursor-pointer"
+        className="flex items-center gap-1 text-[#0f4a51] hover:!text-[#15676e] px-2 focus:outline-none cursor-pointer"
       >
         <span>{title}</span>
         {isOpen ? (
@@ -73,7 +73,7 @@ const CustomMegaDropdown = ({
               <li key={idx}>
                 <Link
                   to={item.link || "/"}
-                  className="hover:text-[#8D261F]"
+                  className="hover:text-[#15676e]"
                   onClick={() => setActiveDropdown(null)} // close after click
                 >
                   {item.label}
@@ -100,13 +100,13 @@ const CustomMegaDropdown = ({
                 <div className="flex space-x-4 items-center">
                   <Link
                     to={info?.primary?.href || "/"}
-                    className="bg-[#8D261F] text-white px-2 lg:!px-4 py-2 rounded-md text-sm hover:bg-purple-700"
+                    className="bg-[#0f4a51] text-white px-2 lg:!px-4 py-2 rounded-md text-sm hover:bg-[#15676e]"
                   >
                     {info?.primary?.label}
                   </Link>
                   <Link
                     to={info?.secondary?.href || "/"}
-                    className="text-[#8D261F] font-medium text-sm hover:underline"
+                    className="text-[#0f4a51] font-medium text-sm hover:underline"
                   >
                     {info?.secondary?.label}
                   </Link>

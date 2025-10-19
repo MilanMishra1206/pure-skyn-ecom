@@ -12,12 +12,12 @@ function MobileMenu({ onClose }) {
 
   return (
     <div className="h-full flex flex-col bg-white">
-      <div className="flex justify-between items-center px-2 h-[70px] border-b border-black/10">
-        <Link to="/" className="text-xl font-bold text-[#8D261F]">
-          PureSkyn Meds
+      <div className="flex justify-between items-center px-2 border-b border-black/10">
+        <Link to="/" className="text-xl font-bold text-[#0f4a51]">
+          <img src={Resources.images.home.arthwaLogo} alt="Arthwa_Logo" className="h-20 w-auto" />
         </Link>
         <button
-          className="text-2xl text-[#8D261F] cursor-pointer"
+          className="text-2xl text-[#0f4a51] cursor-pointer"
           onClick={onClose}
         >
           <HiX />
@@ -44,12 +44,12 @@ function MobileMenu({ onClose }) {
           openSubMenu={openSubMenu}
           toggleSubMenu={toggleSubMenu}
           image={Resources.images.navbar.skinNavbar}
-          subtitle="Concerns Related to Skin"
+          subtitle="Skin"
           links={[
-            { to: "/skin/ageing", label: "Ageing" },
-            { to: "/skin/acne-scars", label: "Acne & Acne Scars" },
-            { to: "/skin/damaged", label: "Damaged & Sensitive Skin" },
-            { to: "/skin/pigmentation", label: "Pigmentation" },
+            { to: "/products/skin/ageing", label: "Ageing" },
+            { to: "/products/skin/acne-scars", label: "Acne & Acne Scars" },
+            { to: "/products/skin/damaged", label: "Damaged & Sensitive Skin" },
+            { to: "/products/skin/pigmentation", label: "Pigmentation" },
           ]}
           onClose={onClose}
         />
@@ -78,7 +78,7 @@ function MobileMenu({ onClose }) {
             key={to}
             to={to}
             onClick={onClose}
-            className="text-[#8D261F] px-2 py-3 cursor-pointer hover:bg-[#f7e3e1] rounded-md text-lg"
+            className="text-[#0f4a51] px-2 py-3 cursor-pointer hover:bg-gray-100 rounded-md text-lg"
           >
             {label}
           </Link>

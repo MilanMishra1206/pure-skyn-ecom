@@ -16,7 +16,7 @@ const MobileSubMenu = ({
   return (
     <div>
       <button
-        className="w-full flex justify-between items-center text-left text-[#8D261F] px-2 py-3 cursor-pointer hover:bg-[#f7e3e1] rounded-md"
+        className="w-full flex justify-between items-center text-left text-[#0f4a51] px-2 py-3 cursor-pointer hover:bg-gray-100 rounded-md"
         onClick={() => toggleSubMenu(menuKey)}
       >
         <span className="text-lg">{title}</span>
@@ -34,7 +34,7 @@ const MobileSubMenu = ({
           )}
 
           {subtitle && (
-            <p className="px-6 mt-4 mb-2 font-semibold text-[#8D261F]">
+            <p className="px-6 mt-4 mb-2 font-semibold text-[#0f4a51]">
               {subtitle}
             </p>
           )}
@@ -45,7 +45,7 @@ const MobileSubMenu = ({
                 key={idx}
                 to={to}
                 onClick={onClose}
-                className="px-6 py-3 border-t border-black/10 hover:bg-[#f7e3e1]"
+                className="px-6 py-3 border-t border-black/10 hover:bg-gray-100"
               >
                 {label}
               </Link>
