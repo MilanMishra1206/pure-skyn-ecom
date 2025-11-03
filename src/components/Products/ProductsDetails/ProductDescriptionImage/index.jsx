@@ -58,21 +58,21 @@ function ProductDescriptionImage({ productDetail, defaultImage }) {
             />
             <button
               onClick={handleBackClick}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
+              className="absolute left-0 top-1/2 cursor-pointer transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
             >
               &#8592;
             </button>
             <button
               onClick={handleForwardClick}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
+              className="absolute right-0 top-1/2 cursor-pointer transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
             >
               &#8594;
             </button>
           </div>
         </div>
       </div>
-      <div className="grid md:!hidden lg:!grid lg:!grid-cols-1 xl:!hidden">
-        <div className="rounded-lg shadow-lg flex justify-center self-start relative">
+      <div className="grid md:!hidden lg:!grid lg:!grid-cols-1 xl:!hidden px-2">
+        <div className="rounded-lg flex justify-center self-start relative">
           <img
             src={bigImage}
             alt={productDetail?.productName}
@@ -80,13 +80,13 @@ function ProductDescriptionImage({ productDetail, defaultImage }) {
           />
           <button
             onClick={handleBackClick}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
+            className="absolute left-0 top-1/2 cursor-pointer transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
           >
             &#8592;
           </button>
           <button
             onClick={handleForwardClick}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
+            className="absolute right-0 top-1/2 cursor-pointer transform -translate-y-1/2 text-white bg-gray-800 px-2 py-1 text-2xl hover:opacity-80 rounded-full"
           >
             &#8594;
           </button>

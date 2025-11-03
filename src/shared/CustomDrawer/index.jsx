@@ -3,7 +3,6 @@ import React from "react";
 
 export default function CustomDrawer({
   open,
-  setOpen,
   classes = "z-[1001]",
   children,
   anchorPosition = "bottom",
@@ -16,8 +15,6 @@ export default function CustomDrawer({
     <SwipeableDrawer
       anchor={anchorPosition}
       open={open}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
       PaperProps={{
         className: `${anchorPosition === "bottom" ? paperClass : ""} ${
           paperClassToOverride || ""

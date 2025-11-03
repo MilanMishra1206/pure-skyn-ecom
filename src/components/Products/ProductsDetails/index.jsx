@@ -35,91 +35,42 @@ import OffersCarousel from "./OffersCarousel";
 import { reviewContent, toTitleCase } from "../../../helpers/Common";
 import { getShippingDate, productList } from "../../../helpers/productsData";
 
+const PRIMARY_COLOR = "#0f4a51";
+const SECONDARY_COLOR = "#15676e";
+
 function ProductsDetails() {
   const { category: urlCategory, productName } = useParams();
   const showSnackbar = useAppSnackbar();
   const dispatch = useDispatch();
-  const isSmallestDevice = useMediaQuery("(max-width: 330px)");
   const isMobile = useMediaQuery("(max-width: 767px)");
+  const isTablet = useMediaQuery("(max-width: 1024px)");
   const isLargeScreen = useMediaQuery("(min-width: 1438px)");
+  
   const [quantity, setQuantity] = useState("1");
   const [pinCode, setPinCode] = useState("");
   const [productDetail, setProductDetail] = useState();
   const [noOfRatings, setNoOfRatings] = useState(0);
   const [productSubCategory, setProductSubCategory] = useState("");
+  const [selectedItem, setSelectedItem] = useState(1);
 
   useEffect(() => {
-    let foundProduct = null;
-    let foundProductType = ""; // Renamed from foundCategory for clarity (it's the product type)
-
-    // 1. Ensure the top-level category exists in the product list
-    const categoryData = productList[urlCategory];
-
-    if (categoryData) {
-      // 2. Iterate through the product types (sub-categories like 'sunscreen', 'pigmentation')
-      for (const productType in categoryData) {
-        // Use hasOwnProperty to ensure we only iterate over actual properties
-        if (Object.prototype.hasOwnProperty.call(categoryData, productType)) {
-          // 3. Access the dictionary of products inside the current product type
-          const productTypeObject = categoryData[productType];
-
-          // 4. Check if the specific productName key exists in that object
-          if (productTypeObject[productName]) {
-            foundProduct = productTypeObject[productName];
-            foundProductType = productType;
-            break; // Stop searching once the product is found
-          }
-        }
-      }
-    }
+    const foundProduct = productList.find((p) => p.productName === productName);
 
     setProductDetail(foundProduct);
-    setProductSubCategory(foundProductType); // This is actually the product type (e.g., 'sunscreen')
-  }, [productName, urlCategory]);
+    setProductSubCategory(foundProduct ? foundProduct.subCategory : "");
+    
+    if (foundProduct?.productsAdditionalDetails?.length > 0) {
+        setSelectedItem(foundProduct.productsAdditionalDetails[0].id);
+    }
+  }, [productName]);
 
   useEffect(() => {
     setNoOfRatings(reviewContent.length);
   }, []);
 
-  const breadcrumbs = [
-    <Link
-      key="1"
-      to="/"
-      className="text-[#0f4a51] font-poppins hover:opacity-80"
-    >
-      Home
-    </Link>,
-    <Link
-      key="2"
-      to="/products"
-      className="text-[#0f4a51] !font-poppins hover:!opacity-80"
-    >
-      Products
-    </Link>,
-    <Link
-      key="2"
-      to={`/products/${urlCategory}`}
-      className="text-[#0f4a51] !font-poppins hover:!opacity-80"
-    >
-      {toTitleCase(urlCategory)}
-    </Link>,
-    <Typography key="3" className="!text-coal !font-poppins">
-      {productName}
-    </Typography>,
-  ];
-
-  const [selectedItem, setSelectedItem] = useState(
-    productDetail?.productsAdditionalDetails[0]?.id
-  );
-
-  useEffect(() => {
-    if (productDetail?.productsAdditionalDetails?.length > 0) {
-      setSelectedItem(productDetail.productsAdditionalDetails[0].id);
-    }
-  }, [productDetail]);
-
   const calculateSaveAmount = (oldPrice, newPrice) => {
-    return `- ₹${+oldPrice - +newPrice}`;
+    const saveAmount = +oldPrice - +newPrice;
+    return saveAmount > 0 ? `Save ${INRCurrency(saveAmount)}` : '';
   };
 
   const handleClick = (id) => {
@@ -127,251 +78,266 @@ function ProductsDetails() {
   };
 
   const handlePincodeCheck = () => {
-    console.log("Pincode", pinCode);
+    if (pinCode.length === 6) {
+        showSnackbar(`Checking delivery for ${pinCode}...`, "info");
+    } else {
+        showSnackbar("Please enter a valid 6-digit Pincode.", "error");
+    }
   };
 
   const handleAddToCart = () => {
+    if (!productDetail) return;
     const updatedProduct = {
       ...productDetail,
       quantity: Number(quantity),
     };
 
     dispatch(addToCart(updatedProduct));
-    showSnackbar("Product Added to Cart", "success");
+    showSnackbar(`Added ${quantity} x ${productName} to cart!`, "success");
   };
 
+  const breadcrumbs = [
+    <Link key="1" to="/" className={`text-[${PRIMARY_COLOR}] font-poppins hover:opacity-80 text-sm`}>
+      Home
+    </Link>,
+    <Link key="2" to="/products" className={`text-[${PRIMARY_COLOR}] !font-poppins hover:!opacity-80 text-sm`}>
+      Shop
+    </Link>,
+    <Link key="3" to={`/products/${urlCategory}`} className={`text-[${PRIMARY_COLOR}] !font-poppins hover:!opacity-80 text-sm`}>
+      {toTitleCase(urlCategory)}
+    </Link>,
+    <Typography key="4" className="!text-gray-600 !font-poppins !text-sm">
+      {productName}
+    </Typography>,
+  ];
+
+  if (!productDetail) {
+      return <div className="p-10 text-center text-gray-700">Loading product details...</div>;
+  }
+
+  // --- Render Logic ---
   return (
-    <div className="mt-5">
+    <div>
       <motion.div
         variants={FadeInWrapper("left", 0.1)}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
-        className={`mt-5 ${isSmallestDevice ? "p-2" : "p-3"} md:!p-4 lg:!p-5`}
+        className="p-2 md:!p-6 lg:!p-10"
       >
-        <div className={`mb-4 py-12 ${isMobile ? "" : "px-5"} font-poppins`}>
-          <Breadcrumbs separator="›" aria-label="breadcrumb" className="mb-4">
+        <div className={`mb-4 ${isMobile ? "" : "px-1"} font-poppins`}>
+          
+          {/* Breadcrumbs */}
+          <Breadcrumbs separator="›" aria-label="breadcrumb" className="mb-6">
             {breadcrumbs}
           </Breadcrumbs>
-          <div className="grid lg:grid-cols-2 gap-4 bg-[#FAFAFA] p-0 md:!p-4">
-            <ProductDescriptionImage
-              productDetail={productDetail}
-              defaultImage={productDetail?.imgSrc}
-            />
-            <div className={`${isMobile ? "mt-5" : "ml-5"}`}>
-              <div>
-                <p className="text-3xl font-bold">{productName}</p>
-                <div className="flex gap-2">
-                  {productDetail?.smallDescription.map((desc) => (
-                    <div key={desc.id} className="flex items-center gap-2">
-                      <FaCircleCheck fill="green" size="1rem" />
-                      <p className="!font-poppins text-sm !text-[#0f4a51]">
-                        {desc.content}
-                      </p>
+          
+          {/* Main Product Info Grid */}
+          <div className="grid lg:grid-cols-2 gap-8 bg-white p-0 md:!p-4 rounded-xl shadow-2xl">
+            
+            {/* Left Column: Image, Thumbnails & New Panel */}
+            <div className="flex flex-col"> {/* Added flex-col wrapper */}
+                <ProductDescriptionImage
+                    productDetail={productDetail}
+                    defaultImage={productDetail?.imgSrc}
+                />
+                
+                {/* --- NEW: Trust and Quick Info Panel (Utilizing Empty Space) --- */}
+                <div className="mt-8 p-6 shadow-md rounded-lg bg-gray-50 mx-4 md:mx-0">
+                    <p className="text-xl font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2">Why Buy From Us?</p>
+                    
+                    <div className="space-y-4">
+                        <div className="flex items-start gap-3">
+                            <FaCircleCheck fill="#10B981" size="1.5rem" className="flex-shrink-0 mt-1" />
+                            <div>
+                                <p className="font-semibold text-gray-800">100% Genuine Products</p>
+                                <p className="text-sm text-gray-500">Sourced directly from authorized partners.</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-3">
+                            <FaShippingFast fill="#EE6503" size="1.5rem" className="flex-shrink-0 mt-1" />
+                            <div>
+                                <p className="font-semibold text-gray-800">Fast & Secure Delivery</p>
+                                <p className="text-sm text-gray-500">Shipped within 24 hours.</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-3">
+                            <FaCircleCheck fill={PRIMARY_COLOR} size="1.5rem" className="flex-shrink-0 mt-1" />
+                            <div>
+                                <p className="font-semibold text-gray-800">Easy Returns & Exchange</p>
+                                <p className="text-sm text-gray-500">7-day hassle-free policy (T&Cs apply).</p>
+                            </div>
+                        </div>
                     </div>
-                  ))}
                 </div>
-              </div>
-              <div className="flex flex-col">
-                <div className="flex flex-col md:flex-row gap-2 md:items-center mt-4">
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Rating
-                      name="text-feedback"
-                      value={4}
-                      readOnly
-                      precision={0.5}
-                      emptyIcon={
-                        <StarIcon
-                          style={{ opacity: 0.55 }}
-                          fontSize="inherit"
-                        />
-                      }
-                    />
-                    <Box sx={{ ml: 2 }}>{4}/5</Box>
-                  </Box>
-                  <Divider
-                    orientation="vertical"
-                    flexItem
-                    className="!border-black border border-r-0 border-opacity-30 hidden md:!block"
-                  />
-                  <span className="flex items-center gap-2 text-coal font-medium">
-                    <MdVerified size="1rem" fill="#EE6503" /> Based on{" "}
-                    {noOfRatings} reviews
-                  </span>
-                </div>
-                <hr className="!my-6" />
-                <div className="flex md:!items-start lg:!items-center flex-col md:!flex-row gap-2">
-                  <div className="flex flex-col">
-                    {productDetail?.strikePrice && (
-                      <span className="text-left text-sm text-slate-400 line-through font-bold mr-4">
-                        {INRCurrency(productDetail?.strikePrice)}
-                      </span>
-                    )}
-                    <span className="text-3xl text-left text-[#0f4a51] font-bold">
-                      {INRCurrency(productDetail?.productPrice)}
-                    </span>
-                    <span className="text-xs">{"(incl. of all taxes.)"}</span>
+                {/* --- END NEW PANEL --- */}
+                
+            </div>
+            
+            {/* Right: Details & CTA */}
+            <div className={`p-4 ${isTablet ? "pt-0" : "ml-5"}`}>
+              <h1 className="text-3xl font-extrabold text-gray-900">{productName}</h1>
+              
+              {/* Key Features/Badges */}
+              <div className="flex flex-wrap gap-4 mt-2">
+                {productDetail?.smallDescription.map((desc) => (
+                  <div key={desc.id} className="flex items-center gap-1">
+                    <FaCircleCheck fill="#10B981" size="0.8rem" />
+                    <p className="!font-poppins text-sm text-gray-700 font-medium">
+                      {desc.content}
+                    </p>
                   </div>
-                  {productDetail?.strikePrice && (
-                    <button className="shadow-md rounded-xl p-2 text-sm font-semibold bg-emerald-700 text-white w-24">
-                      {calculateSaveAmount(
-                        productDetail?.strikePrice,
-                        productDetail?.productPrice
-                      )}
-                    </button>
-                  )}
-                </div>
+                ))}
               </div>
-              <div className="grid md:grid-cols-2 w-100 md:!w-96 gap-4 place-items-center mt-4">
+
+              {/* Ratings */}
+              <div className="flex flex-col md:flex-row gap-2 md:items-center mt-4 border-b border-gray-100 pb-4">
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Rating
+                    name="text-feedback"
+                    value={productDetail?.ratings || 4}
+                    readOnly
+                    precision={0.5}
+                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                  />
+                  <Box sx={{ ml: 1, fontWeight: 'bold' }}>{productDetail?.ratings || 4}/5</Box>
+                </Box>
+                <span className="flex items-center gap-2 text-gray-700 font-medium text-sm">
+                  <MdVerified size="1rem" fill={PRIMARY_COLOR} /> 
+                  <span className="text-gray-500">({noOfRatings} reviews)</span>
+                </span>
+              </div>
+              
+              {/* Price and Savings */}
+              <div className="flex md:!items-start lg:!items-center flex-col md:!flex-row gap-4 mt-4">
+                <div className="flex flex-col">
+                  <div className="flex items-baseline gap-3">
+                      {productDetail?.strikePrice && (
+                          <span className="text-base text-slate-400 line-through font-medium">
+                              {INRCurrency(productDetail?.strikePrice)}
+                          </span>
+                      )}
+                      <span className="text-4xl text-left font-extrabold text-[#0f4a51]">
+                          {INRCurrency(productDetail?.productPrice)}
+                      </span>
+                  </div>
+                  <span className="text-sm text-gray-500">{"(incl. of all taxes.)"}</span>
+                </div>
+                {calculateSaveAmount(productDetail?.strikePrice, productDetail?.productPrice) && (
+                    <div className="rounded-full px-3 py-1 text-sm font-bold bg-green-500 text-white flex items-center justify-center shadow-md">
+                        {calculateSaveAmount(productDetail?.strikePrice, productDetail?.productPrice)}
+                    </div>
+                )}
+              </div>
+              
+              <hr className="!my-6 border-gray-100" />
+
+              {/* Quantity Selector and Add to Cart Button */}
+              <div className="grid sm:grid-cols-2 gap-4 place-items-center sm:place-items-start max-w-lg">
                 <CustomAutocomplete
-                  textClassOverride="!text-kashmirBlue"
-                  classes="!rounded-md !mb-4"
+                  textClassOverride="!text-gray-700"
+                  classes="!rounded-lg !mb-0 w-full"
                   requiredStar
                   labelToShow="Select Quantity"
                   name="quantity"
                   showIconOutline
-                  options={[
-                    { label: "1", value: "1" },
-                    {
-                      label: "2",
-                      value: "2",
-                    },
-                    {
-                      label: "3",
-                      value: "3",
-                    },
-                    {
-                      label: "4",
-                      value: "4",
-                    },
-                    {
-                      label: "5",
-                      value: "5",
-                    },
-                  ]}
+                  options={Array.from({length: 5}, (_, i) => ({ label: `${i + 1}`, value: `${i + 1}` }))}
                   value={quantity}
                   handleChange={(e) => setQuantity(e.target.value)}
                 />
+                
                 <button
-                  className="!flex !items-center !justify-center gap-2 w-full !bg-[#0f4a51] !text-white py-2 px-4 rounded-md hover:!bg-[#15676e] focus:outline-none focus:ring-2 focus:ring-[#0f4a51] transition-all !shadow-[3px_3px_0px_black] hover:!shadow-none hover:!translate-x-[3px] hover:!translate-y-[3px] cursor-pointer"
-                  onClick={() => handleAddToCart()}
+                  className={`!flex !items-center !justify-center gap-2 w-full !bg-[${PRIMARY_COLOR}] !text-white py-3 px-4 rounded-lg font-semibold 
+                            hover:!bg-[${SECONDARY_COLOR}] focus:outline-none focus:ring-2 focus:ring-[${PRIMARY_COLOR}] transition-all duration-300 shadow-lg 
+                            max-w-xs sm:max-w-none`}
+                  onClick={handleAddToCart}
                 >
-                  <FaCartPlus size="1.5rem" /> Add to Cart
+                  <FaCartPlus size="1.2rem" /> Add to Cart
                 </button>
               </div>
-              <div className="flex gap-4 place-items-center w-100 md:!w-96 my-6">
+
+              {/* Pincode Check and Delivery Info */}
+              <div className="flex gap-3 place-items-center max-w-lg my-6">
                 <CustomTextField
-                  textClassOverride="!text-kashmirBlue"
-                  placeholderClasses="placeholder:!opacity-30 !text-licorice"
-                  className="h-12 rounded-md !bg-transparent"
-                  placeholder="Enter"
+                  textClassOverride="!text-gray-700"
+                  placeholderClasses="placeholder:!opacity-50 !text-gray-700"
+                  className="h-12 rounded-lg !bg-gray-50 shadow-inner"
+                  placeholder="Enter 6-digit Pincode"
                   labelToShow="Check Pincode"
                   maxLength={6}
                   regex={regex.numeric}
                   name="pinCode"
-                  textFieldColorClass="shadow-insetLight"
                   inputClassName="!bg-transparent"
-                  fieldWidth="w-full"
+                  fieldWidth="flex-grow"
                   value={pinCode}
                   onChange={(e) => setPinCode(e.target.value)}
                 />
                 <button
-                  className="!flex !items-center mt-4 !justify-center gap-2 w-full !bg-[#0f4a51] !text-white py-2 px-4 rounded-md hover:!bg-[#15676e] focus:outline-none focus:ring-2 focus:ring-[#0f4a51] transition-all !shadow-[3px_3px_0px_black] hover:!shadow-none hover:!translate-x-[3px] hover:!translate-y-[3px] cursor-pointer"
+                  className={`!flex !items-center mt-4 !justify-center gap-2 w-24 !bg-[${PRIMARY_COLOR}] !text-white py-2 px-3 rounded-lg 
+                             hover:!bg-[${SECONDARY_COLOR}] transition-all duration-300 font-semibold h-12 shadow-md`}
                   onClick={handlePincodeCheck}
                 >
                   Check
                 </button>
               </div>
-              {/* <div className="flex flex-col gap-4 mt-5">
-                <div className="flex gap-3">
-                  <button
-                    className="px-3 py-2 rounded shadow bg-aliceBlue-2 mt-4"
-                    onClick={() => setQuantity(+quantity - 1)}
-                  >
-                    <FaMinus className="text-coal" size="1.1rem" />
-                  </button>
-                  <CustomTextField
-                    textClassOverride="!text-kashmirBlue"
-                    placeholderClasses="placeholder:!opacity-30 !text-licorice !text-center"
-                    className="h-12 rounded-md !bg-transparent"
-                    classes="!rounded-md !mb-4"
-                    requiredStar
-                    labelToShow="Select Quantity"
-                    maxLength={2}
-                    regex={regex.numeric}
-                    inputClassName="!bg-transparent !text-center"
-                    name="quantity"
-                    showIconOutline
-                    value={quantity}
-                    onChange={(e) => setQuantity(e.target.value)}
-                  />
-                  <button
-                    className="px-3 py-2 rounded shadow bg-aliceBlue-2 mt-4"
-                    onClick={() => setQuantity(+quantity + 1)}
-                  >
-                    <FaPlus className="text-coal" size="1.1rem" />
-                  </button>
-                </div>
-                <CustomButton2
-                  buttonText="Add to Cart"
-                  faIcon={<FaCartPlus size="1.5rem" />}
-                  buttonClass="!mt-0 !w-64"
-                  handleSubmit={handleAddToCart}
-                />
-              </div> */}
-              <hr className="!my-6" />
-              <div className="flex flex-col md:!flex-row md:justify-between font-poppins my-6">
-                <div className="flex items-center gap-2">
-                  <BsFillCartCheckFill fill="#064e3b" size="1.5rem" />
-                  <span className="text-lg text-emerald-900 font-medium">
+
+              {/* Info Bar */}
+              <div className="flex flex-col md:!flex-row md:justify-between font-poppins my-6 border-t border-gray-100 pt-6">
+                <div className="flex items-center gap-2 text-gray-700 mb-2 md:mb-0">
+                  <BsFillCartCheckFill fill="#10B981" size="1.4rem" />
+                  <span className="text-base font-medium">
                     Recently in 12 carts
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <FaShippingFast fill="#EE6503" size="1.5rem" />
-                  <span className="text-lg text-coal font-medium">
-                    Shipping by {getShippingDate()}
+                <div className="flex items-center gap-2 text-gray-700">
+                  <FaShippingFast fill="#EE6503" size="1.4rem" />
+                  <span className="text-base font-medium">
+                    Est. Delivery by <span className="font-bold">{getShippingDate()}</span>
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col font-bold mb-5">
-                <div className="flex justify-center items-center gap-2">
+              
+              {/* Offers Carousel */}
+              <div className="flex flex-col font-bold mb-5 mt-6 border-t border-gray-100 pt-6">
+                <div className="flex items-center gap-2 text-gray-800 mb-4">
                   <BiSolidOffer size="1.5rem" fill="#EE6503" />
-                  <span className="text-2xl font-semibold">
+                  <span className="text-xl font-semibold">
                     Special Offers & Coupons
                   </span>
                 </div>
                 <OffersCarousel />
               </div>
+              
             </div>
           </div>
-          {/* Product Details */}
+          
+          {/* Product Details (Tabs/Accordion) */}
           <motion.div
             variants={FadeInWrapper("top", 0.2)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="mt-10"
+            className="mt-12 p-4 rounded-xl shadow-2xl bg-white"
           >
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2">Product Information</h2>
+            
+            {/* Desktop Tab View */}
             {isLargeScreen && (
               <div>
-                <ul className="flex justify-center items-center gap-4 border-b-2">
+                <ul className="flex justify-start gap-8 border-b-2 border-gray-200">
                   {productDetail?.productsAdditionalDetails.map((item) => (
                     <li
                       key={item.id}
-                      className="text-lg font-semibold cursor-pointer group p-2"
+                      className="text-lg font-semibold cursor-pointer p-2 transition-all duration-200"
                       onClick={() => handleClick(item.id)}
                     >
                       <span
-                        className={`!border-[#0f4a51] group-hover:border-b-4 p-2 ${
+                        className={`p-2 border-b-4 ${
                           item.id === selectedItem
-                            ? "!border-[#0f4a51] border-b-4"
-                            : ""
+                            ? `!border-[${PRIMARY_COLOR}] text-[${PRIMARY_COLOR}]`
+                            : "border-transparent text-gray-600 hover:text-gray-900"
                         }`}
                       >
                         {item.name}
@@ -381,7 +347,7 @@ function ProductsDetails() {
                 </ul>
                 {selectedItem && (
                   <div
-                    className="p-4"
+                    className="p-4 text-gray-700 leading-relaxed"
                     dangerouslySetInnerHTML={{
                       __html:
                         productDetail?.productsAdditionalDetails?.find(
@@ -392,61 +358,69 @@ function ProductsDetails() {
                 )}
               </div>
             )}
+            
+            {/* Mobile/Tablet Accordion View */}
             {!isLargeScreen && (
               <div className="mb-5">
                 {productDetail?.productsAdditionalDetails.map((item) => (
-                  <Accordion defaultExpanded={item.id === 1} key={item.id}>
+                  <Accordion 
+                    defaultExpanded={item.id === 1} 
+                    key={item.id} 
+                    className="shadow-md mb-2"
+                  >
                     <AccordionSummary
-                      expandIcon={<ExpandMoreIcon className="text-[#0f4a51]" />}
+                      expandIcon={<ExpandMoreIcon className={`text-[${PRIMARY_COLOR}]`} />}
                       aria-controls={`${item.id}-content`}
                       id={`${item.id}-header`}
-                      className="bg-gray-50 rounded-md"
+                      className="bg-gray-50 hover:bg-gray-100 rounded-lg"
                     >
                       <Typography
                         component="span"
-                        className="font-bold font-poppins text-[#0f4a51]"
+                        className={`font-bold font-poppins text-[${PRIMARY_COLOR}]`}
                       >
                         {item.name}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      {item.content.split("\n").map((para, index) => (
-                        <Typography
-                          key={index}
-                          className="!font-poppins !text-cello !font-medium"
-                          dangerouslySetInnerHTML={{ __html: para }}
-                        />
-                      ))}
+                      <Typography
+                          className="!font-poppins !text-gray-700 leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: item.content }}
+                      />
                     </AccordionDetails>
                   </Accordion>
                 ))}
               </div>
             )}
           </motion.div>
-          <hr className="" />
-          {/* More Product */}
+          
+          {/* Related Products */}
           <motion.div
             variants={FadeInWrapper("left", 0.1)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
+            className="mt-12"
           >
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2">You Might Also Like</h2>
             <BuyMoreProducts
+              showCarousel={true}
               productCategory={urlCategory}
               productSubCategory={productSubCategory}
             />
           </motion.div>
-          <hr />
+          
+          <hr className="!my-12 border-gray-100" />
+          
           {/* Product Reviews */}
           <motion.div
             variants={FadeInWrapper("right", 0.1)}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
+            className="mt-12"
           >
             <ProductReviews reviewContent={reviewContent} />
           </motion.div>
-          <hr />
         </div>
       </motion.div>
     </div>

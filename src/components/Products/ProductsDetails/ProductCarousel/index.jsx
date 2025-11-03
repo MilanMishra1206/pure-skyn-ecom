@@ -39,7 +39,7 @@ function ProductCarousel({ carouselContent }) {
 
   return (
     <div className="p-4 w-auto my-4">
-      <div className="flex flex-col md:!flex-row md:gap-2 justify-center mb-4 cursor-pointer">
+      <div className="flex flex-col md:!flex-row md:gap-2 justify-center mb-4">
         <p className="font-bold text-2xl text-center">Browse Products</p>
       </div>
       <Slider {...settings}>

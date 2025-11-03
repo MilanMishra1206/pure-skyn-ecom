@@ -1,22 +1,34 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import { TbMoodSadSquint } from "react-icons/tb";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
-import { IoIosCloseCircle } from "react-icons/io";
 import { FaCartPlus } from "react-icons/fa";
 import {
   emptyCart,
   removeFromCart,
   updateQuantity,
 } from "../../../redux/Actions";
-import FadeInWrapper from "../../../config/MotionFramer/FadeInWrapper";
 import Resources from "../../../config/Resources";
 import { INRCurrency } from "../../../helpers/Regex";
-import CustomButton from "../../../shared/CustomButton";
+import HandleQuantity from "../HandleQuantity";
+import BuyMoreProducts from "../../Products/ProductsDetails/BuyMoreProducts";
+import DrawerComponent from "../../../shared/DrawerComponent";
+import ConfirmationModal from "../ConfirmationModal";
+
+// --- Custom Tailwind Button Component (Assuming this structure for branding) ---
+const BrandedButton = ({ label, onClick, startIcon, className = "" }) => (
+  <button
+    onClick={onClick}
+    className={`group flex items-center cursor-pointer justify-center rounded-lg font-medium py-3 px-4 transition duration-300 w-full 
+      bg-[#0f4a51] text-white hover:bg-[#15676e] active:bg-[#0f4a51] ${className}`}
+  >
+    {startIcon}
+    <span className="ml-2">{label}</span>
+  </button>
+);
+// ----------------------------------------------------------------------------
 
 function CartDrawer({ openCart, handleOpenCart }) {
   const dispatch = useDispatch();
@@ -30,16 +42,17 @@ function CartDrawer({ openCart, handleOpenCart }) {
 
   const cartItems = useSelector((state) => state.cart.items);
 
+  // Helper function for consistent price calculation
   const getTotalForItem = (item) => item.quantity * +item.productPrice;
+  const SHIPPING_THRESHOLD = 500;
 
   useEffect(() => {
-    return setTotalCartValue(
+    // Calculate final discounted/total value (if discounts were applied here)
+    setTotalCartValue(
       cartItems.reduce((acc, item) => acc + getTotalForItem(item), 0)
     );
-  }, [cartItems]);
-
-  useEffect(() => {
-    return setOriginCartValue(
+    // Calculate original value (for free shipping comparison)
+    setOriginCartValue(
       cartItems.reduce((acc, item) => acc + getTotalForItem(item), 0)
     );
   }, [cartItems]);
@@ -49,20 +62,18 @@ function CartDrawer({ openCart, handleOpenCart }) {
       id: 1,
       couponCode: "PS30",
       description: "30% off on the cart value",
-      priceOff: 30,
-      productsFree: 0,
+      percentOff: 30,
     },
     {
       id: 2,
       couponCode: "PS40",
       description: "40% off on the cart value",
       percentOff: 40,
-      productsFree: 0,
     },
   ];
 
   const handleCartSubmit = () => {
-    navigate("/products/product-cart");
+    navigate("/products-cart");
     handleOpenCart();
   };
 
@@ -78,7 +89,9 @@ function CartDrawer({ openCart, handleOpenCart }) {
 
   const handleItemRemove = (productId) => {
     setRemoveItem(true);
-    setRemoveMessage("Are you sure you want to the remove product from cart?");
+    setRemoveMessage(
+      "Are you sure you want to remove this product from the cart?"
+    );
     setIsEmptyCart(false);
     setProductId(productId);
   };
@@ -95,201 +108,187 @@ function CartDrawer({ openCart, handleOpenCart }) {
   };
 
   const freeDeliveryStatus = () => {
-    if (originalCartValue >= 500) {
-      return "CONGRATS! You get FREE SHIPPING 🎉🎉";
+    if (originalCartValue >= SHIPPING_THRESHOLD) {
+      return (
+        <p className="font-bold text-lg">
+          CONGRATS! You get <span className="text-white">FREE SHIPPING</span> 🎉
+        </p>
+      );
     } else {
-      return "FREE SHIPPING on orders above ₹500";
+      const remaining = SHIPPING_THRESHOLD - originalCartValue;
+      return (
+        <p className="text-sm font-medium">
+          Only{" "}
+          <span className="font-bold text-white">{INRCurrency(remaining)}</span>{" "}
+          away from <span className="font-bold">FREE SHIPPING</span>
+        </p>
+      );
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+    <DrawerComponent
+      title="Cart"
+      openDrawer={openCart}
+      showClose
+      onClose={handleOpenCart}
+      childClassName="md:!h-screen"
     >
-      <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-30"></div>
-      <div
-        className={`fixed !overflow-y-auto max-h-screen top-0 font-poppins right-0 h-full w-full md:!w-3/5 lg:!w-1/2 xl:!w-1/3 bg-[#FAFAFA] z-40 transform ${
-          openCart ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="sticky top-0 flex justify-center items-center p-4 shadow bg-white z-50">
-          <span className="flex-1 text-coal font-bold text-xl text-center">
-            My Cart
-          </span>
-          <button className="text-2xl text-coal" onClick={handleOpenCart}>
-            <IoIosCloseCircle size={"2rem"} />
-          </button>
-        </div>
-        <motion.div
-          variants={FadeInWrapper("left", 0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          <div>
-            {cartItems?.length === 0 ? (
-              <div className="flex flex-col items-center justify-center px-2 md:!px-5 pb-5">
-                <img
-                  src={Resources.images.cart.emptyCart}
-                  className="h-52"
-                  alt="empty cart"
-                />
-                <p className="text-xl font-bold text-center text-coal">
-                  Your cart is empty. Let's add some items! ⚡
-                </p>
-                <button
-                  className="flex gap-2 items-center justify-center rounded-3xl font-medium px-4 active:!bg-white active:!text-[#0f4a51] bg-[#0f4a51] text-white hover:!opacity-80 active:!border-none transition duration-500 py-2 mt-4"
-                  onClick={() => {
-                    navigate("/products");
-                    handleOpenCart();
-                  }}
-                >
-                  <FaCartPlus size="1.2rem" />
-                  Continue Shopping
-                </button>
+      <div className="flex flex-col">
+        {cartItems?.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-5 pt-10 flex-grow">
+            <img
+              src={Resources.images.cart.emptyCart}
+              className="h-52"
+              alt="empty cart"
+            />
+            <p className="text-xl font-bold text-center text-gray-700 mt-4">
+              Your cart is empty. Let's add some items! ⚡
+            </p>
+            <BrandedButton
+              label="Continue Shopping"
+              onClick={() => {
+                navigate("/products");
+                handleOpenCart();
+              }}
+              startIcon={<FaCartPlus size="1.2rem" />}
+              className="mt-6 rounded-3xl"
+            />
+          </div>
+        ) : (
+          // --- Cart Content (Scrollable) ---
+          <div className="flex-grow overflow-y-auto pb-4">
+            {/* 1. Free Shipping & Coupon Section */}
+            <div className="sticky top-0 z-10 bg-white shadow-sm pt-2">
+              {/* Free Shipping Meter/Message */}
+              <div className="p-3 text-center text-white bg-[#15676e] font-bold">
+                {freeDeliveryStatus()}
               </div>
-            ) : (
-              <>
-                <div className="mt-4">
-                  <div className="bg-slate-50 text-coal shadow text-center py-3">
-                    <p className="font-bold text-xl underline">
-                      Available Coupons
-                    </p>
-                    {availableCoupons.length === 0 ? (
-                      <div className="flex font-bold text-[#0f4a51] p-2">
-                        Sorry! No Coupons Available at the moment.
-                        <TbMoodSadSquint size="2rem" />
-                      </div>
-                    ) : (
-                      availableCoupons.map((coupon) => (
-                        <div
-                          key={coupon.id}
-                          className="bg-body-secondary p-1 border-b-2"
-                        >
-                          <StarRateRoundedIcon
-                            style={{ color: "#fde047", fontSize: "1.6rem" }}
-                          />
-                          <span key={coupon.id}>{coupon.description} - </span>
-                          <span className="text-[#0f4a51] font-bold cursor-pointer hover:opacity-80">
-                            {coupon.couponCode}{" "}
-                          </span>
-                          <StarRateRoundedIcon
-                            style={{ color: "#fde047", fontSize: "1.6rem" }}
-                          />
-                        </div>
-                      ))
-                    )}
-                    <small className="mt-4 font-medium">
-                      <strong>Note: </strong>Add them during the checkout
-                    </small>
+
+              {/* Available Coupons */}
+              <div className="bg-white text-gray-800 border-b pb-2">
+                <p className="font-bold text-lg text-center p-2 pt-3 text-[#0f4a51]">
+                  Available Coupons
+                </p>
+                {availableCoupons.length === 0 ? (
+                  <div className="flex font-bold text-[#0f4a51] p-2 justify-center items-center">
+                    Sorry! No Coupons Available at the moment.
+                    <TbMoodSadSquint size="2rem" />
                   </div>
-                  <div className="p-3 text-lg bg-emerald-900 text-white shadow text-center font-bold">
-                    {freeDeliveryStatus()}
+                ) : (
+                  availableCoupons.map((coupon) => (
+                    <div key={coupon.id} className="text-center p-1">
+                      <StarRateRoundedIcon
+                        style={{ color: "#fde047", fontSize: "1.2rem" }}
+                      />
+                      <span className="text-sm">{coupon.description} - </span>
+                      <span className="text-[#0f4a51] font-bold cursor-pointer hover:opacity-80 text-sm">
+                        {coupon.couponCode}{" "}
+                      </span>
+                      <StarRateRoundedIcon
+                        style={{ color: "#fde047", fontSize: "1.2rem" }}
+                      />
+                    </div>
+                  ))
+                )}
+                <small className="mt-1 font-medium block text-center text-gray-500">
+                  **Note:** Add them during the checkout
+                </small>
+              </div>
+            </div>
+
+            {/* 2. Cart Items List */}
+            <ul className="divide-y divide-gray-200">
+              {cartItems.map((item) => (
+                <li key={item.id} className="flex gap-4 p-4">
+                  <div className="shrink-0">
+                    <img
+                      className="h-20 w-20 object-cover rounded-lg cursor-pointer border border-gray-100"
+                      src={item.imgSrc}
+                      alt="product-icon"
+                      onClick={() => {
+                        navigate(
+                          `/products/${item.category}/${item.productName}`
+                        );
+                        handleOpenCart();
+                      }}
+                    />
                   </div>
-                  <div>
-                    <div className="flow-root self-start">
-                      <ul>
-                        {cartItems?.map((item) => (
-                          <div key={item.id}>
-                            <li className="flex gap-4 px-3 py-3 mt-4 border-b">
-                              <div className="shrink-0 flex justify-center">
-                                <img
-                                  className="h-20 max-w-full rounded-lg object-cover cursor-pointer"
-                                  src={item.imgSrc}
-                                  alt="product-icon"
-                                  onClick={() => {
-                                    navigate(`/products/${item.productName}`);
-                                    handleOpenCart();
-                                  }}
-                                />
-                              </div>
-                              <div className="relative flex flex-1 flex-col justify-between font-poppins">
-                                <div className="flex justify-content-between items-center">
-                                  <Link
-                                    className="no-underline font-semibold text-coal cursor-pointer hover:!text-[#0f4a51]"
-                                    to={`/products/${item.productName}`}
-                                  >
-                                    {item.productName}
-                                  </Link>
-                                  <p className="text-coal font-bold">
-                                    ₹{getTotalForItem(item)}
-                                  </p>
-                                </div>
-                                <div className="flex flex-row items-center gap-4 md:!mt-0 md:!justify-normal">
-                                  <HandleQuantity
-                                    item={item}
-                                    handleItemDecrease={() =>
-                                      handleItemDecrease(item)
-                                    }
-                                    handleItemIncrease={() =>
-                                      handleItemIncrease(item)
-                                    }
-                                    handleItemRemove={() =>
-                                      handleItemRemove(item.id)
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </li>
-                          </div>
-                        ))}
-                      </ul>
+                  <div className="flex flex-1 flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <Link
+                        className="font-semibold text-gray-800 hover:!text-[#0f4a51] text-base line-clamp-2"
+                        to={`/products/${item.category}/${item.productName}`}
+                        onClick={handleOpenCart}
+                      >
+                        {item.productName}
+                      </Link>
+                      <p className="text-gray-800 font-bold text-lg ml-2 shrink-0">
+                        {INRCurrency(getTotalForItem(item))}
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <HandleQuantity
+                        item={item}
+                        handleItemDecrease={() => handleItemDecrease(item)}
+                        handleItemIncrease={() => handleItemIncrease(item)}
+                        handleItemRemove={() => handleItemRemove(item.id)}
+                      />
                     </div>
                   </div>
-                </div>
-              </>
-            )}
-            <FadedLineBreak />
-            <motion.div
-              variants={FadeInWrapper("left", 0.1)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-            >
+                </li>
+              ))}
+            </ul>
+
+            {/* 3. Upsell Section (BuyMoreProducts) */}
+            <div className="mt-2 p-4 border-t border-gray-200">
               <BuyMoreProducts
                 showCarousel={false}
                 handleOpenCart={handleOpenCart}
                 productCategory=""
               />
-            </motion.div>
+            </div>
           </div>
-          {removeItem && (
-            <ConfirmationModal
-              isEmptyCart={isEmptyCart}
-              title={removeMessage}
-              handleCancel={handleCancel}
-              handlePrimaryButtonClick={confirmRemove}
-              confirmButtonText={isEmptyCart ? "Empty" : "Remove"}
-            />
-          )}
-        </motion.div>
+        )}
+
+        {/* 4. Sticky Checkout Footer */}
         {cartItems?.length > 0 && (
-          <div className="sticky flex flex-col bottom-0 shadow-lg p-4 bg-white z-50 mt-6 justify-content-center">
-            <div className="flex items-center justify-between">
-              <p className="text-coal font-bold text-xl">
-                Subtotal ({cartItems?.length})
+          <div className="sticky bottom-0 shadow-2xl p-4 bg-white z-20 border-t border-gray-100">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-gray-700 font-medium text-lg">
+                Subtotal ({cartItems?.length}{" "}
+                {cartItems?.length === 1 ? "item" : "items"})
               </p>
-              <p className="text-xl font-semibold text-coal">
+              <p className="text-2xl font-bold text-[#0f4a51]">
                 {INRCurrency(totalCartValue)}
               </p>
             </div>
-            <CustomButton
+            {/* Using the branded button for the primary CTA */}
+            <BrandedButton
               label="Proceed to Checkout"
               onClick={handleCartSubmit}
               startIcon={
                 <MdOutlineShoppingCartCheckout
                   size="1.5rem"
-                  className="ml-2 group-hover:scale-110 group-hover:!ml-5"
+                  className="mr-1 group-hover:scale-110 transition duration-300"
                 />
               }
             />
           </div>
         )}
       </div>
-    </motion.div>
+
+      {removeItem && (
+        <ConfirmationModal
+          isEmptyCart={isEmptyCart}
+          title={removeMessage}
+          handleCancel={handleCancel}
+          handlePrimaryButtonClick={confirmRemove}
+          confirmButtonText={isEmptyCart ? "Empty" : "Remove"}
+        />
+      )}
+    </DrawerComponent>
   );
 }
 

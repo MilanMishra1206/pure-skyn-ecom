@@ -26,7 +26,7 @@ const SidebarFilters = ({
           <div className="mb-2 cursor-pointer">
             <button
               onClick={() => onCategoryChange('all')}
-              className={`w-full text-left py-2 px-3 rounded transition-all duration-200 text-sm font-medium 
+              className={`w-full text-left py-2 px-3 cursor-pointer rounded transition-all duration-200 text-sm font-medium 
                 ${selectedCategory === 'all' 
                   ? 'bg-gray-100 text-gray-900 border-l-4 border-gray-400'
                   : 'text-gray-600 hover:bg-gray-50'
@@ -41,7 +41,7 @@ const SidebarFilters = ({
             <div key={key} className="mb-2 cursor-pointer">
               <button
                 onClick={() => onCategoryChange(key)}
-                className={`w-full text-left py-2 px-3 rounded transition-all duration-200 text-sm font-medium capitalize 
+                className={`w-full text-left cursor-pointer py-2 px-3 rounded transition-all duration-200 text-sm font-medium capitalize 
                   ${selectedCategory === key 
                     ? 'bg-gray-100 font-semibold border-l-4'
                     : 'text-gray-600 hover:bg-gray-50'

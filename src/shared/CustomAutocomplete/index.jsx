@@ -352,7 +352,7 @@ function CustomAutocomplete({
             label={
               <>
                 <span className="!mt-1 !font-poppins text-cello">{label}</span>
-                {requiredStar && <span className="text-bitterSweet">*</span>}
+                {requiredStar && <span className="text-[#FF6262]">*</span>}
               </>
             }
             InputLabelProps={{
@@ -461,7 +461,7 @@ function CustomAutocomplete({
         handleHomeEndKeys={allowCreateOption}
       />
       {error && touched && (
-        <div className="mt-1 ml-1 text-xs text-bitterSweet">{errorMessage}</div>
+        <div className="mt-1 ml-1 text-xs text-[#FF6262]">{errorMessage}</div>
       )}
     </FormControl>
   );

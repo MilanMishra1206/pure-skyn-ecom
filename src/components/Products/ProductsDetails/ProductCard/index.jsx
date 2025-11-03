@@ -1,27 +1,54 @@
 import { Card } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaCartPlus } from "react-icons/fa";
 import { Box, Rating } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
+import {
+  updateQuantity,
+  removeFromCart,
+  addToCart,
+} from "../../../../redux/Actions";
 import { useAppSnackbar } from "../../../../config/Context/SnackbarContext";
-import { addToCart } from "../../../../redux/Actions";
 import { INRCurrency } from "../../../../helpers/Regex";
 import CustomButton from "../../../../shared/CustomButton";
+import HandleQuantity from "../../../ProductsCart/HandleQuantity";
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const showSnackbar = useAppSnackbar();
 
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartItem = cartItems?.find((item) => item.id === product.id);
+  const isInCart = !!cartItem;
+
+  const handleItemIncrease = (item) => {
+    dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
+  };
+
+  const handleItemDecrease = (item) => {
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
+    }
+  };
+
+  const handleItemRemove = (productId) => {
+    dispatch(removeFromCart(productId));
+    showSnackbar("Product Removed from Cart", "info");
+  };
+
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
-    showSnackbar("Product Added to Cart", "success");
+    if (isInCart) {
+      handleItemIncrease(cartItem);
+    } else {
+      dispatch(addToCart(product));
+      showSnackbar("Product Added to Cart", "success");
+    }
   };
 
   return (
-    <Card style={{ width: "inherit" }}>
+    <Card style={{ width: "inherit" }} className="p-4 shadow rounded-2xl m-2">
       <div className="flex items-center justify-center p-2">
         <img
           src={product.imgSrc}
@@ -95,12 +122,26 @@ function ProductCard({ product }) {
             ₹{product.productPrice}
           </span>
         </div>
-        <CustomButton
-          label="Add to Cart"
-          startIcon={<FaCartPlus size="1.5rem" />}
-          onClick={handleAddToCart}
-          className="!rounded-2xl !bg-[#15676e] hover:!bg-white hover:!text-[#15676e] hover:!border duration-500"
-        />
+        <div className="mt-4">
+          {isInCart ? (
+            <div className="flex items-center gap-3">
+              <HandleQuantity
+                item={cartItem}
+                handleItemIncrease={() => handleItemIncrease(cartItem)}
+                handleItemDecrease={() => handleItemDecrease(cartItem)}
+                handleItemRemove={() => handleItemRemove(cartItem.id)}
+                isNotCartDrawer
+              />
+            </div>
+          ) : (
+            <CustomButton
+              label="Add to Cart"
+              startIcon={<FaCartPlus size="1.5rem" />}
+              onClick={handleAddToCart}
+              className="!rounded-2xl w-full !bg-[#15676e] hover:!bg-white hover:!text-[#15676e] hover:!border duration-500"
+            />
+          )}
+        </div>
       </div>
     </Card>
   );

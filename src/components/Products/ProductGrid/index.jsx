@@ -5,6 +5,10 @@ const ProductGrid = ({
   onAddToCart,
   isMobile,
   totalProductCount,
+  cartItems,
+  onIncrease,
+  onDecrease,
+  onRemove
 }) => {
   return (
     <>
@@ -21,6 +25,10 @@ const ProductGrid = ({
             key={index}
             product={product}
             onAddToCart={onAddToCart}
+            cartItems={cartItems}
+            onIncrease={onIncrease}
+            onDecrease={onDecrease}
+            onRemove={onRemove}
           />
         ))}
       </div>

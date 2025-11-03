@@ -23,14 +23,27 @@ function BuyMoreProducts({
   };
 
   let products = [];
+  const allFlatProducts = productList;
 
-  if (productCategory && productSubCategory && productList[productCategory][productSubCategory]) {
-    products = Object.values(productList[productCategory][productSubCategory]);
-  } else {
-    products = Object.values(productList[productCategory]).flatMap((category) =>
-      Object.values(category)
+  if (productCategory && productSubCategory) {
+    // SCENARIO 1: Filter to show only products in the SAME category AND subCategory
+    products = allFlatProducts.filter(
+      (p) =>
+        p.category.toLowerCase() === productCategory.toLowerCase() &&
+        p.subCategory.toLowerCase() === productSubCategory.toLowerCase()
     );
+  } else if (productCategory) {
+    // SCENARIO 2: If only category is provided, show ALL products in that category
+    products = allFlatProducts.filter(
+      (p) => p.category.toLowerCase() === productCategory.toLowerCase()
+    );
+  } else {
+    // SCENARIO 3: Default, show all products (or you might limit this for performance/relevance)
+    // For this implementation, we will assume if no filter is provided, it returns all products.
+    products = allFlatProducts;
   }
+
+  const limitedProducts = products.slice(0,5);
 
   return (
     <div>
@@ -41,19 +54,19 @@ function BuyMoreProducts({
           <p className="text-center text-2xl mb-5 font-bold text-bold text-emerald-900 uppercase">
             Boost Your Results
           </p>
-          {products.map((item, idx) => (
+          {limitedProducts.map((item, idx) => (
             <div
               key={idx}
               className="flex flex-col gap-3 justify-center items-center"
             >
-              <div className="flex gap-2 items-center mx-4 border-b-2">
+              <div className="flex gap-2 items-center mx-4 border-b-1">
                 <img
                   src={item.imgSrc}
                   className="h-20 w-20"
                   alt={item.productName}
                 />
                 <div className="flex flex-col space-y-2 w-48">
-                  <span className="font-bold text-coal text-xs md:!text-base">
+                  <span className="font-bold text-coal text-xs md:!text-sm">
                     {item.productName}
                   </span>
                   <Box
@@ -75,10 +88,9 @@ function BuyMoreProducts({
                         />
                       }
                     />
-                    <Box sx={{ ml: 2 }}>{item.ratings}</Box>
                   </Box>
                   <div className="flex gap-2 items-center">
-                    <p className="text-emerald-900 font-bold text-xs md:!text-base">
+                    <p className="text-[#0f4a51] font-bold text-xs md:!text-base">
                       {INRCurrency(item.productPrice)}
                     </p>
                     {item.strikePrice && (

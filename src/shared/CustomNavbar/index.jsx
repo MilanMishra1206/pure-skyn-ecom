@@ -7,13 +7,15 @@ import CustomMegaDropdown from "./CustomMegaDropdown";
 import Resources from "../../config/Resources";
 import MobileMenu from "./MobileMenu";
 import CustomDrawer from "../CustomDrawer";
-import CartDrawer from "../../components/CartDrawer";
+import CartDrawer from "../../components/ProductsCart/CartDrawer";
 
 function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 450px)");
+
+  const handleOpenCart = () => setCartDrawerOpen(!cartDrawerOpen);
 
   return (
     <div className="fixed top-0 left-0 w-full shadow-md z-50 bg-white">
@@ -167,7 +169,10 @@ function Navbar() {
         classes="!h-[80%] !z-[1100]"
         paperClassToOverride="!w-full sm:!w-[40%] lg:!w-[30%] !h-[96%] md:!h-full"
       >
-        <CartDrawer onClose={() => setCartDrawerOpen(false)} />
+        <CartDrawer
+          openCart={cartDrawerOpen}
+          handleOpenCart={handleOpenCart}
+        />
       </CustomDrawer>
     </div>
   );

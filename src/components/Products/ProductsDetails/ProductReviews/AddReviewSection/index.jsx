@@ -71,9 +71,8 @@ function AddReviewSection() {
               className="bg-white p-6 rounded-lg w-full max-w-lg"
             >
               <div className="text-[#0f4a51] text-center font-poppins font-bold text-2xl mb-4">
-                Review
+                Add Review
               </div>
-              <hr />
               <form className="w-full">
                 <Suspense fallback={<div />}>
                   <CustomTextField
@@ -115,7 +114,7 @@ function AddReviewSection() {
                 </Suspense>
                 <div className="flex flex-col gap-1 mb-2">
                   <label htmlFor="rating" className="text-kashmirBlue text-sm">
-                    Rating<span className="text-bitterSweet">*</span>
+                    Rating<span className="text-[#FF6262]">*</span>
                   </label>
                   <Rating
                     name="rating"
@@ -130,7 +129,7 @@ function AddReviewSection() {
                     htmlFor="description"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Description<small className="text-bitterSweet">*</small>
+                    Description<small className="text-[#FF6262]">*</small>
                   </label>
                   <textarea
                     id="description"
@@ -149,7 +148,7 @@ function AddReviewSection() {
                   />
                   {reviewFormik.touched.description &&
                     reviewFormik.errors.description && (
-                      <div className="text-bitterSweet text-xs">
+                      <div className="text-[#FF6262] text-xs">
                         {reviewFormik.errors.description}
                       </div>
                     )}

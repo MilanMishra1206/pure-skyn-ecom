@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { lazy, Suspense, useEffect, useState, useMemo } from "react";
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import { TbMoodSadSquint } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,58 +13,57 @@ import {
   MdOutlineShoppingCartCheckout,
 } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
 import { useAppSnackbar } from "../../config/Context/SnackbarContext";
 import { emptyCart, removeFromCart, updateQuantity } from "../../redux/Actions";
 import { INRCurrency } from "../../helpers/Regex";
 import Resources from "../../config/Resources";
-import CustomButton from "../../shared/CustomButton";
+import HandleQuantity from "./HandleQuantity";
+import BuyMoreProducts from "../Products/ProductsDetails/BuyMoreProducts";
+import ConfirmationModal from "./ConfirmationModal";
 
 const CustomTextField = lazy(() => import("../../shared/CustomTextField"));
+
+const SHIPPING_THRESHOLD = 500;
+const ORIGINAL_SHIPPING_CHARGES = 149;
+const PRIMARY_COLOR = "#0f4a51";
+const SECONDARY_COLOR = "#15676e";
+
+const BrandedButton = ({ label, onClick, startIcon, className = "" }) => (
+  <button
+    onClick={onClick}
+    className={`group flex items-center cursor-pointer justify-center rounded-lg font-medium py-3 px-4 transition duration-300 w-full 
+      bg-[${PRIMARY_COLOR}] text-white hover:bg-[${SECONDARY_COLOR}] active:bg-[${PRIMARY_COLOR}] ${className}`}
+  >
+    {startIcon}
+    <span className="ml-2">{label}</span>
+  </button>
+);
 
 function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const showSnackbar = useAppSnackbar();
 
-  const isTablet = useMediaQuery("(max-width: 1023px)");
   const isMobile = useMediaQuery("(max-width: 767px)");
-  const isLargerScreen = useMediaQuery("(min-width: 1280px)");
-  const originalShippingCharges = 149;
 
   const [productId, setProductId] = useState("");
   const [removeItem, setRemoveItem] = useState(false);
   const [removeMessage, setRemoveMessage] = useState("");
   const [isEmptyCart, setIsEmptyCart] = useState(false);
-  const [totalCartValue, setTotalCartValue] = useState(0);
-  const [shippingCharges, setShippingCharges] = useState(149);
+
   const [couponCodeName, setCouponCodeName] = useState("");
-  const [amountAfterCoupon, setAmountAfterCoupon] = useState(0);
+  const [couponDiscount, setCouponDiscount] = useState(0);
   const [isCouponApplied, setIsCouponApplied] = useState(false);
-  const [originalCartValue, setOriginCartValue] = useState(0);
   const [showMinValueMessage, setShowMinValueMessage] = useState("");
 
   const cartItems = useSelector((state) => state.cart.items);
 
   const getTotalForItem = (item) => item.quantity * +item.productPrice;
 
-  useEffect(() => {
-    return setTotalCartValue(
-      cartItems.reduce((acc, item) => acc + getTotalForItem(item), 0)
-    );
+  const originalCartValue = useMemo(() => {
+    return cartItems.reduce((acc, item) => acc + getTotalForItem(item), 0);
   }, [cartItems]);
-
-  useEffect(() => {
-    return setOriginCartValue(
-      cartItems.reduce((acc, item) => acc + getTotalForItem(item), 0)
-    );
-  }, [cartItems]);
-
-  // const getTotalCartValue = () => {
-  //   return cartItems.reduce(
-  //     (acc, item) => setTotalCartValue(acc + getTotalForItem(item)),
-  //     0
-  //   );
-  // };
 
   const availableCoupons = [
     {
@@ -71,27 +71,25 @@ function Cart() {
       couponCode: "PS30",
       description: "30% off on the cart value",
       percentOff: 30,
-      productsFree: 0,
     },
     {
       id: 2,
       couponCode: "PS40",
       description: "40% off on the cart value",
       percentOff: 40,
-      productsFree: 0,
     },
   ];
 
-  const truncateText = (text, limit) => {
-    const words = text.split(" ");
-    if (words.length > limit) {
-      return words.slice(0, limit).join(" ") + "...";
-    }
-    return text;
-  };
+  const shippingCharges = useMemo(() => {
+    return originalCartValue >= SHIPPING_THRESHOLD
+      ? 0
+      : ORIGINAL_SHIPPING_CHARGES;
+  }, [originalCartValue]);
+
+  const grandTotal = originalCartValue - couponDiscount + shippingCharges;
 
   const handleCartSubmit = () => {
-    console.log("Cart Values...");
+    navigate("/checkout");
   };
 
   const handleItemIncrease = (item) => {
@@ -107,14 +105,16 @@ function Cart() {
   const handleEmptyCart = () => {
     setRemoveItem(true);
     setRemoveMessage(
-      "Are you sure you want to empty your cart? You will miss out great offers!"
+      "Are you sure you want to empty your cart? You will miss out on great offers!"
     );
     setIsEmptyCart(true);
   };
 
   const handleItemRemove = (productId) => {
     setRemoveItem(true);
-    setRemoveMessage("Are you sure you want to the remove product from cart?");
+    setRemoveMessage(
+      "Are you sure you want to remove this product from the cart?"
+    );
     setIsEmptyCart(false);
     setProductId(productId);
   };
@@ -130,81 +130,96 @@ function Cart() {
     setRemoveItem(false);
   };
 
-  const freeDeliveryStatus = () => {
-    if (originalCartValue >= 500) {
-      return "CONGRATS! You get FREE SHIPPING 🎉🎉";
-    } else {
-      return "FREE SHIPPING on orders above ₹500";
-    }
-  };
-
-  useEffect(() => {
-    return originalCartValue >= 500
-      ? setShippingCharges(0)
-      : setShippingCharges(149);
-  }, [originalCartValue]);
-
-  const handleCouponClick = (selectedCoupon) => {
-    setIsCouponApplied(true);
-    setCouponCodeName(selectedCoupon);
-    handleCouponApply(selectedCoupon);
-  };
-
-  const handleCouponApply = (couponCode) => {
-    const couponDetails = availableCoupons?.filter(
-      (item) => item.couponCode === couponCode
+  const handleCouponApply = (code) => {
+    const couponDetails = availableCoupons.find(
+      (item) => item.couponCode === code
     );
-    if (couponCode?.trim()) {
-      if (couponDetails.length > 0 && originalCartValue >= 500) {
-        const percentOff = couponDetails[0].percentOff;
-        setTotalCartValue(totalCartValue - (totalCartValue * percentOff) / 100);
-        const amountSaved = (totalCartValue * percentOff) / 100;
-        setAmountAfterCoupon(amountSaved);
-        setIsCouponApplied(true);
-        setShowMinValueMessage("");
-        showSnackbar(`Great! You saved ${INRCurrency(amountSaved)}`, "success");
-      } else {
-        if (originalCartValue < 500) {
-          setShowMinValueMessage("Minimum cart value should be more than ₹500");
-        } else {
-          setShowMinValueMessage("No such coupon available. Please try again!");
-        }
-        setIsCouponApplied(false);
-      }
-    } else {
-      setIsCouponApplied(false);
-      setShowMinValueMessage("");
+
+    // 1. Check if a code was entered
+    if (!code?.trim()) {
+      handleRemoveCoupon();
+      return;
     }
+
+    // 2. Check minimum value threshold
+    if (originalCartValue < SHIPPING_THRESHOLD) {
+      setShowMinValueMessage(
+        `Minimum cart value must be ${INRCurrency(
+          SHIPPING_THRESHOLD
+        )} to apply a coupon.`
+      );
+      setIsCouponApplied(false);
+      setCouponDiscount(0);
+      return;
+    }
+
+    // 3. Check if coupon exists and apply discount
+    if (couponDetails) {
+      const discountPercentage = couponDetails.percentOff;
+      const amountSaved = (originalCartValue * discountPercentage) / 100;
+
+      setCouponDiscount(amountSaved);
+      setIsCouponApplied(true);
+      setCouponCodeName(code);
+      setShowMinValueMessage("");
+      showSnackbar(`Great! You saved ${INRCurrency(amountSaved)}!`, "success");
+    } else {
+      // 4. Coupon not found
+      setShowMinValueMessage("No such coupon available. Please try again!");
+      setIsCouponApplied(false);
+      setCouponDiscount(0);
+    }
+  };
+
+  const handleCouponClick = (selectedCouponCode) => {
+    setCouponCodeName(selectedCouponCode);
+    handleCouponApply(selectedCouponCode);
   };
 
   const handleRemoveCoupon = () => {
     setIsCouponApplied(false);
     setCouponCodeName("");
-    setTotalCartValue(originalCartValue);
+    setCouponDiscount(0);
+    setShowMinValueMessage("");
+    showSnackbar("Coupon removed.", "info");
   };
 
   useEffect(() => {
-    if (originalCartValue < 500) {
-      handleCouponApply();
+    if (isCouponApplied && originalCartValue < SHIPPING_THRESHOLD) {
+      handleRemoveCoupon();
+      setShowMinValueMessage(
+        `Coupon removed. Min value of ${INRCurrency(
+          SHIPPING_THRESHOLD
+        )} required.`
+      );
     }
-  }, [originalCartValue, couponCodeName]);
+  }, [originalCartValue, isCouponApplied]);
+
+  const freeDeliveryMessage =
+    originalCartValue >= SHIPPING_THRESHOLD
+      ? `CONGRATS! You get FREE SHIPPING 🎉🎉`
+      : `Only ${INRCurrency(
+          SHIPPING_THRESHOLD - originalCartValue
+        )} away from FREE SHIPPING!`;
 
   const breadcrumbs = [
     <Link
       key="1"
       to="/"
-      className="text-[#0f4a51] no-underline font-poppins hover:opacity-80 text-lg"
+      className={`text-[${PRIMARY_COLOR}] no-underline font-poppins hover:opacity-80 text-sm`}
     >
       Home
     </Link>,
-    <Link
+    <button
       key="2"
-      to="/products"
-      className="text-[#0f4a51] no-underline font-poppins hover:opacity-80 text-lg"
+      onClick={() => {
+        window.location.href = "/products";
+      }}
+      className={`bg-transparent border-none p-0 cursor-pointer text-[${PRIMARY_COLOR}] no-underline font-poppins hover:opacity-80 text-sm`}
     >
       Shop
-    </Link>,
-    <Typography key="3" className="!text-coal !font-poppins !text-lg">
+    </button>,
+    <Typography key="3" className="!text-gray-600 !font-poppins !text-sm">
       Cart
     </Typography>,
   ];
@@ -215,181 +230,162 @@ function Cart() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className={`mt-3 ${isTablet ? "py-3" : "py-4 mt-4"}`}
+      className="mt-5 lg:px-10 pb-10"
     >
-      <div className={`mt-5 ${isMobile ? "px-1" : "px-4"}`}>
-        <div className="px-4">
-          <Breadcrumbs
-            separator=">"
-            aria-label="breadcrumb"
-            className="mb-4 px-1"
-          >
-            {breadcrumbs}
-          </Breadcrumbs>
+      <div className="px-4 mb-6">
+        <Breadcrumbs
+          separator={<MdKeyboardDoubleArrowRight />}
+          aria-label="breadcrumb"
+        >
+          {breadcrumbs}
+        </Breadcrumbs>
+      </div>
+
+      {cartItems?.length === 0 ? (
+        <div className="flex flex-col items-center justify-center min-h-[50vh] p-5">
+          <img
+            src={Resources.images.cart.emptyCart}
+            className="max-h-72"
+            alt="empty cart"
+          />
+          <p className="text-2xl font-bold text-center mt-6 text-gray-800">
+            Your cart is empty. Let's add some items! ⚡
+          </p>
+          <BrandedButton
+            label="Continue Shopping"
+            startIcon={<FaCartPlus size="1.2rem" />}
+            onClick={() => navigate("/products")}
+            className="mt-6 !w-auto px-8"
+          />
         </div>
-        {cartItems?.length === 0 ? (
-          <div className="flex flex-col items-center justify-center px-2 md:!px-5 pb-5">
-            <img src={Resources.images.cart.emptyCart} />
-            <p className="text-xl font-bold text-center">
-              Your cart is empty. Let's add some items! ⚡
-            </p>
-            <CustomButton
-              label="Continue Shopping"
-              startIcon={<FaCartPlus size="1.5rem" />}
-              onClick={() => navigate("/products")}
-            />
+      ) : (
+        <>
+          <div className="flex justify-between items-center px-4 mb-6">
+            <h1 className="text-3xl font-bold text-gray-800">
+              Your Cart ({cartItems.length} items)
+            </h1>
+            <Link
+              to={"/products"}
+              className={`flex items-center text-[${PRIMARY_COLOR}] hover:opacity-80 font-semibold no-underline text-base`}
+            >
+              Continue Shopping
+              <MdKeyboardDoubleArrowRight
+                className={`text-xl text-[${PRIMARY_COLOR}]`}
+              />
+            </Link>
           </div>
-        ) : (
-          <>
-            <div className="flex justify-end px-5">
-              <Link
-                to={"/products"}
-                className="flex items-center text-[#0f4a51] hover:opacity-80 font-bold no-underline hover:scale-110 text-xl md:!text-2xl"
-              >
-                Continue Shopping
-                <MdKeyboardDoubleArrowRight className="text-3xl text-[#0f4a51]" />
-              </Link>
-            </div>
-            <div className="md:px-5 xl:!mx-5">
-              <div className="flex flex-col lg:!flex-row gap-4 place-content-center px-2 py-6 md:!px-4 sm:py-10">
-                <div className="flow-root border shadow rounded md:p-4 lg:!pl-1 xl:!p-4 self-start">
-                  <ul className="md:my-8 p-0">
-                    {cartItems?.map((item) => (
-                      <div key={item.id}>
-                        <li className="flex flex-col gap-2 space-y-3 py-2 text-left sm:flex-row sm:space-x-5 sm:space-y-0 px-3">
-                          <div className="shrink-0 flex justify-center">
-                            <img
-                              className="h-[150px] max-w-full rounded-lg object-cover cursor-pointer"
-                              src={item.imgSrc}
-                              alt="product-icon"
-                              onClick={() =>
-                                navigate(`/products/${item.productName}`)
-                              }
-                            />
-                          </div>
-                          <div className="relative flex flex-1 flex-col xl:!flex-row justify-between">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center">
-                              <div>
-                                <Link
-                                  className={`${
-                                    isMobile ? "!text-center" : "!text-left"
-                                  } no-underline text-base font-semibold text-gray-900 cursor-pointer hover:!text-[#0f4a51]`}
-                                  to={`/products/${item.productName}`}
-                                >
-                                  {item.productName}
-                                </Link>
-                                <p
-                                  className={`mx-0 mt-1 mb-0 text-sm text-gray-400`}
-                                >
-                                  {truncateText(item.productDescription, 13)}{" "}
-                                  <Link
-                                    to={`/products/${item.productName}`}
-                                    className="text-sm text-[#0f4a51] hover:opacity-80 no-underline"
-                                  >
-                                    {" "}
-                                    Read More
-                                  </Link>
-                                </p>
-                              </div>
-                              {isMobile && !isLargerScreen && (
-                                <div className="flex flex-row items-center gap-4">
-                                  <div className="flex flex-row items-center gap-4">
-                                    <HandleQuantity
-                                      item={item}
-                                      handleItemDecrease={() =>
-                                        handleItemDecrease(item)
-                                      }
-                                      handleItemIncrease={() =>
-                                        handleItemIncrease(item)
-                                      }
-                                      handleItemRemove={() =>
-                                        handleItemRemove(item.id)
-                                      }
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                              <div className="flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end xl:!items-center">
-                                <p className="shrink-0 text-base font-semibold text-gray-900 sm:order-2 md:ml-5 sm:text-right">
-                                  ₹{getTotalForItem(item)}
-                                </p>
-                                {isLargerScreen && (
-                                  <div className="flex flex-row items-center gap-4">
-                                    <HandleQuantity
-                                      item={item}
-                                      handleItemDecrease={() =>
-                                        handleItemDecrease(item)
-                                      }
-                                      handleItemIncrease={() =>
-                                        handleItemIncrease(item)
-                                      }
-                                      handleItemRemove={() =>
-                                        handleItemRemove(item.id)
-                                      }
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                            {!isMobile && !isLargerScreen && (
-                              <div className="flex flex-row items-center gap-4 mt-4 md:self-start">
-                                <div className="flex flex-row items-center gap-4">
-                                  <HandleQuantity
-                                    item={item}
-                                    handleItemDecrease={() =>
-                                      handleItemDecrease(item)
-                                    }
-                                    handleItemIncrease={() =>
-                                      handleItemIncrease(item)
-                                    }
-                                    handleItemRemove={() =>
-                                      handleItemRemove(item.id)
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </li>
-                        <FadedLineBreak />
+
+          <div className="flex flex-col lg:flex-row gap-6 px-4">
+            <div className="lg:w-3/5 xl:w-7/12 rounded-xl shadow-lg p-3 sm:p-6">
+              <ul className="divide-y divide-gray-200">
+                {cartItems?.map((item) => (
+                  <li
+                    key={item.id}
+                    className="flex flex-col sm:flex-row gap-4 py-4 sm:py-6"
+                  >
+                    <div className="shrink-0">
+                      <img
+                        className="h-28 w-28 object-cover rounded-lg cursor-pointer border border-gray-100"
+                        src={item.imgSrc}
+                        alt="product-icon"
+                        onClick={() =>
+                          navigate(`/products/${item.productName}`)
+                        }
+                      />
+                    </div>
+
+                    <div className="flex flex-1 flex-col justify-between">
+                      <div className="flex justify-between items-start">
+                        <div className="w-full sm:w-3/5 pr-4">
+                          <Link
+                            className={`no-underline text-base font-semibold text-gray-800 cursor-pointer hover:!text-[${PRIMARY_COLOR}] line-clamp-2`}
+                            to={`/products/${item.productName}`}
+                          >
+                            {item.productName}
+                          </Link>
+                          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                            {item.productDescription}
+                          </p>
+                        </div>
+
+                        <div className="flex flex-col items-end gap-2">
+                          <p className="shrink-0 text-lg font-bold text-gray-900">
+                            {INRCurrency(getTotalForItem(item))}
+                          </p>
+                          <HandleQuantity
+                            item={item}
+                            handleItemDecrease={() => handleItemDecrease(item)}
+                            handleItemIncrease={() => handleItemIncrease(item)}
+                            handleItemRemove={() => handleItemRemove(item.id)}
+                          />
+                        </div>
                       </div>
-                    ))}
-                  </ul>
-                  <div className="flex justify-center md:!justify-end lg:!justify-center xl:!justify-end px-4 lg:!px-0 mb-4 lg:ml-3">
-                    <button
-                      className="flex items-center justify-center gap-1 px-4 py-2 w-full md:!w-1/3 font-bold lg:!w-full xl:!w-1/3 rounded bg-gray-700 text-white hover:opacity-80"
-                      onClick={() => handleEmptyCart(cartItems)}
-                    >
-                      <MdDeleteForever size="1.5rem" className="text-white" />
-                      Empty Cart
-                    </button>
-                  </div>
+
+                      {isMobile && (
+                        <button
+                          onClick={() => handleItemRemove(item.id)}
+                          className="text-sm text-red-500 font-medium hover:text-red-700 mt-2 self-start"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex justify-end pt-4 border-t mt-4">
+                <button
+                  className="flex items-center cursor-pointer gap-1 px-4 py-2 text-sm font-bold rounded bg-gray-200 text-gray-700 hover:bg-gray-300 transition duration-200"
+                  onClick={handleEmptyCart}
+                >
+                  <MdDeleteForever size="1.2rem" />
+                  Empty Cart
+                </button>
+              </div>
+            </div>
+
+            <div className="lg:w-2/5 xl:w-5/12">
+              <div className="flex flex-col rounded-xl shadow-lg p-5 sticky top-4 bg-white">
+                <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
+                  Order Summary
+                </h2>
+                <div
+                  className={`p-3 text-sm text-center font-bold rounded-lg mb-4 text-white ${
+                    originalCartValue >= SHIPPING_THRESHOLD
+                      ? `bg-[${PRIMARY_COLOR}]`
+                      : `bg-gray-500`
+                  }`}
+                >
+                  {freeDeliveryMessage}
                 </div>
-                <div className="flex flex-col border shadow rounded p-4 lg:self-start font-poppins">
-                  <div className="text-2xl font-bold text-center">
-                    Cart Value
-                  </div>
-                  <div className="rounded-2xl bg-slate-50 text-coal py-4 px-2 my-4 shadow">
-                    <p className="font-bold text-xl text-center mb-4">
-                      Available Coupons
-                    </p>
+
+                <div className="border rounded-lg p-3 mb-4 bg-gray-50">
+                  <p
+                    className={`font-bold text-base text-center mb-3 text-[${PRIMARY_COLOR}]`}
+                  >
+                    Available Coupons
+                  </p>
+                  <div className="space-y-2">
                     {availableCoupons.length === 0 ? (
-                      <div className="flex font-bold text-[#0f4a51] p-2">
-                        Sorry! No Coupons Available at the moment.
-                        <TbMoodSadSquint size="2rem" />
+                      <div
+                        className={`flex font-bold text-[${PRIMARY_COLOR}] text-sm p-1 justify-center items-center`}
+                      >
+                        Sorry! No Coupons Available.
+                        <TbMoodSadSquint size="1.5rem" className="ml-1" />
                       </div>
                     ) : (
                       availableCoupons.map((coupon) => (
                         <div
                           key={coupon.id}
-                          className="mb-3 bg-[#ecf2fb] p-1 rounded"
+                          className="text-sm p-1 rounded border border-dashed border-gray-300"
                         >
                           <StarRateRoundedIcon
-                            style={{ color: "#fde047", fontSize: "1.6rem" }}
+                            style={{ color: "#fde047", fontSize: "1rem" }}
                           />
-                          <span key={coupon.id}>{coupon.description} - </span>
+                          <span className="ml-1">{coupon.description} - </span>
                           <button
-                            className={`text-[#0f4a51] font-bold cursor-pointer hover:opacity-80 ${
+                            className={`text-[${PRIMARY_COLOR}] font-bold cursor-pointer hover:opacity-80 transition duration-150 ${
                               couponCodeName === coupon.couponCode
                                 ? "underline"
                                 : ""
@@ -398,130 +394,150 @@ function Cart() {
                               handleCouponClick(coupon?.couponCode)
                             }
                           >
-                            {coupon.couponCode}{" "}
+                            {coupon.couponCode}
                           </button>
                         </div>
                       ))
                     )}
                     {availableCoupons.length > 1 && (
-                      <small>
-                        <span className="font-bold">Note: </span>You cannot club
-                        2 coupons
+                      <small className="block text-center text-gray-500 text-xs mt-1">
+                        * You cannot club multiple coupons.
                       </small>
                     )}
                   </div>
-                  <div className="p-2 text-lg bg-emerald-800 text-white shadow rounded-xl text-center font-bold">
-                    {freeDeliveryStatus()}
+                </div>
+
+                <div className="space-y-2 border-t pt-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-gray-700">
+                      Subtotal ({cartItems.length} items)
+                    </p>
+                    <p className="text-base font-semibold text-gray-800">
+                      {INRCurrency(originalCartValue)}
+                    </p>
                   </div>
-                  <div className="mt-6 border-t border-b py-2">
+
+                  {couponDiscount > 0 && (
                     <div className="flex items-center justify-between">
-                      <p className="text-kashmirBlue">Subtotal</p>
-                      <p className="text-lg font-semibold text-cello">
-                        {isCouponApplied
-                          ? `${INRCurrency(originalCartValue)}`
-                          : `${INRCurrency(totalCartValue)}`}
+                      <p className="text-green-600 font-medium">
+                        Coupon Discount
+                      </p>
+                      <p className="text-base font-semibold text-green-600">
+                        - {INRCurrency(couponDiscount)}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <p className="text-kashmirBlue">Shipping</p>
-                      {shippingCharges === 0 ? (
-                        <div className="flex gap-1 items-center self-start">
-                          <span className="text-left text-slate-400 line-through font-bold mr-4">
-                            ₹{originalShippingCharges}
-                          </span>
-                          <span className="text-lg font-semibold text-cello">
-                            ₹{shippingCharges.toFixed(2)}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-lg font-semibold text-cello">
-                          ₹{shippingCharges.toFixed(2)}
+                  )}
+
+                  <div className="flex items-center justify-between">
+                    <p className="text-gray-700">Shipping Charges</p>
+                    {shippingCharges === 0 ? (
+                      <div className="flex gap-1 items-center">
+                        <span className="text-sm text-slate-400 line-through mr-2">
+                          {INRCurrency(ORIGINAL_SHIPPING_CHARGES)}
                         </span>
-                      )}
-                    </div>
-                    {isCouponApplied ? (
-                      <div className="p-2 rounded font-bold my-4">
-                        <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-                          <p className="flex text-[#0f4a51] items-center gap-2">
-                            {couponCodeName} Applied{" "}
-                            <FaCircleCheck size="1rem" fill="green" />
-                          </p>
-                          <button
-                            className="text-bitterSweet text-sm underline cursor-pointer hover:opacity-80"
-                            onClick={handleRemoveCoupon}
-                          >
-                            Remove Coupon
-                          </button>
-                        </div>
-                        <span className="font-bold bg-emerald-700 text-white p-2 rounded text-ce">
-                          Congratulations! You got{" "}
-                          {INRCurrency(amountAfterCoupon)} OFF
+                        <span className="text-base font-semibold text-green-600">
+                          FREE
                         </span>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center justify-content-end lg:!justify-between mt-4 my-4">
-                        <Suspense fallback={<div />}>
-                          <CustomTextField
-                            textClassOverride="!text-kashmirBlue"
-                            placeholderClasses="placeholder:!opacity-30 !text-licorice"
-                            className="h-12 rounded-md !bg-transparent"
-                            placeholder="Enter"
-                            labelToShow="Have a coupon? Apply here"
-                            name="name"
-                            textFieldColorClass="shadow-insetLight"
-                            inputClassName="!bg-transparent"
-                            fieldWidth="!mb-4"
-                            value={couponCodeName}
-                            onChange={(e) => setCouponCodeName(e.target.value)}
-                          />
-                        </Suspense>
-                        <button
-                          onClick={() => handleCouponApply(couponCodeName)}
-                          className="mt-1 px-4 py-2 h-12 text-sm bg-emerald-800 text-white rounded focus:outline-none focus:ring-2 focus:ring-green-500 hover:opacity-80 mb-4"
-                        >
-                          Apply Coupon
-                        </button>
-                        {showMinValueMessage && (
-                          <small className="text-sm text-bitterSweet">
-                            {showMinValueMessage}
-                          </small>
-                        )}
-                      </div>
+                      <span className="text-base font-semibold text-gray-800">
+                        {INRCurrency(shippingCharges)}
+                      </span>
                     )}
                   </div>
-                  <div className="mt-6 flex items-center justify-between">
-                    <p className="font-medium text-kashmirBlue">Total</p>
-                    <p className="text-xl font-semibold text-coal">
-                      {INRCurrency(totalCartValue + shippingCharges)}
-                    </p>
-                  </div>
-                  <div className="mt-6 flex justify-end mb-5">
-                    <CustomButton
-                      label="Checkout"
-                      onClick={handleCartSubmit}
-                      startIcon={
-                        <MdOutlineShoppingCartCheckout
-                          size="1.5rem"
-                          className="ml-2 group-hover:scale-110 group-hover:!ml-5"
+                </div>
+
+                <div className="mt-4 pt-4 border-t">
+                  {isCouponApplied ? (
+                    <div className="p-3 bg-green-50 rounded font-bold my-2 border border-green-300">
+                      <div className="flex justify-between items-center mb-2">
+                        <p
+                          className={`flex text-green-700 items-center gap-2 text-sm`}
+                        >
+                          <FaCircleCheck size="0.9rem" /> {couponCodeName}{" "}
+                          Applied
+                        </p>
+                        <button
+                          className="text-red-500 text-xs cursor-pointer underline hover:opacity-80 transition duration-150"
+                          onClick={handleRemoveCoupon}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      <span className="text-sm text-green-700">
+                        You saved {INRCurrency(couponDiscount)}!
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="mt-2">
+                      <Suspense fallback={<div />}>
+                        <CustomTextField
+                          placeholder="Enter coupon code here"
+                          labelToShow="Have a coupon?"
+                          name="coupon"
+                          value={couponCodeName}
+                          onChange={(e) => setCouponCodeName(e.target.value)}
+                          textFieldColorClass="shadow-insetLight"
+                          inputClassName="!bg-transparent"
+                          fieldWidth="!mb-0"
+                          textClassOverride="!text-gray-700"
                         />
-                      }
-                    />
-                  </div>
+                      </Suspense>
+                      <button
+                        onClick={() => handleCouponApply(couponCodeName)}
+                        className={`mt-2 px-4 py-2 text-sm text-white rounded cursor-pointer focus:outline-none transition duration-300 w-full font-semibold ${
+                          couponCodeName.trim()
+                            ? `bg-[${PRIMARY_COLOR}] hover:bg-[${SECONDARY_COLOR}]`
+                            : "bg-gray-400 cursor-not-allowed"
+                        }`}
+                        disabled={!couponCodeName.trim()}
+                      >
+                        Apply Coupon
+                      </button>
+                      {showMinValueMessage && (
+                        <small className="text-sm text-red-500 block mt-2">
+                          {showMinValueMessage}
+                        </small>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-6 flex items-center justify-between border-t border-dashed pt-4">
+                  <p className="font-bold text-xl text-gray-700">Order Total</p>
+                  <p className={`text-3xl font-bold text-[${PRIMARY_COLOR}]`}>
+                    {INRCurrency(grandTotal)}
+                  </p>
+                </div>
+
+                <div className="mt-6">
+                  <BrandedButton
+                    label="Proceed to Checkout"
+                    onClick={handleCartSubmit}
+                    startIcon={
+                      <MdOutlineShoppingCartCheckout
+                        size="1.5rem"
+                        className="mr-2 group-hover:scale-110 transition duration-300"
+                      />
+                    }
+                  />
                 </div>
               </div>
             </div>
-          </>
-        )}
-        <FadedLineBreak />
-        <motion.div
-          variants={FadeInWrapper("left", 0.1)}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          <BuyMoreProducts productCategory="" />
-        </motion.div>
-      </div>
+          </div>
+        </>
+      )}
+
+      <motion.div
+        variants={FadeInWrapper("up", 0.1)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="mt-12 px-4"
+      >
+        <BuyMoreProducts productCategory="" />
+      </motion.div>
+
       {removeItem && (
         <ConfirmationModal
           isEmptyCart={isEmptyCart}

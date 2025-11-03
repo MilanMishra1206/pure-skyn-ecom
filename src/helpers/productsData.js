@@ -1619,7 +1619,7 @@ const productContent = {
   },
 };
 
-export const productList = {
+export const productList2 = {
   skin: {
     sunscreen: {
       "Dermatica Aze Proactive Lotion": {
@@ -2281,7 +2281,7 @@ export const productList = {
   },
 };
 
-export const flatArray = [
+export const productList = [
   {
     id: 1,
     productName: "Dermatica Aze Proactive Lotion",

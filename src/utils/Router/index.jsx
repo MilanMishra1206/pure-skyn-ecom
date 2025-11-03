@@ -6,9 +6,9 @@ import LoginPage from "../../pages/LoginPage";
 import ScrollToTopButton from "../../shared/CustomBackToTopButton";
 import CustomFooter from "../../shared/CustomFooter";
 import FAQPage from "../../components/FAQPage";
-import ProductsPage from "../../pages/ProductsPage";
 import ArthwaProducts from "../../pages/ArthwaProducts";
 import PureSkynProductDetails from "../../pages/ProductDetails";
+import ProductsCart from "../../pages/ProductsCart";
 
 const CustomNavbar = lazy(() => import("../../shared/CustomNavbar"));
 const PageNotFound = lazy(() => import("../../shared/PageNotFound"));
@@ -25,16 +25,6 @@ const routesConfig = [
     accessRule: "public",
   },
   {
-    path: "/new-products/:category/:productName",
-    Component: ProductsPage,
-    accessRule: "public",
-  },
-  {
-    path: "/new-products/:category",
-    Component: ProductsPage,
-    accessRule: "public",
-  },
-  {
     path: "/products",
     Component: ArthwaProducts,
     accessRule: "public",
@@ -47,6 +37,11 @@ const routesConfig = [
   {
     path: "/products/:category/:productName",
     Component: PureSkynProductDetails,
+    accessRule: "public",
+  },
+  {
+    path: "/products-cart",
+    Component: ProductsCart,
     accessRule: "public",
   },
   {

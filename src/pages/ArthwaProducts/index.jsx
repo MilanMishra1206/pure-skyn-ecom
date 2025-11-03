@@ -1,7 +1,13 @@
-import Products from "../../components/Products";
+import { lazy, Suspense } from "react";
+
+const Products = lazy(() => import("../../components/Products"));
 
 function ArthwaProducts() {
-  return <Products />;
+  return (
+    <Suspense fallback={<div />}>
+      <Products />
+    </Suspense>
+  );
 }
 
 export default ArthwaProducts;

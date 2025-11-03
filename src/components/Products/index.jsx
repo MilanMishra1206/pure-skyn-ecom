@@ -1,12 +1,12 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
 import { IoFilterSharp } from "react-icons/io5";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { useAppSnackbar } from "../../config/Context/SnackbarContext";
-import { addToCart } from "../../redux/Actions";
+import { addToCart, updateQuantity, removeFromCart } from "../../redux/Actions";
 import { productList } from "../../helpers/productsData";
 import FadeInWrapper from "../../config/MotionFramer/FadeInWrapper";
 import BreadcrumbSection from "./BreadcrumbSection";
@@ -17,20 +17,6 @@ import PaginationControls from "./PaginationControls";
 
 const CustomLoader = lazy(() => import("../../shared/CustomLoader"));
 
-// Helper function to safely extract all product objects from a nested type object
-const extractProductsFromType = (typeObject) => {
-  if (!typeObject || typeof typeObject !== "object") return [];
-  // Object.values extracts the product objects {id: X, productName: Y}
-  return Object.values(typeObject);
-};
-
-const flattenCategoryProducts = (categoryObject) => {
-  if (!categoryObject || typeof categoryObject !== "object") return [];
-  // Object.values(categoryObject) gives us an array of the type objects (e.g., [sunscreen_obj, pigmentation_obj])
-  // .flatMap() then runs extractProductsFromType on each of those type objects and flattens the result
-  return Object.values(categoryObject).flatMap(extractProductsFromType);
-};
-
 const Products = () => {
   const dispatch = useDispatch();
   const { category: urlCategory } = useParams();
@@ -38,6 +24,8 @@ const Products = () => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const showSnackbar = useAppSnackbar();
+  const cartItems = useSelector((state) => state.cart.items);
+
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [totalProductCount, setTotalProductCount] = useState(0);
@@ -47,19 +35,31 @@ const Products = () => {
   );
   const productsPerPage = 12;
 
-  // Memoized product list based on the URL or the internal category filter
   const baseProducts = useMemo(() => {
     const filterKey = urlCategory || selectedCategoryFilter;
+    const allProducts = productList;
 
     if (filterKey === "all") {
-      // Show all products from all categories
-      return Object.values(productList).flatMap(flattenCategoryProducts);
+      return allProducts;
     }
-    // Show products for the specific category from URL or filter
-    return flattenCategoryProducts(productList[filterKey]);
+    return allProducts.filter(
+      (p) => p.category.toLowerCase() === filterKey.toLowerCase()
+    );
   }, [urlCategory, selectedCategoryFilter]);
 
   const allProductsFlat = baseProducts;
+
+  useEffect(() => {
+    // If the URL category is set, ensure the filter state matches it.
+    // If the URL category is NOT set (i.e., we are on /products), ensure the filter state is 'all'.
+    const currentCategory = urlCategory || "all";
+    if (selectedCategoryFilter !== currentCategory) {
+        setSelectedCategoryFilter(currentCategory);
+        // Reset sub-types and pagination when the main category changes
+        setSelectedTypes([]);
+        setCurrentPage(1);
+    }
+}, [urlCategory, selectedCategoryFilter, setSelectedCategoryFilter, setSelectedTypes, setCurrentPage]);
 
   useEffect(() => {
     // Check if a hash exists (e.g., #ageing)
@@ -68,11 +68,12 @@ const Products = () => {
       const initialFilterKey = location.hash.replace("#", "");
 
       // 2. Normalize the category state (if a link for a different category was used)
-      // Example: If user is on /products and clicks skin#ageing, set category to 'skin'
-      if (!urlCategory) {
-        const pathParts = location.pathname.split("/");
-        const categoryFromPath = pathParts[2];
-        if (categoryFromPath && categoryFromPath !== selectedCategoryFilter) {
+      // NOTE: This part is tricky. In the flat structure, you can't easily check
+      // which 'category' an arbitrary 'subCategory' (the hash) belongs to.
+      // We will assume the URL category logic is handled by the router/link creation.
+      if (!urlCategory && location.pathname.split("/").length > 2) {
+        const categoryFromPath = location.pathname.split("/")[2];
+        if (categoryFromPath) {
           setSelectedCategoryFilter(categoryFromPath);
         }
       }
@@ -81,31 +82,28 @@ const Products = () => {
       setSelectedTypes([initialFilterKey]);
       setCurrentPage(1); // Reset pagination
     }
-  }, [location.hash, location.pathname, selectedCategoryFilter, urlCategory]); // Reruns whenever the hash changes (e.g., navigating from one hash link to another)
+  }, [location.hash, location.pathname, selectedCategoryFilter, urlCategory]);
 
+  // --- UPDATED LOGIC FOR availableProductTypes (Sidebar options) ---
   const availableProductTypes = useMemo(() => {
-    const activeCategoryKey = urlCategory || selectedCategoryFilter;
+    // Get unique subCategory values from the currently visible products (baseProducts)
+    const uniqueTypes = new Set(
+      baseProducts.map((p) => p.subCategory).filter(Boolean) // Filter out null/undefined
+    );
 
-    if (activeCategoryKey === "all" || !productList[activeCategoryKey]) {
-      // If showing all, list all available sub-types (simplified for this example)
-      return [
-        { key: "sunscreen", label: "Sunscreen" },
-        { key: "pigmentation", label: "Pigmentation" },
-        { key: "shampoo", label: "Shampoo" },
-        { key: "oil", label: "Oil" },
-      ];
-    }
-    // List only sub-types available in the current selected category
-    return Object.keys(productList[activeCategoryKey]).map((key) => ({
+    // Map the unique keys to the { key: 'value', label: 'Value' } format
+    return Array.from(uniqueTypes).map((key) => ({
       key,
       label: key.charAt(0).toUpperCase() + key.slice(1),
     }));
-  }, [urlCategory, selectedCategoryFilter]);
+  }, [baseProducts]); // BaseProducts determines which types are available
 
   const handleCategoryFilterChange = (key) => {
     setSelectedCategoryFilter(key);
     setSelectedTypes([]); // Reset sub-type filters when category changes
     setCurrentPage(1);
+    // You may also want to update the URL here if it doesn't already happen via router/links
+    // navigate(`/products/${key}`, { replace: true });
   };
 
   const toggleFilterDrawer = (open) => () => setIsFilterDrawerOpen(open);
@@ -134,27 +132,39 @@ const Products = () => {
     });
   };
 
-  const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
-    showSnackbar("Product Added to Cart", "success");
+  const handleItemIncrease = (item) => {
+    dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
   };
-  const filteredProducts =
-    selectedTypes.length === 0
-      ? allProductsFlat // No sub-filters, use the base list determined by URL/CategoryFilter
-      : selectedTypes.flatMap((type) => {
-          const activeCategoryKey = urlCategory || selectedCategoryFilter;
 
-          if (activeCategoryKey !== "all" && productList[activeCategoryKey]) {
-            // Filter within the specific category (URL or internal filter)
-            return extractProductsFromType(
-              productList[activeCategoryKey][type]
-            );
-          }
-          // If viewing ALL, filter across all categories for the selected type
-          return Object.values(productList).flatMap((categoryObj) =>
-            extractProductsFromType(categoryObj[type])
-          );
-        });
+  const handleItemDecrease = (item) => {
+    if (item.quantity > 1) {
+      dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }));
+    }
+  };
+
+  const handleAddToCart = (product) => {
+    const existingItem = cartItems.find((item) => item.id === product.id);
+
+    if (existingItem) {
+      handleItemIncrease(existingItem);
+      showSnackbar("Product Quantity Increased", "info");
+    } else {
+      dispatch(addToCart(product));
+      showSnackbar("Product Added to Cart", "success");
+    }
+  };
+
+  const handleItemRemove = (product) => {
+    dispatch(removeFromCart(product.id));
+    showSnackbar("Product Removed from Cart", "info");
+  };
+
+  const filteredProducts = useMemo(() => {
+    if (selectedTypes.length === 0) {
+      return allProductsFlat;
+    }
+    return allProductsFlat.filter((p) => selectedTypes.includes(p.subCategory));
+  }, [selectedTypes, allProductsFlat]);
 
   useEffect(() => {
     setTotalProductCount(filteredProducts?.length);
@@ -189,7 +199,7 @@ const Products = () => {
   };
 
   return (
-    <div className="mt-5">
+    <div>
       <Suspense>
         <CustomLoader open={false} />
       </Suspense>
@@ -216,7 +226,7 @@ const Products = () => {
       <ProductFilterDrawer
         open={isFilterDrawerOpen}
         toggleDrawer={toggleFilterDrawer}
-        productTypes={availableProductTypes} // Use the calculated list
+        productTypes={availableProductTypes}
         selectedTypes={selectedTypes}
         onChange={handleTypeChange}
       />
@@ -229,19 +239,19 @@ const Products = () => {
             className="flex gap-2 justify-center items-center mb-4 font-poppins px-5 self-start w-[25%]"
           >
             <SidebarFilters
-              categories={Object.keys(productList)} // e.g., ['skin', 'hair']
+              categories={["all", "skin"]}
               selectedCategory={selectedCategoryFilter}
-              onCategoryChange={handleCategoryFilterChange} // New Handler
-              productTypes={availableProductTypes} // Use the calculated list
+              onCategoryChange={handleCategoryFilterChange}
+              productTypes={availableProductTypes}
               selectedTypes={selectedTypes}
               onChange={handleTypeChange}
-              isCollectionPage={!urlCategory} // True if on /products route
+              isCollectionPage={!urlCategory}
             />
           </motion.div>
         )}
         <>
           {filteredProducts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center min-h-[300px] px-4 text-center w-[60%]">
+            <div className="flex flex-col items-center justify-center min-h-[300px] px-4 text-center w-full lg:w-[60%]">
               <MdOutlineProductionQuantityLimits className="text-5xl text-gray-400 mb-4" />
               <h2 className="text-xl font-semibold text-gray-700">
                 We are adding products soon
@@ -255,13 +265,17 @@ const Products = () => {
               variants={FadeInWrapper("up", 0.2)}
               initial="hidden"
               whileInView="show"
-              className="w-[75%]"
+              className="w-full lg:w-[75%]"
             >
               <ProductGrid
                 products={paginateProducts()}
-                onAddToCart={handleAddToCart}
                 isMobile={isMobile}
                 totalProductCount={totalProductCount}
+                cartItems={cartItems}
+                onAddToCart={handleAddToCart}
+                onIncrease={handleItemIncrease}
+                onDecrease={handleItemDecrease}
+                onRemove={handleItemRemove}
               />
             </motion.div>
           )}

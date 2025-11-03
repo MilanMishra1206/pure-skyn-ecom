@@ -62,7 +62,7 @@ function CustomTextField({
             labelToShow ? (
               <>
                 <span className="!mt-1 !font-poppins !text-cello !font-medium">{labelToShow}</span>
-                {requiredStar && <span className="text-bitterSweet">*</span>}
+                {requiredStar && <span className="text-[#FF6262]">*</span>}
               </>
             ) : undefined
           }
@@ -186,7 +186,7 @@ function CustomTextField({
           name={name}
         />
       </div>
-      {touched && error && <p className="mt-2 ml-1 text-xs text-bitterSweet">{error}</p>}
+      {touched && error && <p className="mt-2 ml-1 text-xs text-[#FF6262]">{error}</p>}
     </div>
   );
 }
