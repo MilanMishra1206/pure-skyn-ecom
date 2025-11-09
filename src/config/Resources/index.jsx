@@ -1,5 +1,5 @@
-// const base = `${import.meta.env.BASE_URL}images`;
-const base = "/images";
+const base = `${import.meta.env.BASE_URL}images`;
+// const base = "/images";
 
 const Resources = {
   images: {
