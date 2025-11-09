@@ -140,7 +140,6 @@ function ProductsDetails() {
     );
   }
 
-  // --- Render Logic ---
   return (
     <div>
       <motion.div
@@ -148,7 +147,7 @@ function ProductsDetails() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
-        className="p-2 md:!p-6 lg:!p-10"
+        className="p-2 mt-4 md:!p-6 lg:!p-10"
       >
         <div className={`mb-4 ${isMobile ? "" : "px-1"} font-poppins`}>
           <Breadcrumbs separator="›" aria-label="breadcrumb" className="mb-6">

@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@mui/material";
+import { Card, CardContent, useMediaQuery } from "@mui/material";
 import CustomButton from "../CustomButton";
 import { useRef, useState, useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function CustomSection({ items, cardClassName = "", titleClasses = "" }) {
   const navigate = useNavigate();
   const scrollRef = useRef(null);
+  const isTablet = useMediaQuery("(max-width: 768px)");
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -30,6 +31,8 @@ function CustomSection({ items, cardClassName = "", titleClasses = "" }) {
       behavior: "smooth",
     });
   };
+
+  const handleProductNavigate = (link) => navigate(link)
 
   return (
     <div className="mb-4 md:mb-8 !font-poppins relative">
@@ -61,6 +64,7 @@ function CustomSection({ items, cardClassName = "", titleClasses = "" }) {
             <Card
               key={index}
               className="!rounded-none !bg-transparent !shadow-none !shrink-0 md:!aspect-auto !min-w-[50vw] !max-w-[50vw] md:!min-w-[25%] md:!max-w-[25%] !cursor-pointer group hover:!shadow-md"
+              onClick={() => isTablet && handleProductNavigate(item.link)}
             >
               <CardContent className="!p-0 !bg-transparent overflow-hidden flex flex-col hover:!shadow-md">
                 <div
@@ -110,7 +114,7 @@ function CustomSection({ items, cardClassName = "", titleClasses = "" }) {
                     label="Shop Now"
                     variant="outlined"
                     className="!rounded-3xl !hidden group-hover:!block w-1/2 !px-3 !py-2 !text-sm !h-10"
-                    onClick={() => navigate(item.link)}
+                    onClick={() => handleProductNavigate(item.link)}
                   />
                 </div>
               </CardContent>

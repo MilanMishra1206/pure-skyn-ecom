@@ -86,7 +86,7 @@ function Router() {
       </Suspense>
 
       {/* Main Content */}
-      <main className={`flex-1 ${isLoginPage ? "md:pt-[60px]" : "pt-[155px]"}`}>
+      <main className={`flex-1 ${isLoginPage ? "md:pt-[60px]" : "pt-[110px]"}`}>
         <Routes>
           {routesConfig.map(({ path, Component, accessRule }, index) => (
             <Route

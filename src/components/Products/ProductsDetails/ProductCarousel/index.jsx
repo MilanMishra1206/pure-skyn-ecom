@@ -6,11 +6,19 @@ function ProductCarousel({ carouselContent }) {
   const settings = {
     dots: false,
     infinite: false,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 1,
+    slidesToScroll: 1,
     initialSlide: 1,
     arrows: true,
     responsive: [
+      {
+        breakpoint: 3000,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          dots: true,
+        },
+      },
       {
         breakpoint: 1101,
         settings: {
@@ -31,7 +39,7 @@ function ProductCarousel({ carouselContent }) {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1,
+          slidesToScroll: 4,
         },
       },
     ],

@@ -248,7 +248,7 @@ const Products = () => {
         variants={FadeInWrapper("left", 0.1)}
         initial="hidden"
         whileInView="show"
-        className={`mt-5 ${isMobile ? "p-3" : "pt-5 pl-5"}`}
+        className={`${isMobile ? "p-3" : "mt-5 pt-4 pl-5"}`}
       >
         <BreadcrumbSection category={urlCategory} />
       </motion.div>
