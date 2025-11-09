@@ -1,27 +1,36 @@
-import CustomCarousel from "../../shared/CustomCarousel";
-
-const sliderData = [
-  {
-    title: "Slide 1",
-    description: "This is the first slide",
-    image: "https://picsum.photos/1600/600?random=1",
-  },
-  {
-    title: "Slide 2",
-    description: "This is the second slide",
-    image: "https://picsum.photos/1600/600?random=2",
-  },
-  {
-    title: "Slide 3",
-    description: "This is the third slide",
-    image: "https://picsum.photos/1600/600?random=3",
-  },
-];
+import Resources from "../../config/Resources";
+import {
+  hairCategories,
+  hairCategoryDetails,
+  skinCategories,
+  skinCategoryDetails,
+} from "../../helpers/Dashboard";
+import { bannerData } from "../../helpers/dummyData";
+import CustomProductsSection from "../../shared/CustomProductsSection";
+import CustomSection from "../../shared/CustomSection";
+import NewsCarousel from "../NewsCarousel";
 
 function Dashboard() {
   return (
-    <div>
-      <CustomCarousel slides={sliderData} />
+    <div className="flex gap-4 flex-col">
+      <img src={Resources.images.home.banner.bannerMain} alt="main banner" />
+      <div className="flex flex-col gap-4">
+        <p className="text-xl font-semibold px-2 lg:!px-10">
+          Expert Guidance Only
+        </p>
+        <CustomSection items={bannerData} />
+        <CustomProductsSection
+          heading="Proven Skincare"
+          categories={skinCategories}
+          categoryDetails={skinCategoryDetails}
+        />
+        <CustomProductsSection
+          heading="Healthy Hair Starts Here"
+          categories={hairCategories}
+          categoryDetails={hairCategoryDetails}
+        />
+        <NewsCarousel />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,8 @@ import { AppSnackbarProvider } from "./config/Context/SnackbarContext";
 import Theme from "./config/Theme";
 import Router from "./utils/Router";
 import { SnackbarProvider } from "notistack";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import "./index.css";
 
 function App() {

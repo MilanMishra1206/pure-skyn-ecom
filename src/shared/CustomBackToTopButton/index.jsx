@@ -33,7 +33,7 @@ const ScrollToTopButton = () => {
         whileInView="show"
         viewport={{ once: true }}
         onClick={scrollToTop}
-        className="fixed !bottom-[100px] !right-[50px] p-3 bg-skyn text-white font-bold text-2xl rounded-full shadow-lg transition-opacity duration-300 hover:!scale-110"
+        className="fixed !bottom-[100px] !right-[50px] p-3 bg-gray-900 text-white font-bold text-2xl rounded-full shadow-lg transition-opacity duration-300 hover:!scale-110"
       >
         ↑
       </motion.button>

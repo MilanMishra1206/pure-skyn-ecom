@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 import Resources from "../../../config/Resources";
 import MobileSubMenu from "./MobileSubMenu";
+import { productList } from "../../../helpers/productsData";
 
 function MobileMenu({ onClose }) {
   const [openSubMenu, setOpenSubMenu] = useState(null);
@@ -10,14 +11,25 @@ function MobileMenu({ onClose }) {
     setOpenSubMenu(openSubMenu === menu ? null : menu);
   };
 
+  const brandCollection = Array.from(
+    new Set(productList.map((product) => product.brand).sort())
+  ).map((brandName) => ({
+    label: brandName,
+    to: `/products#${brandName}`,
+  }));
+
   return (
     <div className="h-full flex flex-col bg-white">
-      <div className="flex justify-between items-center px-2 h-[70px] border-b border-black/10">
-        <Link to="/" className="text-xl font-bold text-[#8D261F]">
-          PureSkyn Meds
+      <div className="flex justify-between items-center px-2 border-b border-black/10">
+        <Link to="/" className="text-xl font-bold text-[#0f4a51]">
+          <img
+            src={Resources.images.home.arthwaLogo}
+            alt="Arthwa_Logo"
+            className="h-20 w-auto"
+          />
         </Link>
         <button
-          className="text-2xl text-[#8D261F] cursor-pointer"
+          className="text-2xl text-[#0f4a51] cursor-pointer"
           onClick={onClose}
         >
           <HiX />
@@ -31,10 +43,7 @@ function MobileMenu({ onClose }) {
           openSubMenu={openSubMenu}
           toggleSubMenu={toggleSubMenu}
           subtitle="Popular Brands"
-          links={[
-            { to: "/brands/brand1", label: "Brand 1" },
-            { to: "/brands/brand2", label: "Brand 2" },
-          ]}
+          links={brandCollection}
           onClose={onClose}
         />
 
@@ -44,12 +53,20 @@ function MobileMenu({ onClose }) {
           openSubMenu={openSubMenu}
           toggleSubMenu={toggleSubMenu}
           image={Resources.images.navbar.skinNavbar}
-          subtitle="Concerns Related to Skin"
+          subtitle="Skin"
           links={[
-            { to: "/skin/ageing", label: "Ageing" },
-            { to: "/skin/acne-scars", label: "Acne & Acne Scars" },
-            { to: "/skin/damaged", label: "Damaged & Sensitive Skin" },
-            { to: "/skin/pigmentation", label: "Pigmentation" },
+            { label: "Sunscreen", to: "/products/skin#sunscreen" },
+            { label: "Face Serum", to: "/products/skin#faceSerum" },
+            { label: "Facewash", to: "/products/skin#facewash" },
+            { label: "Moisturiser", to: "/products/skin#moisturiser" },
+            {
+              label: "Pigmentation",
+              to: "/products/skin#pigmentation",
+            },
+            {
+              label: "Skin Antioxidant",
+              to: "/products/skin#skinAntioxidant",
+            },
           ]}
           onClose={onClose}
         />
@@ -62,9 +79,18 @@ function MobileMenu({ onClose }) {
           image={Resources.images.navbar.hairNavbar}
           subtitle="Hair Care Concerns"
           links={[
-            { to: "/hair/fall", label: "Hair Fall" },
-            { to: "/hair/dandruff", label: "Dandruff" },
-            { to: "/hair/frizzy", label: "Dry & Frizzy Hair" },
+            {
+              label: "Hair Fall Control",
+              to: "/products/hair#antiDandruff",
+            },
+            {
+              label: "Dandruff & Scalp Care",
+              to: "/products/hair#hairGrowth",
+            },
+            {
+              label: "Oral Supplements",
+              to: "/products/hair#oralSupplements",
+            },
           ]}
           onClose={onClose}
         />
@@ -78,7 +104,7 @@ function MobileMenu({ onClose }) {
             key={to}
             to={to}
             onClick={onClose}
-            className="text-[#8D261F] px-2 py-3 cursor-pointer hover:bg-[#f7e3e1] rounded-md text-lg"
+            className="text-[#0f4a51] px-2 py-3 cursor-pointer hover:bg-gray-100 rounded-md text-lg"
           >
             {label}
           </Link>
