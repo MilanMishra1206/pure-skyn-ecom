@@ -1,9 +1,14 @@
 import Resources from "../../config/Resources";
+import {
+  hairCategories,
+  hairCategoryDetails,
+  skinCategories,
+  skinCategoryDetails,
+} from "../../helpers/Dashboard";
 import { bannerData } from "../../helpers/dummyData";
 import CustomProductsSection from "../../shared/CustomProductsSection";
 import CustomSection from "../../shared/CustomSection";
 import NewsCarousel from "../NewsCarousel";
-import HairProductSection from "./HairProductSection";
 
 function Dashboard() {
   return (
@@ -14,8 +19,16 @@ function Dashboard() {
           Expert Guidance Only
         </p>
         <CustomSection items={bannerData} />
-        <CustomProductsSection heading="Proven skincare" />
-        <HairProductSection />
+        <CustomProductsSection
+          heading="Proven Skincare"
+          categories={skinCategories}
+          categoryDetails={skinCategoryDetails}
+        />
+        <CustomProductsSection
+          heading="Healthy Hair Starts Here"
+          categories={hairCategories}
+          categoryDetails={hairCategoryDetails}
+        />
         <NewsCarousel />
       </div>
     </div>

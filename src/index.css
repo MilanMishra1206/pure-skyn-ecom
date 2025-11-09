@@ -1,30 +1,50 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
-
 html,
 body {
   width: 100vw;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  font-family:
-    "Poppins",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Cantarell",
-    "Fira Sans",
-    "Droid Sans",
-    "Helvetica Neue",
-    sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 * {
-  box-sizing: border-box; /* Makes width include padding/borders */
+  box-sizing: border-box;
+}
+
+/* Ensure the arrows are above all other content */
+.slick-prev,
+.slick-next {
+  z-index: 10;
+}
+
+.slick-next {
+  right: -15px; /* Adjust this value to move the right arrow */
+}
+
+/* Optionally adjust the button size and background for visibility */
+.slick-prev:before,
+.slick-next:before {
+  /* Sets the color of the arrow icon (the default font character) */
+  color: #0f4a51; /* Your primary color */
+  font-size: 30px; /* Makes the arrow icon larger */
+  opacity: 0.8;
+}
+
+/* Adjust the button elements themselves */
+.slick-prev.slick-disabled,
+.slick-next.slick-disabled {
+  opacity: 0.3; /* Visually dim disabled arrows */
+  pointer-events: none; /* Disable interaction when not needed */
+}
+
+/* Ensure dots are visible if they are enabled in responsive settings */
+.slick-dots li button:before {
+  color: #0f4a51; /* Dot color */
 }

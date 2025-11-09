@@ -11,7 +11,7 @@ function HandleQuantity({
     <div className="flex items-center gap-2">
       <div
         className={`flex items-stretch text-gray-600 ${
-          isNotCartDrawer ? "w-full h-12" : "h-8"
+          isNotCartDrawer ? "w-full h-10" : "h-8"
         }`}
       >
         <button

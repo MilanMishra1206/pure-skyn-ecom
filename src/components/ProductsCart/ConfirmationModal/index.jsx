@@ -6,7 +6,7 @@ function ConfirmationModal({
   handleCancel,
   handlePrimaryButtonClick,
   confirmButtonText,
-  confirmButtonColor = "bg-red-600 hover:bg-red-700",
+  confirmButtonColor = "bg-red-600 hover:!bg-red-700",
   imageSrc = Resources.images.common.removeItem,
 }) {
   return (
@@ -31,16 +31,16 @@ function ConfirmationModal({
           <h3 className="font-bold text-lg mb-4 text-center text-coal">
             {title}
           </h3>
-          <div className="flex flex-col md:!flex-row justify-center gap-4 mt-6">
+          <div className="flex gap-4 mt-6">
             <button
               onClick={handleCancel}
-              className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300"
+              className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 cursor-pointer w-1/2"
             >
               Cancel
             </button>
             <button
               onClick={handlePrimaryButtonClick}
-              className={`text-white px-4 py-2 rounded-md ${confirmButtonColor} `}
+              className={`text-white px-4 py-2 rounded-md ${confirmButtonColor} cursor-pointer w-1/2`}
             >
               {confirmButtonText}
             </button>

@@ -48,7 +48,7 @@ function ProductCard({ product }) {
   };
 
   return (
-    <Card style={{ width: "inherit" }} className="p-4 shadow rounded-2xl m-2">
+    <Card style={{ width: "inherit" }} className="p-4 shadow rounded-2xl m-2 border border-gray-100">
       <div className="flex items-center justify-center p-2">
         <img
           src={product.imgSrc}
@@ -124,15 +124,13 @@ function ProductCard({ product }) {
         </div>
         <div className="mt-4">
           {isInCart ? (
-            <div className="flex items-center gap-3">
-              <HandleQuantity
-                item={cartItem}
-                handleItemIncrease={() => handleItemIncrease(cartItem)}
-                handleItemDecrease={() => handleItemDecrease(cartItem)}
-                handleItemRemove={() => handleItemRemove(cartItem.id)}
-                isNotCartDrawer
-              />
-            </div>
+            <HandleQuantity
+              item={cartItem}
+              handleItemIncrease={() => handleItemIncrease(cartItem)}
+              handleItemDecrease={() => handleItemDecrease(cartItem)}
+              handleItemRemove={() => handleItemRemove(cartItem.id)}
+              isNotCartDrawer
+            />
           ) : (
             <CustomButton
               label="Add to Cart"

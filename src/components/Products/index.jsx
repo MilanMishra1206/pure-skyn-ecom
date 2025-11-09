@@ -28,6 +28,7 @@ const Products = () => {
 
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedBrands, setSelectedBrands] = useState([]);
   const [totalProductCount, setTotalProductCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState(
@@ -50,27 +51,43 @@ const Products = () => {
   const allProductsFlat = baseProducts;
 
   useEffect(() => {
-    // If the URL category is set, ensure the filter state matches it.
-    // If the URL category is NOT set (i.e., we are on /products), ensure the filter state is 'all'.
-    const currentCategory = urlCategory || "all";
-    if (selectedCategoryFilter !== currentCategory) {
-        setSelectedCategoryFilter(currentCategory);
-        // Reset sub-types and pagination when the main category changes
-        setSelectedTypes([]);
-        setCurrentPage(1);
+    // Determine the category state based on the URL parameter.
+    // If urlCategory is defined (e.g., 'skin'), use it. Otherwise, use 'all'.
+    const expectedCategory = urlCategory || "all";
+
+    if (selectedCategoryFilter !== expectedCategory) {
+      // Only update the state and reset sub-filters if the URL value has changed.
+      setSelectedCategoryFilter(expectedCategory);
+      setSelectedTypes([]);
+      setCurrentPage(1);
     }
-}, [urlCategory, selectedCategoryFilter, setSelectedCategoryFilter, setSelectedTypes, setCurrentPage]);
+  }, [
+    urlCategory,
+    selectedCategoryFilter,
+    setSelectedCategoryFilter,
+    setSelectedTypes,
+    setCurrentPage,
+  ]);
+
+  const availableBrands = useMemo(() => {
+    const uniqueBrands = new Set(
+      baseProducts.map((p) => p.brand).filter(Boolean)
+    );
+    return Array.from(uniqueBrands).map((key) => ({
+      key,
+      label: key.charAt(0).toUpperCase() + key.slice(1),
+    }));
+  }, [baseProducts]);
 
   useEffect(() => {
-    // Check if a hash exists (e.g., #ageing)
     if (location.hash) {
-      // 1. Extract the filter key (e.g., 'ageing')
-      const initialFilterKey = location.hash.replace("#", "");
+      let initialFilterKey = location.hash.replace("#", "");
+      initialFilterKey = decodeURIComponent(initialFilterKey);
 
-      // 2. Normalize the category state (if a link for a different category was used)
-      // NOTE: This part is tricky. In the flat structure, you can't easily check
-      // which 'category' an arbitrary 'subCategory' (the hash) belongs to.
-      // We will assume the URL category logic is handled by the router/link creation.
+      const isBrandFilter = availableBrands.some(
+        (brand) => brand.key.toLowerCase() === initialFilterKey.toLowerCase()
+      );
+
       if (!urlCategory && location.pathname.split("/").length > 2) {
         const categoryFromPath = location.pathname.split("/")[2];
         if (categoryFromPath) {
@@ -78,13 +95,23 @@ const Products = () => {
         }
       }
 
-      // 3. Set the filter state (replaces any existing manual filters)
-      setSelectedTypes([initialFilterKey]);
-      setCurrentPage(1); // Reset pagination
+      if (isBrandFilter) {
+        setSelectedBrands([initialFilterKey]);
+        setSelectedTypes([]);
+      } else {
+        setSelectedTypes([initialFilterKey]);
+        setSelectedBrands([]);
+      }
+      setCurrentPage(1);
     }
-  }, [location.hash, location.pathname, selectedCategoryFilter, urlCategory]);
+  }, [
+    location.hash,
+    location.pathname,
+    selectedCategoryFilter,
+    urlCategory,
+    availableBrands,
+  ]);
 
-  // --- UPDATED LOGIC FOR availableProductTypes (Sidebar options) ---
   const availableProductTypes = useMemo(() => {
     // Get unique subCategory values from the currently visible products (baseProducts)
     const uniqueTypes = new Set(
@@ -96,14 +123,19 @@ const Products = () => {
       key,
       label: key.charAt(0).toUpperCase() + key.slice(1),
     }));
-  }, [baseProducts]); // BaseProducts determines which types are available
+  }, [baseProducts]);
 
   const handleCategoryFilterChange = (key) => {
-    setSelectedCategoryFilter(key);
-    setSelectedTypes([]); // Reset sub-type filters when category changes
+    setSelectedTypes([]);
     setCurrentPage(1);
-    // You may also want to update the URL here if it doesn't already happen via router/links
-    // navigate(`/products/${key}`, { replace: true });
+
+    if (key === "all") {
+      navigate("/products", { replace: true });
+    } else {
+      navigate(`/products/${key}`, { replace: true });
+    }
+
+    setSelectedCategoryFilter(key);
   };
 
   const toggleFilterDrawer = (open) => () => setIsFilterDrawerOpen(open);
@@ -160,11 +192,20 @@ const Products = () => {
   };
 
   const filteredProducts = useMemo(() => {
-    if (selectedTypes.length === 0) {
-      return allProductsFlat;
+    let result = allProductsFlat;
+
+    // 1. Filter by Product Type (SubCategory)
+    if (selectedTypes.length > 0) {
+      result = result.filter((p) => selectedTypes.includes(p.subCategory));
     }
-    return allProductsFlat.filter((p) => selectedTypes.includes(p.subCategory));
-  }, [selectedTypes, allProductsFlat]);
+
+    // 2. Filter by Brand
+    if (selectedBrands.length > 0) {
+      result = result.filter((p) => selectedBrands.includes(p.brand));
+    }
+
+    return result;
+  }, [selectedTypes, selectedBrands, allProductsFlat]);
 
   useEffect(() => {
     setTotalProductCount(filteredProducts?.length);
@@ -239,7 +280,7 @@ const Products = () => {
             className="flex gap-2 justify-center items-center mb-4 font-poppins px-5 self-start w-[25%]"
           >
             <SidebarFilters
-              categories={["all", "skin"]}
+              categories={["all", "skin", "hair"]}
               selectedCategory={selectedCategoryFilter}
               onCategoryChange={handleCategoryFilterChange}
               productTypes={availableProductTypes}

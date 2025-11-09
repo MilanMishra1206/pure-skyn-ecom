@@ -18,7 +18,6 @@ function FAQContent ({ category, data }) {
           key={index}
           question={item.question}
           answer={item.answer}
-          // You might want to manage open state here if only one can be open at a time
         />
       ))}
     </div>

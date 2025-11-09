@@ -177,7 +177,7 @@ function CartDrawer({ openCart, handleOpenCart }) {
                   </div>
                 ) : (
                   availableCoupons.map((coupon) => (
-                    <div key={coupon.id} className="text-center p-1">
+                    <div key={coupon.id} className="text-sm text-center p-1 rounded border border-dashed border-gray-300">
                       <StarRateRoundedIcon
                         style={{ color: "#fde047", fontSize: "1.2rem" }}
                       />
@@ -197,7 +197,6 @@ function CartDrawer({ openCart, handleOpenCart }) {
               </div>
             </div>
 
-            {/* 2. Cart Items List */}
             <ul className="divide-y divide-gray-200">
               {cartItems.map((item) => (
                 <li key={item.id} className="flex gap-4 p-4">
@@ -228,21 +227,19 @@ function CartDrawer({ openCart, handleOpenCart }) {
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-3">
-                      <HandleQuantity
-                        item={item}
-                        handleItemDecrease={() => handleItemDecrease(item)}
-                        handleItemIncrease={() => handleItemIncrease(item)}
-                        handleItemRemove={() => handleItemRemove(item.id)}
-                      />
-                    </div>
+                    <HandleQuantity
+                      item={item}
+                      handleItemDecrease={() => handleItemDecrease(item)}
+                      handleItemIncrease={() => handleItemIncrease(item)}
+                      handleItemRemove={() => handleItemRemove(item.id)}
+                    />
                   </div>
                 </li>
               ))}
             </ul>
 
             {/* 3. Upsell Section (BuyMoreProducts) */}
-            <div className="mt-2 p-4 border-t border-gray-200">
+            <div className="mt-2 p-4 border-t">
               <BuyMoreProducts
                 showCarousel={false}
                 handleOpenCart={handleOpenCart}

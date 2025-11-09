@@ -86,7 +86,7 @@ function Router() {
       </Suspense>
 
       {/* Main Content */}
-      <main className={`flex-1 ${isLoginPage ? "pt-[70px]" : "pt-[155px]"}`}>
+      <main className={`flex-1 ${isLoginPage ? "md:pt-[60px]" : "pt-[155px]"}`}>
         <Routes>
           {routesConfig.map(({ path, Component, accessRule }, index) => (
             <Route
@@ -110,10 +110,8 @@ function Router() {
         </Routes>
       </main>
 
-      {/* Scroll Button */}
       <ScrollToTopButton />
 
-      {/* Footer */}
       <CustomFooter />
     </div>
   );

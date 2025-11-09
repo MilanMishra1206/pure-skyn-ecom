@@ -83,7 +83,7 @@ function CartDrawer({ onClose }) {
                     availableCoupons.map((coupon) => (
                       <div
                         key={coupon.id}
-                        className="bg-body-secondary p-1 border-b-2"
+                        className="text-sm p-1 rounded border border-dashed border-gray-300"
                       >
                         <StarRateRoundedIcon
                           style={{ color: "#fde047", fontSize: "1.6rem" }}

@@ -3,11 +3,17 @@ import { Divider, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 import { CiUser, CiShoppingCart } from "react-icons/ci";
 import { HiMenuAlt3 } from "react-icons/hi";
+import { useSelector } from "react-redux";
+
 import CustomMegaDropdown from "./CustomMegaDropdown";
 import Resources from "../../config/Resources";
 import MobileMenu from "./MobileMenu";
 import CustomDrawer from "../CustomDrawer";
 import CartDrawer from "../../components/ProductsCart/CartDrawer";
+import { productList } from "../../helpers/productsData";
+
+const PRIMARY_COLOR = "#0f4a51";
+const SECONDARY_COLOR = "#15676e";
 
 function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -16,6 +22,17 @@ function Navbar() {
   const isMobile = useMediaQuery("(max-width: 450px)");
 
   const handleOpenCart = () => setCartDrawerOpen(!cartDrawerOpen);
+
+  const cartItemCount = useSelector((state) =>
+    state.cart.items.reduce((total, item) => total + item.quantity, 0)
+  );
+
+  const brandCollection = Array.from(
+    new Set(productList.map((product) => product.brand).sort())
+  ).map((brandName) => ({
+    label: brandName,
+    link: `/products#${brandName}`,
+  }));
 
   return (
     <div className="fixed top-0 left-0 w-full shadow-md z-50 bg-white">
@@ -51,10 +68,16 @@ function Navbar() {
             </Link>
             <Link
               onClick={() => setCartDrawerOpen(true)}
-              className="!text-[#0f4a51] hover:!text-[#15676e] border-none outline-none text-lg flex font-medium gap-2 items-center"
+              className={`!text-[${PRIMARY_COLOR}] hover:!text-[${SECONDARY_COLOR}] border-none outline-none text-lg flex font-medium gap-2 items-center relative`}
             >
               <CiShoppingCart size="1.5rem" />
               <span className="hidden sm:inline">Cart</span>
+
+              {cartItemCount > 0 && (
+              <div className="absolute -top-2 -right-4 w-5 h-5 bg-red-600 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+                  {cartItemCount > 4 ? "4+" : cartItemCount}
+                </div>
+              )}
             </Link>
           </div>
         </div>
@@ -68,17 +91,7 @@ function Navbar() {
             title="Brands"
             menuTitle="Top Brands"
             showRightMenu={false}
-            menuItems={[
-              { label: "Ageing", link: "/products/skin/ageing" },
-              { label: "Acne & Acne Scars", link: "/products/skin/acne-scars" },
-              {
-                label: "Damaged & Sensitive Skin",
-                link: "/products/skin/acne-scars",
-              },
-              { label: "Pigmentation", link: "/products/skin/pigmentation" },
-              { label: "Under Eye Concerns", link: "/products/skin/under-eye" },
-              { label: "Stretch Marks", link: "/products/skin/stretch-marks" },
-            ]}
+            menuItems={brandCollection}
             activeDropdown={activeDropdown}
             setActiveDropdown={setActiveDropdown}
           />
@@ -106,8 +119,10 @@ function Navbar() {
               title: "Acne & Acne Scars",
               description:
                 "Acne & Acne Scars are often challenging to manage and treat. Discover effective anti-acne range to manage it",
-              primary: { label: "Buy Now", href: "/" },
-              secondary: { label: "Details", href: "/" },
+              primary: {
+                label: "Buy Now",
+                href: "/products/skin#pigmentation",
+              },
             }}
             activeDropdown={activeDropdown}
             setActiveDropdown={setActiveDropdown}
@@ -118,16 +133,27 @@ function Navbar() {
             menuTitle="Hair Care"
             showRightMenu
             menuItems={[
-              { label: "Hair Fall", link: "/products/hair/hair-full" },
-              { label: "Dandruff", link: "/products/hair/dandruff" },
-              { label: "Dry & Frizzy Hair", link: "/products/hair/dry-frizzy" },
+              {
+                label: "Hair Fall Control",
+                link: "/products/hair#antiDandruff",
+              },
+              {
+                label: "Dandruff & Scalp Care",
+                link: "/products/hair#hairGrowth",
+              },
+              {
+                label: "Oral Supplements",
+                link: "/products/hair#oralSupplements",
+              },
             ]}
             image={Resources.images.navbar.hairNavbar}
             info={{
               title: "Hair Fall",
               description: "Find products and treatments to reduce hair fall.",
-              primary: { label: "Explore", href: "/hair" },
-              secondary: { label: "Learn More", href: "/hair-learn" },
+              primary: {
+                label: "Explore",
+                href: "/products/hair#antiDandruff",
+              },
             }}
             activeDropdown={activeDropdown}
             setActiveDropdown={setActiveDropdown}
@@ -147,7 +173,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Burger Menu */}
       <CustomDrawer
         open={mobileMenuOpen}
         setOpen={setMobileMenuOpen}
@@ -159,7 +184,6 @@ function Navbar() {
         <MobileMenu onClose={() => setMobileMenuOpen(false)} />
       </CustomDrawer>
 
-      {/* Cart Drawer */}
       <CustomDrawer
         open={cartDrawerOpen}
         setOpen={setCartDrawerOpen}
@@ -169,10 +193,7 @@ function Navbar() {
         classes="!h-[80%] !z-[1100]"
         paperClassToOverride="!w-full sm:!w-[40%] lg:!w-[30%] !h-[96%] md:!h-full"
       >
-        <CartDrawer
-          openCart={cartDrawerOpen}
-          handleOpenCart={handleOpenCart}
-        />
+        <CartDrawer openCart={cartDrawerOpen} handleOpenCart={handleOpenCart} />
       </CustomDrawer>
     </div>
   );

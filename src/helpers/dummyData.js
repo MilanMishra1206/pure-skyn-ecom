@@ -7,35 +7,35 @@ export const bannerData = [
       "Consult India's top dermatologists digitally, with a combined clinical experience of treating over 50,000 patients.",
     image: Resources.images.home.banner.bannerConsult,
     subText: "AT JUST Rs.249",
-    onClickSection: () => console.log("Consult"),
+    link: "/products/skin",
   },
   {
     title: "Hair Loss",
     description:
       "Fix hair thinning or hair loss with personalised plans that work for you. Enjoy thicker & fuller hair like never before.",
     image: Resources.images.home.banner.bannerHair,
-    onClickSection: () => console.log("Consult"),
+    link: "/products/hair",
   },
   {
     title: "Skincare",
     description:
       "For skin that is healthy, glowing, and free from any issues, take your pick from the carefully-curated skin care products.",
     image: Resources.images.home.banner.bannerSkin,
-    onClickSection: () => console.log("Consult"),
+    link: "/products/skin",
   },
   {
     title: "Arthwa Supplements",
     description:
       "Boost immunity levels and uplift your body's internal health to unlock the secrets of healthy skin and nourished hair.",
     image: Resources.images.home.banner.bannerSupplements,
-    onClickSection: () => console.log("Consult"),
+    link: "/products/skin",
   },
   {
     title: "Pediatric Derm Care",
     description:
       "Protect, soothe, and nourish the sensitive skin of your baby with doctor-recommended pediatric care products.",
     image: Resources.images.home.banner.bannerChild,
-    onClickSection: () => console.log("Consult"),
+    link: "/products/skin",
   },
 ];
 

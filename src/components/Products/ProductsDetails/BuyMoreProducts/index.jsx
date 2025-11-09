@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Box, Rating } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"; // Import useSelector
 import { useAppSnackbar } from "../../../../config/Context/SnackbarContext";
 import { addToCart } from "../../../../redux/Actions";
 import { productList } from "../../../../helpers/productsData";
@@ -17,6 +17,10 @@ function BuyMoreProducts({
   const dispatch = useDispatch();
   const showSnackbar = useAppSnackbar();
 
+  const cartItemIds = useSelector((state) =>
+    state.cart.items.map((item) => item.id)
+  );
+
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
     showSnackbar("Product Added to Cart", "success");
@@ -26,35 +30,36 @@ function BuyMoreProducts({
   const allFlatProducts = productList;
 
   if (productCategory && productSubCategory) {
-    // SCENARIO 1: Filter to show only products in the SAME category AND subCategory
     products = allFlatProducts.filter(
       (p) =>
         p.category.toLowerCase() === productCategory.toLowerCase() &&
         p.subCategory.toLowerCase() === productSubCategory.toLowerCase()
     );
   } else if (productCategory) {
-    // SCENARIO 2: If only category is provided, show ALL products in that category
     products = allFlatProducts.filter(
       (p) => p.category.toLowerCase() === productCategory.toLowerCase()
     );
   } else {
-    // SCENARIO 3: Default, show all products (or you might limit this for performance/relevance)
-    // For this implementation, we will assume if no filter is provided, it returns all products.
     products = allFlatProducts;
   }
 
-  const limitedProducts = products.slice(0,5);
+  const filteredProducts = products.filter(
+    (product) => !cartItemIds.includes(product.id)
+  );
+
+  const limitedProducts = filteredProducts?.slice(0, 5);
+  const carouselContent = filteredProducts?.slice(0, 8);
 
   return (
     <div>
       {showCarousel ? (
-        <ProductCarousel carouselContent={products} />
+        <ProductCarousel carouselContent={carouselContent} />
       ) : (
         <div className="space-y-4">
           <p className="text-center text-2xl mb-5 font-bold text-bold text-emerald-900 uppercase">
             Boost Your Results
           </p>
-          {limitedProducts.map((item, idx) => (
+          {limitedProducts?.map((item, idx) => (
             <div
               key={idx}
               className="flex flex-col gap-3 justify-center items-center"
@@ -101,7 +106,7 @@ function BuyMoreProducts({
                   </div>
                 </div>
                 <button
-                  className="bg-[#0f4a51] p-2 text-white hover:opacity-80 shadow-lg rounded w-32"
+                  className="bg-[#0f4a51] p-2 text-white hover:opacity-80 shadow-lg rounded w-32 cursor-pointer"
                   onClick={() => handleAddToCart(item)}
                 >
                   Add

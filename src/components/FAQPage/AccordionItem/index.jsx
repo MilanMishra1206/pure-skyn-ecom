@@ -6,7 +6,7 @@ function AccordionItem ({ question, answer }) {
   return (
     <div className="border-b border-gray-200 last:border-b-0 py-4">
       <button
-        className="flex justify-between items-center w-full text-left font-medium text-lg text-gray-800 focus:outline-none"
+        className="flex justify-between items-center w-full text-left font-medium text-lg text-gray-800 focus:outline-none cursor-pointer"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span>{question}</span>

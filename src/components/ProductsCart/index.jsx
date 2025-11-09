@@ -4,7 +4,7 @@ import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
 import { TbMoodSadSquint } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
 import { FaCartPlus } from "react-icons/fa";
-import { Breadcrumbs, Typography, useMediaQuery } from "@mui/material";
+import { Breadcrumbs, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import FadeInWrapper from "../../config/MotionFramer/FadeInWrapper";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,8 +44,6 @@ function Cart() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const showSnackbar = useAppSnackbar();
-
-  const isMobile = useMediaQuery("(max-width: 767px)");
 
   const [productId, setProductId] = useState("");
   const [removeItem, setRemoveItem] = useState(false);
@@ -135,13 +133,11 @@ function Cart() {
       (item) => item.couponCode === code
     );
 
-    // 1. Check if a code was entered
     if (!code?.trim()) {
       handleRemoveCoupon();
       return;
     }
 
-    // 2. Check minimum value threshold
     if (originalCartValue < SHIPPING_THRESHOLD) {
       setShowMinValueMessage(
         `Minimum cart value must be ${INRCurrency(
@@ -260,7 +256,7 @@ function Cart() {
         </div>
       ) : (
         <>
-          <div className="flex justify-between items-center px-4 mb-6">
+          <div className="flex flex-col md:!flex-row justify-between md:items-center px-4 mb-6 gap-2">
             <h1 className="text-3xl font-bold text-gray-800">
               Your Cart ({cartItems.length} items)
             </h1>
@@ -276,7 +272,7 @@ function Cart() {
           </div>
 
           <div className="flex flex-col lg:flex-row gap-6 px-4">
-            <div className="lg:w-3/5 xl:w-7/12 rounded-xl shadow-lg p-3 sm:p-6">
+            <div className="lg:w-3/5 xl:w-7/12 rounded-xl shadow-lg p-3 sm:p-6 border border-gray-100">
               <ul className="divide-y divide-gray-200">
                 {cartItems?.map((item) => (
                   <li
@@ -320,15 +316,6 @@ function Cart() {
                           />
                         </div>
                       </div>
-
-                      {isMobile && (
-                        <button
-                          onClick={() => handleItemRemove(item.id)}
-                          className="text-sm text-red-500 font-medium hover:text-red-700 mt-2 self-start"
-                        >
-                          Remove
-                        </button>
-                      )}
                     </div>
                   </li>
                 ))}
@@ -346,7 +333,7 @@ function Cart() {
             </div>
 
             <div className="lg:w-2/5 xl:w-5/12">
-              <div className="flex flex-col rounded-xl shadow-lg p-5 sticky top-4 bg-white">
+              <div className="flex flex-col rounded-xl shadow-lg p-5 sticky top-4 bg-white border border-gray-100">
                 <h2 className="text-xl font-bold text-center text-gray-800 mb-4">
                   Order Summary
                 </h2>

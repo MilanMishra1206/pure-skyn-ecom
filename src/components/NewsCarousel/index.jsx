@@ -37,7 +37,7 @@ function NewsCarousel() {
 
   return (
     <section className="bg-white py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="container mx-auto px-4 sm:!px-6 lg:px-8 text-center">
         <h2 className="text-4xl font-semibold text-gray-800 mb-8">
           We're in the News
         </h2>

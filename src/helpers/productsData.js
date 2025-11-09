@@ -1617,6 +1617,231 @@ const productContent = {
       shippingInformation,
     ],
   },
+  hair: {
+    "Cipla 8X KT Anti-Dandruff Shampoo": [
+      {
+        id: 1,
+        name: "Product Overview",
+        content: `Cipla 8X KT Shampoo is a medicated anti-dandruff shampoo primarily prescribed to treat and prevent fungal infections of the scalp. Conditions managed include chronic dandruff, seborrheic dermatitis, and tinea versicolor. The shampoo provides relief by eliminating the underlying fungal cause, thereby reducing flaking, scaling, and severe itching.`,
+      },
+      {
+        id: 2,
+        name: "Key Benefits",
+        content: `<div class="grid gap-2">
+          <span>• Treats Dandruff: Effectively controls and eliminates the fungus responsible for dandruff.</span>
+          <span>• Relieves Itching and Flaking: Provides immediate relief from the common symptoms of scalp fungal infections.</span>
+          <span>• Controls Seborrheic Dermatitis: Helps manage the inflammation, scaling, and redness associated with this condition.</span>
+          <span>• Prevents Recurrence: Regular, prescribed use helps stop the fungal infection from coming back.</span>
+      </div>`,
+      },
+      {
+        id: 3,
+        name: "How to Use",
+        content: `<ul class="space-y-4 list-disc pl-4">
+          <li><strong>Step 1:</strong> Wet your hair and scalp thoroughly with water.</li>
+          <li><strong>Step 2:</strong> Apply a sufficient amount of the shampoo to produce a good lather.</li>
+          <li><strong>Step 3:</strong> Gently massage the shampoo over your entire scalp.</li>
+          <li><strong>Step 4:</strong> Leave the shampoo on for 3 to 5 minutes before rinsing.</li>
+          <li><strong>Step 5:</strong> Rinse your hair and scalp completely with water.</li>
+          <li>*Usage is generally recommended twice a week for 4 weeks, or as directed by your dermatologist.</li>
+        </ul>`,
+      },
+      {
+        id: 4,
+        name: "Key Ingredients",
+        content: `<ul class="space-y-2 list-disc no-underline">
+          <li><strong>Ketoconazole (2%):</strong> A powerful antifungal agent that stops the growth of the fungus.</li>
+          <li><strong>Zinc Pyrithione (ZPTO) (1%):</strong> Offers both antifungal and antibacterial properties to control microorganisms causing irritation.</li>
+        </ul>`,
+      },
+      {
+        id: 5,
+        name: "Additional Information",
+        content: `<div class="space-y-2">
+          <p>This is a potent medicated shampoo. Consult your doctor or dermatologist before beginning treatment, especially if you have sensitive skin or other scalp conditions. Avoid contact with eyes.</p>
+        </div>`,
+      },
+      shippingInformation,
+    ],
+    "Cipla 8X Anti-Dandruff Shampoo (Ciclopirox)": [
+      {
+        id: 1,
+        name: "Product Overview",
+        content: `Cipla 8X Shampoo is a medicated anti-dandruff shampoo that uses a specialized combination of Ciclopirox and Zinc Pyrithione to treat and prevent chronic dandruff and seborrheic dermatitis. It works by actively stopping the growth of the yeast (fungus) responsible for the infection, leading to a quick reduction in flakes and scalp itchiness.`,
+      },
+      {
+        id: 2,
+        name: "Key Benefits",
+        content: `<div class="grid gap-2">
+          <span>• Effective Dandruff Control: The dual-ingredient formula provides a broad spectrum of antifungal action.</span>
+          <span>• Relieves Itching and Flaking: Soothes the scalp and rapidly reduces the common symptoms of dandruff.</span>
+          <span>• Improves Scalp Health: Helps in maintaining a clean, balanced, and healthy scalp environment.</span>
+          <span>• Prevents Recurrence: Regular use as prescribed can help in preventing dandruff from returning.</span>
+        </div>`,
+      },
+      {
+        id: 3,
+        name: "How to Use",
+        content: `<ul class="space-y-4 list-disc pl-4">
+          <li><strong>Step 1:</strong> Wet your hair and scalp thoroughly.</li>
+          <li><strong>Step 2:</strong> Apply a sufficient amount of shampoo and work it into a lather.</li>
+          <li><strong>Step 3:</strong> Gently massage onto the scalp for about one minute.</li>
+          <li><strong>Step 4:</strong> Leave the shampoo on your scalp for 3 minutes before rinsing thoroughly.</li>
+          <li>*For best results, it is typically recommended to use twice a week for 4 weeks, or as advised by your dermatologist.</li>
+        </ul>`,
+      },
+      {
+        id: 4,
+        name: "Key Ingredients",
+        content: `<ul class="space-y-2 list-disc no-underline">
+          <li><strong>Ciclopirox (1%):</strong> A potent antifungal agent that stops the growth of the dandruff-causing fungus.</li>
+          <li><strong>Zinc Pyrithione (ZPTO) (1%):</strong> Possesses antifungal and antibacterial properties, aiding in flaking and irritation control.</li>
+        </ul>`,
+      },
+      {
+        id: 5,
+        name: "Additional Information",
+        content: `<div class="space-y-2">
+          <p>This formulation is often prescribed when a patient requires an alternative to Ketoconazole-based shampoos. Always follow the frequency and duration guidelines provided by a healthcare professional. Avoid contact with eyes.</p>
+        </div>`,
+      },
+      shippingInformation,
+    ],
+    "Recapro Hair Growth Serum": [
+      {
+        id: 1,
+        name: "Product Overview",
+        content: `Recapro Hair Growth Serum is a powerful, non-greasy topical treatment clinically developed to combat hair thinning and stimulate growth in both male and female pattern hair loss. Its active blend works at the cellular level to awaken dormant hair follicles and improve the overall density and strength of the hair shaft.`,
+      },
+      {
+        id: 2,
+        name: "Key Benefits",
+        content: `<div class="grid gap-2">
+          <span>• Promotes Hair Growth: Helps reactivate dormant hair follicles and stimulate stem cells for new hair growth.</span>
+          <span>• Controls Hair Fall: Strengthens hair from the roots, significantly reducing hair shedding and thinning.</span>
+          <span>• Increases Hair Density: Leads to visibly thicker, stronger, and fuller-looking hair with consistent use.</span>
+          <span>• Nourishes the Scalp: Delivers essential nutrients directly to the scalp, enhancing overall hair health environment.</span>
+        </div>`,
+      },
+      {
+        id: 3,
+        name: "How to Use",
+        content: `<ul class="space-y-4 list-disc pl-4">
+          <li><strong>Step 1:</strong> Start with a clean and either dry or towel-dried scalp.</li>
+          <li><strong>Step 2:</strong> Shake the bottle well before use.</li>
+          <li><strong>Step 3:</strong> Dispense a few drops of the serum onto your palm or directly onto the scalp.</li>
+          <li><strong>Step 4:</strong> Using your fingertips, gently massage the serum into your scalp, focusing on areas of thinning.</li>
+          <li><strong>Step 5:</strong> Do not rinse out. For best results, use once daily, preferably before bed.</li>
+        </ul>`,
+      },
+      {
+        id: 4,
+        name: "Key Ingredients",
+        content: `<ul class="space-y-2 list-disc no-underline">
+          <li><strong>Redensyl:</strong> Supports hair follicle activation and stem cell regeneration.</li>
+          <li><strong>Capixyl:</strong> Works to strengthen hair and improve the structure of hair follicles.</li>
+          <li><strong>Procapil:</strong> Helps to enhance blood circulation in the scalp and combat hair follicle aging.</li>
+          <li>Also includes vitamins, peptides, and natural oils (like Castor/Argan) for nourishment.</li>
+        </ul>`,
+      },
+      {
+        id: 5,
+        name: "Additional Information",
+        content: `<div class="space-y-2">
+          <p>This serum is suitable for both men and women experiencing pattern hair loss or general hair thinning. For optimal results, consistent daily application is key. Consult a dermatologist if thinning persists or worsens.</p>
+        </div>`,
+      },
+      shippingInformation,
+    ],
+    "Eris Minokem 5% Solution": [
+      {
+        id: 1,
+        name: "Product Overview",
+        content: `Eris Minokem 5% Solution is a topical medication primarily indicated for treating androgenetic alopecia (male pattern baldness). As a powerful vasodilator, it works by widening blood vessels in the scalp, significantly boosting blood flow to dormant hair follicles to stimulate growth and slow the progression of hair loss.`,
+      },
+      {
+        id: 2,
+        name: "Key Benefits",
+        content: `<div class="grid gap-2">
+          <span>• Treats Male Pattern Baldness: Clinically proven effectiveness for hair loss on the top of the scalp (vertex).</span>
+          <span>• Stimulates Hair Growth: Increases vital blood flow, helping to reactivate dormant follicles.</span>
+          <span>• Prevents Further Hair Loss: Nourishes the follicles, effectively slowing down the balding process.</span>
+          <span>• High Strength: Contains the powerful 5% concentration of the active ingredient Minoxidil.</span>
+        </div>`,
+      },
+      {
+        id: 3,
+        name: "How to Use",
+        content: `<ul class="space-y-4 list-disc pl-4">
+          <li><strong>Step 1:</strong> Ensure your hair and scalp are completely dry before application.</li>
+          <li><strong>Step 2:</strong> Apply the prescribed amount (typically 1 ml) directly to the affected areas of the scalp.</li>
+          <li><strong>Step 3:</strong> Start from the center of the affected area and spread it evenly.</li>
+          <li><strong>Step 4:</strong> Allow the solution to dry completely before using other products or going to bed (at least 4 hours).</li>
+          <li><strong>Step 5:</strong> Wash your hands thoroughly after use. Recommended use is twice a day, as directed by your doctor.</li>
+        </ul>`,
+      },
+      {
+        id: 4,
+        name: "Key Ingredient",
+        content: `<ul class="space-y-2 list-disc no-underline">
+          <li><strong>Minoxidil (5% w/v):</strong> The active ingredient responsible for widening blood vessels and promoting hair regrowth.</li>
+        </ul>`,
+      },
+      {
+        id: 5,
+        name: "Important Note",
+        content: `<div class="space-y-2">
+          <p>Results require consistency; it may take 2-4 months to see noticeable growth. Continuous use is essential to maintain any hair growth achieved. Consult a doctor before starting treatment.</p>
+        </div>`,
+      },
+      shippingInformation,
+    ],
+    "Biograce Eva Nutraceutical Tablet": [
+      {
+        id: 1,
+        name: "Product Overview",
+        content: `The Biograce Eva Tablet is a specialized supplement from Grace Derma, combining Evening Primrose Oil, multi-vitamins, multi-minerals, botanical extracts, and amino acids. This comprehensive formula is designed to significantly support hair health, strengthen follicles, and enhance the body's overall energy and vitality.`,
+      },
+      {
+        id: 2,
+        name: "Key Benefits",
+        content: `<div class="grid gap-2">
+          <span>• Hair Growth: Actively supports and promotes healthy hair growth cycles.</span>
+          <span>• Strengthens Follicles: Delivers essential nutrients directly to strengthen hair from the roots.</span>
+          <span>• Folate Support: Contains Folic Acid, critical for cell growth and division.</span>
+          <span>• Vitality Boost: The rich blend of vitamins and minerals enhances overall energy and well-being.</span>
+        </div>`,
+      },
+      {
+        id: 3,
+        name: "Key Ingredients",
+        content: `<ul class="space-y-2 list-disc no-underline">
+          <li><strong>Botanical Extracts:</strong> Evening Primrose Oil, Millet Seed Extract, Grape Seed Extract.</li>
+          <li><strong>Amino Acids:</strong> N-Acetyl-L-Cysteine, L-Lysine Hydrochloride, L-Arginine, L-Methionine.</li>
+          <li><strong>Vitamins:</strong> B3 (Niacinamide), Inositol, B6, B1, Folic Acid, D-Biotin, D3.</li>
+          <li><strong>Minerals:</strong> Iron, Copper, Selenium, and Zinc.</li>
+        </ul>`,
+      },
+      {
+        id: 4,
+        name: "How to Use",
+        content: `<ul class="space-y-4 list-disc pl-4">
+          <li><strong>Dosage:</strong> Take one tablet daily.</li>
+          <li><strong>Consultation:</strong> Always use as directed by your physician or healthcare provider.</li>
+          <li><strong>Consistency:</strong> For optimal results, consistent daily intake is recommended.</li>
+        </ul>`,
+      },
+      {
+        id: 5,
+        name: "Price Options",
+        content: `<div class="space-y-2">
+          <p><strong>Strip (10 Tablets):</strong> ₹239 (Regular Price ₹240)</p>
+          <p><strong>Bottle (30 Tablets):</strong> ₹649 (Regular Price ₹690, Save 6%)</p>
+        </div>`,
+      },
+      shippingInformation,
+    ],
+  },
 };
 
 export const productList2 = {
@@ -1624,8 +1849,8 @@ export const productList2 = {
     sunscreen: {
       "Dermatica Aze Proactive Lotion": {
         id: 1,
-
         productName: "Dermatica Aze Proactive Lotion",
+        brand: "Dermatica",
         imgSrc:
           Resources.images.products.sunscreen.dermaticaAzeProactiveLotion.img1,
         productDescription:
@@ -1647,6 +1872,7 @@ export const productList2 = {
       "Dermatica Ray Protect Barelyon Fluid Sunscreen SPF 50": {
         id: 2,
         productName: "Dermatica Ray Protect Barelyon Fluid Sunscreen SPF 50",
+        brand: "Dermatica",
         imgSrc: Resources.images.products.sunscreen.berlion.img1,
         productDescription:
           "Dermatica Ray Protect Barelyon Fluid Sunscreen SPF 50 shields your skin from UVA, UVB, blue light, and infrared radiation. It prevents photo-aging, sunburns, and skin imperfections, while serving as an excellent makeup base. Non-comedogenic, water-resistant, and paraben-free, it offers comprehensive protection for radiant, youthful skin.",
@@ -1669,6 +1895,7 @@ export const productList2 = {
       "Ray Back Broad Spectrum Spf 50 +++": {
         id: 3,
         productName: "Ray Back Broad Spectrum Spf 50 +++",
+        brand: "Ray Back",
         imgSrc: Resources.images.products.sunscreen.rayback.img1,
         productDescription:
           "Ray Back Broad Spectrum Spf 50 +++ Sun's rays penetrate the skin and get absorbed at various depths in the form of UV Rays. UVA and UVB rays are the main cause of skin damage. Our SPF 50+++ sunscreen cream provides thorough protection from the Sun.Long lasting effect with no residue. No reapplication required for upto 4-6 hours. However, use more frequently incase of direct and prolonged sun exposure. Does not leave any white residue.",
@@ -1688,6 +1915,7 @@ export const productList2 = {
       "Ivatherm Sunlight SPF 50+ Dry Touch Cream": {
         id: 5,
         productName: "Ivatherm Sunlight SPF 50+ Dry Touch Cream",
+        brand: "Ivatherm",
         imgSrc: Resources.images.products.sunscreen.sunlite.img1,
         productDescription:
           "Experience ultimate sun protection with Ivatherm Sunlight SPF 50+ Dry Touch Cream. This advanced sunscreen offers broad-spectrum protection against harmful UVA and UVB rays while imparting a dry touch finish, perfect for oily or combination skin. With its non-greasy formula enriched with antioxidants, it shields the skin from environmental stressors, ensuring a radiant and protected complexion all day.",
@@ -1709,6 +1937,7 @@ export const productList2 = {
       "Dermatica Ray Protect Tint Mineral Sunscreen": {
         id: 6,
         productName: "Dermatica Ray Protect Tint Mineral Sunscreen",
+        brand: "Dermatica",
         imgSrc: Resources.images.products.sunscreen.tintSunscreen.img2,
         productDescription:
           "Dermatica Ray Protect Tint Mineral Sunscreen offers comprehensive protection from UVA, UVB, and Blue Light. Its hybrid formula combines light reflectants and absorbents in a non-sticky, lightweight, and fast-absorbing base. The subtle tint ensures seamless application, making it perfect for daily use indoors and outdoors, providing reliable and effective sun protection for all skin types.",
@@ -1735,6 +1964,7 @@ export const productList2 = {
       "Agelite-X Serum": {
         id: 1,
         productName: "Agelite-X Serum",
+        brand: "Agelite-X",
         imgSrc: Resources.images.products.faceSerum.ageliteSerum.img1,
         productDescription:
           "Agelite-X Serum is specially concocted with antioxidants that provides synergistic protection against oxidative stress in skin. It works to brighten dull Skin, improve hyperpigmentation, sun/photo-damaged skin, fine lines and wrinkles.",
@@ -1774,6 +2004,7 @@ export const productList2 = {
       "Lumiedge Serum": {
         id: 3,
         productName: "Lumiedge Serum",
+        brand: "Lumiedge",
         imgSrc: Resources.images.products.faceSerum.ilumeSerum.img1,
         productDescription:
           "Lumiedge Serum is a lightweight and non-sticky daily-use skin serum which boosts luminosity and promotes healthy-looking skin.",
@@ -1796,6 +2027,7 @@ export const productList2 = {
       "Agelite Vitamin C Face Wash": {
         id: 1,
         productName: "Agelite Vitamin C Face Wash",
+        brand: "Agelite",
         imgSrc: Resources.images.products.facewash.agelite.img1,
         productDescription:
           "Agelite Vitamin C Face Wash is designed to cleanse and brighten your skin, harnessing the powerful benefits of Vitamin C.",
@@ -1815,6 +2047,7 @@ export const productList2 = {
       "Aquaedge Cleanser": {
         id: 2,
         productName: "Aquaedge Cleanser",
+        brand: "Aquaedge",
         imgSrc: Resources.images.products.facewash.aquaedege.img1,
         productDescription:
           "Aquaedge Cleanser is a refreshing, hydrating facial cleanser designed to gently remove dirt, impurities, and makeup without stripping the skin's natural moisture. Infused with natural extracts like Aloe Vera and Green Tea, this cleanser nourishes and revitalizes the skin while maintaining its balance. Suitable for all skin types, Aquaedge Cleanser leaves your skin feeling clean, refreshed, and perfectly hydrated.",
@@ -1834,6 +2067,7 @@ export const productList2 = {
       "DS Glow Facewash": {
         id: 3,
         productName: "DS Glow Facewash",
+        brand: "Generic",
         imgSrc: Resources.images.products.facewash.dsglow.img1,
         productDescription:
           "DS Glow Facewash is your go-to solution for achieving whitening and vibrant skin. This gentle yet effective face wash helps reduce melanin pigment, making your skin appear whiter and youthful. It is free from SLS, soap, colorants, alcohol, and parabens, ensuring a safe and refreshing cleanse every time.",
@@ -1852,6 +2086,7 @@ export const productList2 = {
       "Dermatica Tabula Rasa AST": {
         id: 4,
         productName: "Dermatica Tabula Rasa AST",
+        brand: "Dermatica",
         imgSrc: Resources.images.products.facewash.tabulaAst.img1,
         productDescription:
           "Dermatica Tabula Rasa AST Perfectly Balanced Nourishing Cleanser is a luxurious facial cleanser designed to provide a balanced, nourishing cleanse for all skin types. Infused with skin-nourishing ingredients like Hyaluronic Acid, Niacinamide, and Squalane, this cleanser effectively removes impurities and makeup without disrupting the skin's natural moisture balance. Its soothing and hydrating formula helps to calm irritation, reduce redness, and leave the skin feeling soft, smooth, and refreshed. Suitable for daily use, Dermatica Tabula Rasa AST ensures your skin stays perfectly balanced and nourished.",
@@ -1871,6 +2106,7 @@ export const productList2 = {
       "Dermatica Tabula Rasa OS Sebum Regulating Cleanser": {
         id: 5,
         productName: "Dermatica Tabula Rasa OS Sebum Regulating Cleanser",
+        brand: "Dermatica",
         imgSrc: Resources.images.products.facewash.tabulaOs.img1,
         productDescription:
           "Dermatica Tabula Rasa OS Sebum Regulating Cleanser is designed to cleanse and brighten your skin, harnessing the powerful benefits of Vitamin C.",
@@ -1892,6 +2128,7 @@ export const productList2 = {
       "Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser": {
         id: 6,
         productName: "Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser",
+        brand: "Dermatica",
         imgSrc: Resources.images.products.facewash.tabulaRasaDs.img1,
         productDescription:
           "Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser is a soothing and hydrating facial cleanser designed for sensitive and dry skin. Enriched with mild, skin-loving ingredients like Hyaluronic Acid, Aloe Vera, and Chamomile Extract, this cleanser effectively removes impurities and makeup without stripping the skin's natural moisture barrier. Its ultra-gentle formula calms irritation, reduces redness, and leaves the skin feeling soft, smooth, and refreshed. Suitable for daily use, Dermatica Tabula Rasa DS ensures your skin stays hydrated and balanced.",
@@ -1917,6 +2154,7 @@ export const productList2 = {
       "Cerasoft Moisturising Cream": {
         id: 1,
         productName: "Cerasoft Moisturising Cream",
+        brand: "Cerasoft",
         imgSrc: Resources.images.products.moisturiser.cerasoft.img1,
         productDescription:
           "Cerasoft Moisturising Cream is designed to cleanse and brighten your skin, harnessing the powerful benefits of Vitamin C.",
@@ -1938,6 +2176,7 @@ export const productList2 = {
       "Fi Moist Plus": {
         id: 2,
         productName: "Fi Moist Plus",
+        brand: "Generic",
         imgSrc: Resources.images.products.moisturiser.fiMoist.img1,
         productDescription:
           "Fi Moist Plus is a highly effective moisturizing cream designed to provide deep hydration and restore the skin's natural moisture balance. Infused with nourishing ingredients like Hyaluronic Acid and Vitamin E, this cream leaves the skin feeling soft, smooth, and plump. Its lightweight formula absorbs quickly, making it ideal for daily use to keep the skin moisturized and glowing. Perfect for dry and dehydrated skin, Fi Moist Plus ensures a refreshed and nourished complexion.",
@@ -1956,6 +2195,7 @@ export const productList2 = {
       "Moiser FM Moisturising Gel 50ml": {
         id: 3,
         productName: "Moiser FM Moisturising Gel 50ml",
+        brand: "Kepler",
         imgSrc: Resources.images.products.moisturiser.moiser.img1,
         productDescription:
           "Moiser FM Moisturising Gel is a hydrating gel formulated to provide deep moisturization and soothe the skin. It contains a blend of natural extracts and moisturizing agents that help maintain the skin's moisture balance, leaving it soft and supple. Suitable for all skin types, especially for dry or sensitive skin.",
@@ -1975,6 +2215,7 @@ export const productList2 = {
       "Relizema Ultra Hydrating Lotion": {
         id: 4,
         productName: "Relizema Ultra Hydrating Lotion",
+        brand: "Relizema",
         imgSrc: Resources.images.products.moisturiser.relizmaLotion.img1,
         productDescription:
           "Relizema Ultra Hydrating Lotion is a revitalizing skincare product designed to restore your skin's natural barrier. Specially crafted for sensitive and dry skin, it boosts hydration and elasticity while providing long-lasting moisture and protection. Perfect for daily use, it nourishes and protects your skin from dryness and environmental stressors.",
@@ -1996,6 +2237,7 @@ export const productList2 = {
       "Uligo Cream 50g": {
         id: 5,
         productName: "Uligo Cream 50g",
+        brand: "Uligo",
         imgSrc: Resources.images.products.moisturiser.uligo.img1,
         productDescription:
           "Uligo Cream 50g is an effective moisturizer designed to relieve dryness and restore the skin's natural moisture barrier. Enriched with nourishing ingredients, it deeply hydrates, leaving the skin soft, smooth, and supple. Ideal for dry and dehydrated skin, Uligo Cream prevents further moisture loss and provides long-lasting hydration. Dermatologically tested and suitable for all skin types, it absorbs quickly without leaving a greasy residue.",
@@ -2015,6 +2257,7 @@ export const productList2 = {
       "Uresoft Moisturising Cream": {
         id: 6,
         productName: "Uresoft Moisturising Cream",
+        brand: "Uresoft",
         imgSrc: Resources.images.products.moisturiser.uresoft.img1,
         productDescription:
           "Uresoft Moisturising Cream is a deeply hydrating and nourishing cream formulated to provide relief for dry, rough, and cracked skin. Enriched with urea and other moisturizing agents, it restores the skin’s natural moisture balance, softens hardened skin, and improves overall texture. Its non-greasy formula absorbs quickly, making it ideal for daily use on all skin types, especially those with severely dry skin conditions.",
@@ -2036,6 +2279,7 @@ export const productList2 = {
       "Glambak Gel": {
         id: 1,
         productName: "Glambak Gel",
+        brand: "Glambak",
         imgSrc: Resources.images.products.pigmentation.glambakUltra.img1,
         productDescription:
           "Glambak Gel is a topical gel formulated with Kojic Acid Dipalmitate, Arbutin, Octinoxate, Vitamin E, Pine Bark Extract, Allantoin, and Niacinamide. It provides an effective solution for treating melasma, hyperpigmentation, photomelanosis, and dark discoloration. This gel works both from the inside and outside, ensuring long-lasting results while enhancing the overall health and beauty of the skin.",
@@ -2056,6 +2300,8 @@ export const productList2 = {
       "Kclite Gold Advanced Skin Lightening Cream": {
         id: 2,
         productName: "Kclite Gold Advanced Skin Lightening Cream",
+        brand: "Glambak",
+
         imgSrc: Resources.images.products.pigmentation.kcliteGold.img1,
         productDescription:
           "Kclite Gold Advanced Skin Lightening Cream is a premium formulation designed to brighten the skin tone and reduce the appearance of dark spots, pigmentation, and uneven skin tone. Enriched with powerful ingredients like Kojic Acid, Arbutin, and Vitamin C, this cream works to inhibit melanin production, providing a radiant and even complexion. Its lightweight, non-greasy formula absorbs quickly into the skin, delivering intense hydration while improving skin texture and clarity. Suitable for all skin types, Kclite Gold is ideal for daily use to achieve a brighter, smoother, and more youthful-looking skin.",
@@ -2285,7 +2531,9 @@ export const productList = [
   {
     id: 1,
     productName: "Dermatica Aze Proactive Lotion",
-    imgSrc: Resources.images.products.sunscreen.dermaticaAzeProactiveLotion.img1,
+    brand: "Dermatica",
+    imgSrc:
+      Resources.images.products.sunscreen.dermaticaAzeProactiveLotion.img1,
     productDescription:
       "At Pureskyn, we believe that the foundation of real beauty is flawless, clear skin. We are thrilled to present Dermatica Aze Proactive Lotion, a revolutionary skincare solution created to effectively and gently treat acne, acne scars, and acne marks. With Dermatica Aze, your secret to bright, glowing skin, bid adieu to the aggravation of acne and the scarring that follows.",
     ratings: 4,
@@ -2305,6 +2553,7 @@ export const productList = [
   {
     id: 2,
     productName: "Dermatica Ray Protect Barelyon Fluid Sunscreen SPF 50",
+    brand: "Dermatica",
     imgSrc: Resources.images.products.sunscreen.berlion.img1,
     productDescription:
       "Dermatica Ray Protect Barelyon Fluid Sunscreen SPF 50 shields your skin from UVA, UVB, blue light, and infrared radiation. It prevents photo-aging, sunburns, and skin imperfections, while serving as an excellent makeup base. Non-comedogenic, water-resistant, and paraben-free, it offers comprehensive protection for radiant, youthful skin.",
@@ -2326,6 +2575,7 @@ export const productList = [
   {
     id: 3,
     productName: "Ray Back Broad Spectrum Spf 50 +++",
+    brand: "Ray Back",
     imgSrc: Resources.images.products.sunscreen.rayback.img1,
     productDescription:
       "Ray Back Broad Spectrum Spf 50 +++ Sun's rays penetrate the skin and get absorbed at various depths in the form of UV Rays. UVA and UVB rays are the main cause of skin damage. Our SPF 50+++ sunscreen cream provides thorough protection from the Sun.Long lasting effect with no residue. No reapplication required for upto 4-6 hours. However, use more frequently incase of direct and prolonged sun exposure. Does not leave any white residue.",
@@ -2344,6 +2594,7 @@ export const productList = [
   {
     id: 5,
     productName: "Ivatherm Sunlight SPF 50+ Dry Touch Cream",
+    brand: "Ivatherm",
     imgSrc: Resources.images.products.sunscreen.sunlite.img1,
     productDescription:
       "Experience ultimate sun protection with Ivatherm Sunlight SPF 50+ Dry Touch Cream. This advanced sunscreen offers broad-spectrum protection against harmful UVA and UVB rays while imparting a dry touch finish, perfect for oily or combination skin. With its non-greasy formula enriched with antioxidants, it shields the skin from environmental stressors, ensuring a radiant and protected complexion all day.",
@@ -2362,6 +2613,7 @@ export const productList = [
   {
     id: 6,
     productName: "Dermatica Ray Protect Tint Mineral Sunscreen",
+    brand: "Dermatica",
     imgSrc: Resources.images.products.sunscreen.tintSunscreen.img2,
     productDescription:
       "Dermatica Ray Protect Tint Mineral Sunscreen offers comprehensive protection from UVA, UVB, and Blue Light. Its hybrid formula combines light reflectants and absorbents in a non-sticky, lightweight, and fast-absorbing base. The subtle tint ensures seamless application, making it perfect for daily use indoors and outdoors, providing reliable and effective sun protection for all skin types.",
@@ -2381,6 +2633,7 @@ export const productList = [
   {
     id: 7,
     productName: "Agelite-X Serum",
+    brand: "Agelite-X",
     imgSrc: Resources.images.products.faceSerum.ageliteSerum.img1,
     productDescription:
       "Agelite-X Serum is specially concocted with antioxidants that provides synergistic protection against oxidative stress in skin. It works to brighten dull Skin, improve hyperpigmentation, sun/photo-damaged skin, fine lines and wrinkles.",
@@ -2398,6 +2651,7 @@ export const productList = [
   {
     id: 8,
     productName: "C Shine Serum",
+    brand: "Generic",
     imgSrc: Resources.images.products.faceSerum.cshine.img1,
     productDescription:
       "Illuminate your skin with the C Shine Serum, a luxurious blend of nourishing ingredients and Vitamin C. This serum works to even out skin tone, reduce the appearance of dark spots, and impart a radiant glow. Elevate your skincare regimen with the C Shine Serum for a luminous complexion that captivates.",
@@ -2416,6 +2670,7 @@ export const productList = [
   {
     id: 9,
     productName: "Lumiedge Serum",
+    brand: "Lumiedge",
     imgSrc: Resources.images.products.faceSerum.ilumeSerum.img1,
     productDescription:
       "Lumiedge Serum is a lightweight and non-sticky daily-use skin serum which boosts luminosity and promotes healthy-looking skin.",
@@ -2433,6 +2688,7 @@ export const productList = [
   {
     id: 10,
     productName: "Agelite Vitamin C Face Wash",
+    brand: "Agelite",
     imgSrc: Resources.images.products.facewash.agelite.img1,
     productDescription:
       "Agelite Vitamin C Face Wash is designed to cleanse and brighten your skin, harnessing the powerful benefits of Vitamin C.",
@@ -2451,6 +2707,7 @@ export const productList = [
   {
     id: 11,
     productName: "Aquaedge Cleanser",
+    brand: "Aquaedge",
     imgSrc: Resources.images.products.facewash.aquaedege.img1,
     productDescription:
       "Aquaedge Cleanser is a refreshing, hydrating facial cleanser designed to gently remove dirt, impurities, and makeup without stripping the skin's natural moisture. Infused with natural extracts like Aloe Vera and Green Tea, this cleanser nourishes and revitalizes the skin while maintaining its balance. Suitable for all skin types, Aquaedge Cleanser leaves your skin feeling clean, refreshed, and perfectly hydrated.",
@@ -2469,6 +2726,7 @@ export const productList = [
     id: 12,
     productName: "DS Glow Facewash",
     imgSrc: Resources.images.products.facewash.dsglow.img1,
+    brand: "Generic",
     productDescription:
       "DS Glow Facewash is your go-to solution for achieving whitening and vibrant skin. This gentle yet effective face wash helps reduce melanin pigment, making your skin appear whiter and youthful. It is free from SLS, soap, colorants, alcohol, and parabens, ensuring a safe and refreshing cleanse every time.",
     ratings: 4,
@@ -2485,6 +2743,7 @@ export const productList = [
   {
     id: 13,
     productName: "Dermatica Tabula Rasa AST",
+    brand: "Dermatica",
     imgSrc: Resources.images.products.facewash.tabulaAst.img1,
     productDescription:
       "Dermatica Tabula Rasa AST Perfectly Balanced Nourishing Cleanser is a luxurious facial cleanser designed to provide a balanced, nourishing cleanse for all skin types. Infused with skin-nourishing ingredients like Hyaluronic Acid, Niacinamide, and Squalane, this cleanser effectively removes impurities and makeup without disrupting the skin's natural moisture balance. Its soothing and hydrating formula helps to calm irritation, reduce redness, and leave the skin feeling soft, smooth, and refreshed. Suitable for daily use, Dermatica Tabula Rasa AST ensures your skin stays perfectly balanced and nourished.",
@@ -2503,6 +2762,7 @@ export const productList = [
   {
     id: 14,
     productName: "Dermatica Tabula Rasa OS Sebum Regulating Cleanser",
+    brand: "Dermatica",
     imgSrc: Resources.images.products.facewash.tabulaOs.img1,
     productDescription:
       "Dermatica Tabula Rasa OS Sebum Regulating Cleanser is designed to cleanse and brighten your skin, harnessing the powerful benefits of Vitamin C.",
@@ -2516,11 +2776,14 @@ export const productList = [
     subCategory: "facewash",
     allImages: Object.values(Resources.images.products.facewash.tabulaOs),
     productsAdditionalDetails:
-      productContent?.facewash["Dermatica Tabula Rasa OS Sebum Regulating Cleanser"],
+      productContent?.facewash[
+        "Dermatica Tabula Rasa OS Sebum Regulating Cleanser"
+      ],
   },
   {
     id: 15,
     productName: "Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser",
+    brand: "Dermatica",
     imgSrc: Resources.images.products.facewash.tabulaRasaDs.img1,
     productDescription:
       "Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser is a soothing and hydrating facial cleanser designed for sensitive and dry skin. Enriched with mild, skin-loving ingredients like Hyaluronic Acid, Aloe Vera, and Chamomile Extract, this cleanser effectively removes impurities and makeup without stripping the skin's natural moisture barrier. Its ultra-gentle formula calms irritation, reduces redness, and leaves the skin feeling soft, smooth, and refreshed. Suitable for daily use, Dermatica Tabula Rasa DS ensures your skin stays hydrated and balanced.",
@@ -2534,11 +2797,14 @@ export const productList = [
     subCategory: "facewash",
     allImages: Object.values(Resources.images.products.facewash.tabulaRasaDs),
     productsAdditionalDetails:
-      productContent?.facewash["Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser"],
+      productContent?.facewash[
+        "Dermatica Tabula Rasa DS Ultra Gentle Hydrating Cleanser"
+      ],
   },
   {
     id: 16,
     productName: "Cerasoft Moisturising Cream",
+    brand: "Cerasoft",
     imgSrc: Resources.images.products.moisturiser.cerasoft.img1,
     productDescription:
       "Cerasoft Moisturising Cream is designed to cleanse and brighten your skin, harnessing the powerful benefits of Vitamin C.",
@@ -2557,6 +2823,7 @@ export const productList = [
   {
     id: 17,
     productName: "Fi Moist Plus",
+    brand: "Generic",
     imgSrc: Resources.images.products.moisturiser.fiMoist.img1,
     productDescription:
       "Fi Moist Plus is a highly effective moisturizing cream designed to provide deep hydration and restore the skin's natural moisture balance. Infused with nourishing ingredients like Hyaluronic Acid and Vitamin E, this cream leaves the skin feeling soft, smooth, and plump. Its lightweight formula absorbs quickly, making it ideal for daily use to keep the skin moisturized and glowing. Perfect for dry and dehydrated skin, Fi Moist Plus ensures a refreshed and nourished complexion.",
@@ -2574,6 +2841,7 @@ export const productList = [
   {
     id: 18,
     productName: "Moiser FM Moisturising Gel 50ml",
+    brand: "Moiser",
     imgSrc: Resources.images.products.moisturiser.moiser.img1,
     productDescription:
       "Moiser FM Moisturising Gel is a hydrating gel formulated to provide deep moisturization and soothe the skin. It contains a blend of natural extracts and moisturizing agents that help maintain the skin's moisture balance, leaving it soft and supple. Suitable for all skin types, especially for dry or sensitive skin.",
@@ -2592,6 +2860,7 @@ export const productList = [
   {
     id: 19,
     productName: "Relizema Ultra Hydrating Lotion",
+    brand: "Relizema",
     imgSrc: Resources.images.products.moisturiser.relizmaLotion.img1,
     productDescription:
       "Relizema Ultra Hydrating Lotion is a revitalizing skincare product designed to restore your skin's natural barrier. Specially crafted for sensitive and dry skin, it boosts hydration and elasticity while providing long-lasting moisture and protection. Perfect for daily use, it nourishes and protects your skin from dryness and environmental stressors.",
@@ -2603,13 +2872,16 @@ export const productList = [
     productPrice: "655",
     category: "skin",
     subCategory: "moisturiser",
-    allImages: Object.values(Resources.images.products.moisturiser.relizmaLotion),
+    allImages: Object.values(
+      Resources.images.products.moisturiser.relizmaLotion
+    ),
     productsAdditionalDetails:
       productContent?.moisturiser["Relizema Ultra Hydrating Lotion"],
   },
   {
     id: 20,
     productName: "Uligo Cream 50g",
+    brand: "Uligo",
     imgSrc: Resources.images.products.moisturiser.uligo.img1,
     productDescription:
       "Uligo Cream 50g is an effective moisturizer designed to relieve dryness and restore the skin's natural moisture barrier. Enriched with nourishing ingredients, it deeply hydrates, leaving the skin soft, smooth, and supple. Ideal for dry and dehydrated skin, Uligo Cream prevents further moisture loss and provides long-lasting hydration. Dermatologically tested and suitable for all skin types, it absorbs quickly without leaving a greasy residue.",
@@ -2627,6 +2899,7 @@ export const productList = [
   {
     id: 21,
     productName: "Uresoft Moisturising Cream",
+    brand: "Uresoft",
     imgSrc: Resources.images.products.moisturiser.uresoft.img1,
     productDescription:
       "Uresoft Moisturising Cream is a deeply hydrating and nourishing cream formulated to provide relief for dry, rough, and cracked skin. Enriched with urea and other moisturizing agents, it restores the skin’s natural moisture balance, softens hardened skin, and improves overall texture. Its non-greasy formula absorbs quickly, making it ideal for daily use on all skin types, especially those with severely dry skin conditions.",
@@ -2645,6 +2918,7 @@ export const productList = [
   {
     id: 22,
     productName: "Glambak Gel",
+    brand: "Glambak",
     imgSrc: Resources.images.products.pigmentation.glambakUltra.img1,
     productDescription:
       "Glambak Gel is a topical gel formulated with Kojic Acid Dipalmitate, Arbutin, Octinoxate, Vitamin E, Pine Bark Extract, Allantoin, and Niacinamide. It provides an effective solution for treating melasma, hyperpigmentation, photomelanosis, and dark discoloration. This gel works both from the inside and outside, ensuring long-lasting results while enhancing the overall health and beauty of the skin.",
@@ -2656,12 +2930,15 @@ export const productList = [
     productPrice: "999",
     category: "skin",
     subCategory: "pigmentation",
-    allImages: Object.values(Resources.images.products.pigmentation.glambakUltra),
+    allImages: Object.values(
+      Resources.images.products.pigmentation.glambakUltra
+    ),
     productsAdditionalDetails: productContent?.pigmentation["Glambak Gel"],
   },
   {
     id: 23,
     productName: "Kclite Gold Advanced Skin Lightening Cream",
+    brand: "Kclite",
     imgSrc: Resources.images.products.pigmentation.kcliteGold.img1,
     productDescription:
       "Kclite Gold Advanced Skin Lightening Cream is a premium formulation designed to brighten the skin tone and reduce the appearance of dark spots, pigmentation, and uneven skin tone. Enriched with powerful ingredients like Kojic Acid, Arbutin, and Vitamin C, this cream works to inhibit melanin production, providing a radiant and even complexion. Its lightweight, non-greasy formula absorbs quickly into the skin, delivering intense hydration while improving skin texture and clarity. Suitable for all skin types, Kclite Gold is ideal for daily use to achieve a brighter, smoother, and more youthful-looking skin.",
@@ -2675,11 +2952,14 @@ export const productList = [
     subCategory: "pigmentation",
     allImages: Object.values(Resources.images.products.pigmentation.kcliteGold),
     productsAdditionalDetails:
-      productContent?.pigmentation["Kclite Gold Advanced Skin Lightening Cream"],
+      productContent?.pigmentation[
+        "Kclite Gold Advanced Skin Lightening Cream"
+      ],
   },
   {
     id: 24,
     productName: "Lumiedge Skin Brightening Cream",
+    brand: "Lumiedge",
     imgSrc: Resources.images.products.pigmentation.lumiedgeCream.img1,
     productDescription:
       "Lumiedge Skin Brightening Cream is a potent formula designed to lighten dark spots, even skin tone, and enhance overall radiance. Infused with advanced brightening agents and natural extracts, this cream targets hyperpigmentation and reduces the appearance of blemishes. Its lightweight, non-greasy texture ensures quick absorption, making it suitable for daily use on all skin types. Achieve a brighter, more luminous complexion with regular application of Lumiedge Skin Brightening Cream.",
@@ -2701,6 +2981,7 @@ export const productList = [
     id: 25,
     productName: "Lumiedge-TX Cream",
     imgSrc: Resources.images.products.pigmentation.lumiedgeTx.img1,
+    brand: "Lumiedge",
     productDescription:
       "Lumiedge-TX Cream is a powerhouse blend of skincare heroes. With Alpha Arbutin, Tranexamic Acid, and Kojic Acid Dipalmitate, it targets stubborn dark spots and uneven skin tone. Enhanced with Nonapeptide-1 and Tetrahydrocurcumin for anti-aging benefits, while N-Butyl Resorcinol and Glycolic Acid provide gentle exfoliation and brightening for radiant, youthful skin.",
     ratings: 4,
@@ -2712,11 +2993,13 @@ export const productList = [
     category: "skin",
     subCategory: "pigmentation",
     allImages: Object.values(Resources.images.products.pigmentation.lumiedgeTx),
-    productsAdditionalDetails: productContent?.pigmentation["Lumiedge-TX Cream"],
+    productsAdditionalDetails:
+      productContent?.pigmentation["Lumiedge-TX Cream"],
   },
   {
     id: 26,
     productName: "Melalumin Ultra Depigmenting Cream",
+    brand: "Melalumin",
     imgSrc: Resources.images.products.pigmentation.melaluminUltra.img1,
     productDescription:
       "Melalumin Ultra Depigmenting Cream is a depigmenting and skin-lightening cream formulated to treat skin hyperpigmentation and reduce the appearance of dark spots. It helps promote skin vitality and even out the skin tone.",
@@ -2737,6 +3020,7 @@ export const productList = [
   {
     id: 27,
     productName: "Transglo HD Cream",
+    brand: "Transglo",
     imgSrc: Resources.images.products.pigmentation.transglowHd.img1,
     productDescription:
       "Transglo HD Cream is a topical solution designed to address skin concerns like dark spots and hyperpigmentation. This cream rejuvenates the skin, making it brighter and youthful-looking, while targeting stubborn dark spots and enhancing overall radiance for a clear, even skin tone.",
@@ -2751,11 +3035,13 @@ export const productList = [
     allImages: Object.values(
       Resources.images.products.pigmentation.transglowHd
     ),
-    productsAdditionalDetails: productContent?.pigmentation["Transglo HD Cream"],
+    productsAdditionalDetails:
+      productContent?.pigmentation["Transglo HD Cream"],
   },
   {
     id: 28,
     productName: "C WIZ ORANGE FLAVOUR Effervescent Tablet",
+    brand: "C Wiz",
     imgSrc: Resources.images.products.skinAntioxidant.cwiz.img1,
     productDescription:
       "C WIZ ORANGE FLAVOUR Effervescent Tablet is a potent antioxidant formula designed to boost the body's immune system, enhance mental alertness, and improve skin, nail, and hair health. With active ingredients like Vitamin C, B complex vitamins, Magnesium, Calcium, and Zinc, it supports immune function, cognitive health, and overall wellness.",
@@ -2769,11 +3055,14 @@ export const productList = [
     subCategory: "pigmentation",
     allImages: Object.values(Resources.images.products.skinAntioxidant.cwiz),
     productsAdditionalDetails:
-      productContent?.skinAntioxidant["C WIZ ORANGE FLAVOUR Effervescent Tablet"],
+      productContent?.skinAntioxidant[
+        "C WIZ ORANGE FLAVOUR Effervescent Tablet"
+      ],
   },
   {
     id: 29,
     productName: "L Glutathione Soft Gelation Lozenges with Astaxanthin",
+    brand: "L Glutathione",
     imgSrc: Resources.images.products.skinAntioxidant.glutasurgeA.img1,
     productDescription:
       "L Glutathione Soft Gelation Lozenges with Astaxanthin are formulated to improve skin moisture content, enhance skin elasticity, and reduce wrinkles. This unique combination of Glutathione and Astaxanthin helps rejuvenate the skin, promoting a youthful and radiant appearance. The lozenges work effectively to maintain skin health by offering antioxidant benefits and improving skin’s overall texture and appearance.",
@@ -2796,6 +3085,7 @@ export const productList = [
   {
     id: 30,
     productName: "Skinjoy-GL Fizz Effervescent Tablet",
+    brand: "Skinjoy-GL",
     imgSrc: Resources.images.products.skinAntioxidant.glFizz.img1,
     productDescription:
       "Skinjoy-GL Fizz Effervescent Tablet is an effective nutritional supplement used to manage and treat various medical conditions resulting from nutritional deficiencies and long-term disorders. It is also beneficial in treating skin problems such as freckles, melasma (chloasma), and lentigo. The combination of L Glutathione and Vitamin C helps to improve skin health, detoxify the body, and promote a youthful and radiant complexion. Glutathione is known for its detoxification properties, while Vitamin C contributes to maintaining healthy skin and boosting immunity.",
@@ -2814,6 +3104,7 @@ export const productList = [
   {
     id: 31,
     productName: "Glotamin Skin Brightening & Anti-Ageing Tablet",
+    brand: "Glotamin",
     imgSrc: Resources.images.products.skinAntioxidant.glootamin.img1,
     productDescription:
       "Glotamin Skin Brightening & Anti-Ageing Tablet is a powerful oral supplement formulated to enhance skin radiance, reduce signs of aging, and improve overall skin health. Enriched with potent antioxidants such as Glutathione, Vitamin C, and Collagen, this tablet works to lighten dark spots, reduce pigmentation, and promote an even skin tone. It also helps to boost skin elasticity, reduce fine lines and wrinkles, and protect the skin from oxidative stress caused by environmental damage. Suitable for individuals looking for a comprehensive solution to achieve brighter, youthful skin from within.",
@@ -2836,6 +3127,7 @@ export const productList = [
   {
     id: 32,
     productName: "L Glutathione Soft Gelation Lozenges with Vitamin C",
+    brand: "L Glutathione",
     imgSrc: Resources.images.products.skinAntioxidant.glutasurgeC.img1,
     productDescription:
       "L Glutathione Soft Gelation Lozenges with Vitamin C are designed to improve skin lightening and toning while promoting healthy skin. These lozenges also help boost immune and autoimmune responses, preventing early signs of aging. They offer protection against environmental pollutants, promoting healthier, more radiant skin. Additionally, they support liver health, enhancing overall well-being.",
@@ -2854,6 +3146,111 @@ export const productList = [
       productContent?.skinAntioxidant[
         "L Glutathione Soft Gelation Lozenges with Vitamin C"
       ],
+  },
+  {
+    id: 33,
+    productName: "Cipla 8X KT Anti-Dandruff Shampoo",
+    brand: "Cipla",
+    imgSrc: Resources.images.products.hair.cipla8XKtShampoo.img1,
+    productDescription:
+      "A medicated anti-dandruff shampoo used to treat and prevent fungal infections of the scalp, including dandruff, seborrheic dermatitis, and tinea versicolor. It works by killing the fungus responsible for flaking, scaling, and itching.",
+    ratings: 4.7,
+    strikePrice: "380",
+    smallDescription: [
+      { id: 1, content: "Medicated Formula" },
+      { id: 2, content: "Antifungal Action" },
+      { id: 3, content: "Dandruff Control" },
+    ],
+    productPrice: "339",
+    category: "hair",
+    subCategory: "antiDandruff",
+    allImages: Object.values(Resources.images.products.hair.cipla8XKtShampoo),
+    productsAdditionalDetails:
+      productContent.hair["Cipla 8X KT Anti-Dandruff Shampoo"],
+  },
+  {
+    id: 34,
+    productName: "Cipla 8X Anti-Dandruff Shampoo (Ciclopirox)",
+    brand: "Cipla",
+    imgSrc: Resources.images.products.hair.cipla8XAdShampoo.img1,
+    productDescription:
+      "A medicated anti-dandruff shampoo formulated with Ciclopirox and Zinc Pyrithione to treat and prevent fungal infections, dandruff, and seborrheic dermatitis. It effectively clears up flakes and relieves scalp itching.",
+    ratings: 4.8,
+    strikePrice: "380",
+    smallDescription: [
+      { id: 1, content: "Ciclopirox Formula" },
+      { id: 2, content: "Dual Action" },
+      { id: 3, content: "Flake Control" },
+    ],
+    productPrice: "339",
+    category: "hair",
+    subCategory: "antiDandruff",
+    allImages: Object.values(Resources.images.products.hair.cipla8XAdShampoo),
+    productsAdditionalDetails:
+      productContent.hair["Cipla 8X Anti-Dandruff Shampoo (Ciclopirox)"],
+  },
+  {
+    id: 35,
+    productName: "Recapro Hair Growth Serum",
+    brand: "Recapro",
+    imgSrc: Resources.images.products.hair.recaproHairGrowthSerum.img1,
+    productDescription:
+      "A scientifically formulated, lightweight, non-greasy serum designed to address hair thinning and hair loss in both men and women. It nourishes the scalp, strengthens follicles, and promotes healthier, fuller hair growth.",
+    ratings: 4.6,
+    strikePrice: "1789",
+    smallDescription: [
+      { id: 1, content: "Stimulates Growth" },
+      { id: 2, content: "Reduces Hair Fall" },
+      { id: 3, content: "Increases Density" },
+    ],
+    productPrice: "1450",
+    category: "hair",
+    subCategory: "hairGrowth",
+    allImages: Object.values(
+      Resources.images.products.hair.recaproHairGrowthSerum
+    ),
+    productsAdditionalDetails: productContent.hair["Recapro Hair Growth Serum"],
+  },
+  {
+    id: 36,
+    productName: "Eris Minokem 5 Perc. Solution",
+    brand: "Eris Minokem",
+    imgSrc: Resources.images.products.hair.minokem.img1,
+    productDescription:
+      "A topical vasodilator treatment for androgenetic alopecia (male pattern baldness). It widens blood vessels in the scalp, increasing blood flow to nourish hair follicles, stimulate growth, and slow hair loss.",
+    ratings: 4.5,
+    strikePrice: "795",
+    smallDescription: [
+      { id: 1, content: "Minoxidil 5%" },
+      { id: 2, content: "Stimulates Growth" },
+      { id: 3, content: "Treats Balding" },
+    ],
+    productPrice: "729",
+    category: "hair",
+    subCategory: "hairGrowth",
+    allImages: Object.values(Resources.images.products.hair.minokem),
+    productsAdditionalDetails: productContent.hair["Eris Minokem 5% Solution"],
+  },
+  {
+    id: 37,
+    productName: "Biograce Eva Nutraceutical Tablet (Strip)",
+    brand: "Biograce Eva",
+    imgSrc: Resources.images.products.hair.biograceEvaStrip.img1,
+    productDescription:
+      "A specialized dietary supplement with Evening Primrose Oil, multivitamins, and amino acids designed to support and promote healthy hair growth, strengthen follicles, and enhance overall energy and vitality.",
+    ratings: 4.5,
+    strikePrice: "240",
+    smallDescription: [
+      { id: 1, content: "Hair Growth Support" },
+      { id: 2, content: "Multivitamin Blend" },
+      { id: 3, content: "Strengthens Follicles" },
+    ],
+    productPrice: "239",
+    category: "hair",
+    subCategory: "oralSupplements",
+    allImages: Object.values(Resources.images.products.hair.biograceEvaStrip),
+    productsAdditionalDetails:
+      productContent.hair["Biograce Eva Nutraceutical Tablet"],
   },
 ];
 

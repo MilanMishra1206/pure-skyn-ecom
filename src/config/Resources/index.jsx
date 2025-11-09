@@ -27,6 +27,7 @@ const Resources = {
         hairfall: `${base}/home/hair/hair_fall.png`,
         messyHair: `${base}/home/hair/messy_hair.png`,
         itchyScalp: `${base}/home/hair/itchy_scalp.png`,
+        hairOralSupplements: `${base}/home/hair/hairOralSupplements.avif`,
       },
       skin: {
         ageing: `${base}/home/skin/ageing.png`,
@@ -201,6 +202,28 @@ const Resources = {
         glutasurgeC: {
           img1: `${base}/products/skin-antioxient/glutasurge-c/img1.jpg`,
         },
+      },
+      hair: {
+        cipla8XKtShampoo: {
+          img1: `${base}/products/hair/cipla8XKtShampoo/img1.jpg`,
+        },
+        cipla8XAdShampoo: {
+          img1: `${base}/products/hair/cipla8XAdShampoo/img1.jpg`,
+          img2: `${base}/products/hair/cipla8XAdShampoo/img2.jpg`,
+        },
+        recaproHairGrowthSerum: {
+          img1: `${base}/products/hair/recaproHairGrowthSerum/img1.jpg`,
+          img2: `${base}/products/hair/recaproHairGrowthSerum/img2.jpg`,
+        },
+        minokem: {
+          img1: `${base}/products/hair/minokem/img1.jpg`,
+        },
+        biograceEvaStrip: {
+          img1: `${base}/products/hair/biograceEvaStrip/img1.jpg`,
+          img2: `${base}/products/hair/biograceEvaStrip/img2.jpg`,
+          img3: `${base}/products/hair/biograceEvaStrip/img1.jpg`,
+          img4: `${base}/products/hair/biograceEvaStrip/img2.jpg`,
+        }
       },
     },
   },

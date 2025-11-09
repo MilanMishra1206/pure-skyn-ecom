@@ -103,15 +103,13 @@ const ProductCard = ({
       </div>
       <div className="mt-4">
         {isInCart ? (
-          <div className="flex items-center gap-3">
-            <HandleQuantity
-              item={cartItem}
-              handleItemIncrease={() => onIncrease(cartItem)}
-              handleItemDecrease={() => onDecrease(cartItem)}
-              handleItemRemove={() => onRemove(cartItem)}
-              isNotCartDrawer
-            />
-          </div>
+          <HandleQuantity
+            item={cartItem}
+            handleItemIncrease={() => onIncrease(cartItem)}
+            handleItemDecrease={() => onDecrease(cartItem)}
+            handleItemRemove={() => onRemove(cartItem)}
+            isNotCartDrawer
+          />
         ) : (
           <button
             className="flex items-center gap-2 rounded-2xl cursor-pointer font-bold bg-[#0f4a51] text-white border hover:!border-black w-full justify-center hover:!border hover:!bg-white hover:!text-[#0f4a51] px-3 py-2 transition duration-500"
