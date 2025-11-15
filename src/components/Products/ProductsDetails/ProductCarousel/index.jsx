@@ -1,45 +1,36 @@
 import React from "react";
 import Slider from "react-slick";
 import ProductCard from "../ProductCard";
+import { useMediaQuery } from "@mui/material";
 
 function ProductCarousel({ carouselContent }) {
+  const isMobile = useMediaQuery("(max-width: 500px)");
   const settings = {
     dots: false,
     infinite: false,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    initialSlide: 1,
+    slidesToShow: isMobile ? 1 : 4,
+    slidesToScroll: isMobile ? 1 : 4,
     arrows: true,
     responsive: [
-      {
-        breakpoint: 3000,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 1101,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 881,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
       {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 4,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 880,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 1100,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
     ],

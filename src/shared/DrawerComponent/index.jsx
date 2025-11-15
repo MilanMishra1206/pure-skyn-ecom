@@ -25,7 +25,7 @@ function DrawerComponent({
           anchorPosition={isMobile ? "bottom" : "right"}
           classes="!z-[1300] !h-[80%]"
           childClass={`!h-screen flex flex-col ${
-            !isMobile ? "!w-[400px]" : ""
+            !isMobile ? "!w-[435px]" : ""
           } ${childClassName}`}
         >
           <div className="flex-shrink-0">

@@ -453,9 +453,6 @@ function ProductsDetails() {
             viewport={{ once: true }}
             className="mt-12"
           >
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b border-gray-100 pb-2">
-              You Might Also Like
-            </h2>
             <BuyMoreProducts
               showCarousel={true}
               productCategory={actualProductCategory}

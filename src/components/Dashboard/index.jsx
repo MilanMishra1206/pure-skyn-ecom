@@ -9,6 +9,10 @@ import { bannerData } from "../../helpers/dummyData";
 import CustomProductsSection from "../../shared/CustomProductsSection";
 import CustomSection from "../../shared/CustomSection";
 import NewsCarousel from "../NewsCarousel";
+import HowToStartSection from "./HowToStartSection";
+import OurPlans from "./OurPlans";
+import ProductFAQSection from "./ProductFAQSection";
+import Testimonial from "./Testimonial";
 
 function Dashboard() {
   return (
@@ -28,6 +32,17 @@ function Dashboard() {
           heading="Healthy Hair Starts Here"
           categories={hairCategories}
           categoryDetails={hairCategoryDetails}
+        />
+        <HowToStartSection />
+        <OurPlans />
+        <Testimonial
+          quote="Artha truly helped me get clear skin within a month. I'm so impressed by your doctors."
+          author="Karan Mahajan"
+        />
+        <ProductFAQSection />
+        <Testimonial
+          quote="Gratitude to Artha for sorting out my hair fall. Great experts and really effective products."
+          author="Ramayanika Jha"
         />
         <NewsCarousel />
       </div>

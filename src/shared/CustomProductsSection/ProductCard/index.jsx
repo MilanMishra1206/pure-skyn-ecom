@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCartPlus } from "react-icons/fa";
@@ -18,12 +18,15 @@ function ProductCard({ product, isSingleProduct = false }) {
   const dispatch = useDispatch();
   const showSnackbar = useAppSnackbar();
 
-  // --- Redux State Check ---
+  const defaultImage = product.allImages[0];
+  const hoverImage = product.allImages[1] || defaultImage;
+
+  const [currentImage, setCurrentImage] = useState(defaultImage);
+
   const cartItems = useSelector((state) => state.cart.items);
   const cartItem = cartItems?.find((item) => item.id === product.id);
   const isInCart = !!cartItem;
 
-  // --- Cart Handlers ---
   const handleItemIncrease = (item) => {
     dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }));
   };
@@ -51,6 +54,14 @@ function ProductCard({ product, isSingleProduct = false }) {
     showSnackbar("Product Removed from Cart", "info");
   };
 
+  const handleMouseEnter = () => {
+    setCurrentImage(hoverImage);
+  };
+
+  const handleMouseLeave = () => {
+    setCurrentImage(defaultImage);
+  };
+
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
@@ -76,7 +87,9 @@ function ProductCard({ product, isSingleProduct = false }) {
   return (
     <div
       className={`
-        relative ${isSingleProduct ? "w-full md:!w-64" : "w-64"} min-w-64 bg-white p-4 flex flex-col items-center text-center
+        relative ${
+          isSingleProduct ? "w-full md:!w-64" : "w-64"
+        } min-w-64 bg-white p-4 flex flex-col items-center text-center
         rounded-xl border border-gray-100 shadow-md transition-all duration-300 ease-in-out
         hover:shadow-lg hover:ring-[${PRIMARY_COLOR}]
       `}
@@ -90,10 +103,11 @@ function ProductCard({ product, isSingleProduct = false }) {
         </div>
       )}
 
-      {/* Image */}
       <img
-        src={product.imgSrc}
+        src={currentImage}
         alt={product?.productName}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         onClick={() =>
           navigate(`/products/${product?.category}/${product?.productName}`)
         }

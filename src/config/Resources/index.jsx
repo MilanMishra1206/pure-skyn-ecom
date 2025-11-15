@@ -13,6 +13,16 @@ const Resources = {
       hairSuppliment: `${base}/home/HAIR_SUPPLIMENT.png`,
       immunitySuppliment: `${base}/home/INMUNITY_SUPPLIMENT.png`,
       skinSuppliment: `${base}/home/SKIN_SUPPLIMENT.png`,
+      how_to_start_1: `${base}/home/how_to_start_1.png`,
+      aiImage: `${base}/home/aiImage.png`,
+      ourPlan: {
+        customer1: `${base}/home/ourPlan/customer1.png`,
+        customer2: `${base}/home/ourPlan/customer2.png`,
+        customer3: `${base}/home/ourPlan/customer3.png`,
+        customer4: `${base}/home/ourPlan/customer4.png`,
+        customer5: `${base}/home/ourPlan/customer5.png`,
+        customer6: `${base}/home/ourPlan/customer6.png`,
+      },
       banner: {
         bannerMain: `${base}/home/banner/bannerMain.png`,
         mobileBanner: `${base}/home/banner/mobileBanner.png`,
@@ -23,7 +33,7 @@ const Resources = {
         bannerSupplements: `${base}/home/banner/banner_supplements.png`,
       },
       hair: {
-        dandruff: `${base}/home/hair/dandruff.png`,
+        dandruff: `${base}/home/hair/dandruff_and_scalp.png`,
         hairfall: `${base}/home/hair/hair_fall.png`,
         messyHair: `${base}/home/hair/messy_hair.png`,
         itchyScalp: `${base}/home/hair/itchy_scalp.png`,
@@ -36,6 +46,10 @@ const Resources = {
         eczema: `${base}/home/skin/eczema.png`,
         pigmentation: `${base}/home/skin/pigmentation.png`,
         sensitiveSkin: `${base}/home/skin/sensitive_skin.png`,
+        faceWash: `${base}/home/skin/faceWash.png`,
+        moisturiser: `${base}/home/skin/moisturiser.png`,
+        serum: `${base}/home/skin/serum.png`,
+        sunscreen: `${base}/home/skin/sunscreen.png`,
       },
     },
     navbar: {
@@ -223,7 +237,7 @@ const Resources = {
           img2: `${base}/products/hair/biograceEvaStrip/img2.jpg`,
           img3: `${base}/products/hair/biograceEvaStrip/img1.jpg`,
           img4: `${base}/products/hair/biograceEvaStrip/img2.jpg`,
-        }
+        },
       },
     },
   },

@@ -2,7 +2,7 @@ import React from "react";
 
 function CategoryTabs({ categories, activeCategory, onSelectCategory }) {
   return (
-    <div className="flex flex-wrap md:flex-nowrap gap-2 md:gap-4 overflow-x-auto py-4 mb-8 justify-center">
+    <div className="flex flex-wrap md:flex-nowrap gap-2 md:gap-4 overflow-x-auto mb-4">
       {categories?.map((category) => (
         <button
           key={category?.name}
